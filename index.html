@@ -8,11 +8,20 @@
 * {
 box-sizing:border-box;
 -webkit-tap-highlight-color:transparent;
+margin:0;
+padding:0;
+}
+
+html, body {
+height:100%;
+width:100%;
+overflow:hidden; /* Prevent body scrolling */
 }
 
 body{
 margin:0;
-min-height:100vh;
+height:100%;
+width:100%;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -24,7 +33,7 @@ position:relative;
 padding:10px;
 }
 
-/* Floating hearts animation - optimized for mobile */
+/* Floating hearts animation */
 .hearts {
 position:fixed;
 width:100%;
@@ -48,7 +57,6 @@ animation:float 8s infinite;
 100% { transform:translateY(-100px) rotate(360deg); opacity:0; }
 }
 
-/* More hearts for mobile */
 .heart:nth-child(1) { left:5%; animation-delay:0s; }
 .heart:nth-child(2) { left:15%; animation-delay:2s; }
 .heart:nth-child(3) { left:25%; animation-delay:4s; }
@@ -60,6 +68,7 @@ animation:float 8s infinite;
 .heart:nth-child(9) { left:85%; animation-delay:4.5s; }
 .heart:nth-child(10) { left:95%; animation-delay:1.5s; }
 
+/* Main container - now handles scrolling */
 .container{
 text-align:center;
 width:100%;
@@ -73,10 +82,19 @@ border-radius:35px;
 padding:25px 18px;
 box-shadow:0 10px 30px rgba(255,77,166,0.3);
 border:1px solid rgba(255,128,191,0.3);
-margin:10px auto;
+margin:0 auto;
+
+/* THIS IS THE KEY FIX - Container scrolls */
+height:95%;
 display:flex;
 flex-direction:column;
-max-height:90vh; /* Limit container height */
+overflow:hidden; /* Don't scroll the container itself */
+}
+
+/* Fixed header section - DOES NOT SCROLL */
+.header-section {
+flex-shrink:0; /* Prevents shrinking */
+padding-bottom:10px;
 }
 
 h2{
@@ -86,7 +104,6 @@ font-size:26px;
 text-shadow:0 0 15px #ff99cc;
 margin-bottom:5px;
 line-height:1.3;
-flex-shrink:0; /* Prevent shrinking */
 }
 
 .subtitle{
@@ -95,7 +112,6 @@ color:#ffccff;
 margin-bottom:20px;
 font-style:italic;
 opacity:0.9;
-flex-shrink:0;
 }
 
 #level{
@@ -107,7 +123,6 @@ text-transform:uppercase;
 letter-spacing:1.5px;
 transition:0.3s;
 min-height:24px;
-flex-shrink:0;
 }
 
 .input-group {
@@ -116,7 +131,6 @@ flex-direction:column;
 align-items:center;
 gap:12px;
 margin:10px 0 5px;
-flex-shrink:0;
 }
 
 input{
@@ -156,10 +170,7 @@ letter-spacing:2px;
 width:auto;
 min-width:180px;
 border:2px solid rgba(255,255,255,0.2);
--webkit-touch-callout:none;
--webkit-user-select:none;
 touch-action:manipulation;
-flex-shrink:0;
 }
 
 button:active{
@@ -167,13 +178,18 @@ transform:scale(0.95);
 background:linear-gradient(90deg,#ff80bf,#ff4da6);
 }
 
-button:hover {
-opacity:1;
+/* SCROLLABLE MESSAGE AREA - THIS IS THE FIXED PART */
+.message-scroll-area {
+flex:1 1 auto; /* Takes up remaining space */
+overflow-y:auto; /* ENABLES SCROLLING */
+-webkit-overflow-scrolling:touch; /* Smooth scrolling on iOS */
+margin:10px 0 5px;
+padding-right:5px; /* Space for scrollbar */
+min-height:100px; /* Ensures it has some height */
 }
 
-/* FIXED SCROLLING AREA */
+/* The actual secret message */
 #secret{
-margin:15px 0 10px;
 font-size:19px;
 opacity:0;
 transition:0.5s;
@@ -190,24 +206,23 @@ box-shadow:0 8px 25px rgba(255,128,191,0.3);
 color:#fff5ff;
 text-align:left;
 word-break:break-word;
-
-/* FIXED SCROLLING PROPERTIES */
-overflow-y:auto;
--webkit-overflow-scrolling:touch;
-flex:1 1 auto; /* This makes it take remaining space and scroll */
-max-height:300px; /* Limit maximum height */
-min-height:100px; /* Minimum height */
+width:100%;
 }
 
-/* Custom scrollbar for the message */
-#secret::-webkit-scrollbar {
+/* When message is visible */
+#secret[style*="opacity: 1"] {
+display:block;
+}
+
+/* Custom scrollbar */
+.message-scroll-area::-webkit-scrollbar {
 width:5px;
 }
-#secret::-webkit-scrollbar-track {
+.message-scroll-area::-webkit-scrollbar-track {
 background:rgba(255,255,255,0.1);
 border-radius:10px;
 }
-#secret::-webkit-scrollbar-thumb {
+.message-scroll-area::-webkit-scrollbar-thumb {
 background:#ff4da6;
 border-radius:10px;
 }
@@ -236,7 +251,6 @@ animation:shake 0.4s ease;
 80%{transform:translateX(3px);}
 }
 
-/* Glowing text effect */
 .glow {
 animation:glow 2s ease-in-out infinite;
 }
@@ -250,9 +264,8 @@ animation:glow 2s ease-in-out infinite;
 /* Mobile optimizations */
 @media (max-width:480px) {
 .container {
-padding:20px 15px;
-border-radius:30px;
-max-height:85vh;
+padding:15px 15px;
+height:98%;
 }
 h2 {
 font-size:24px;
@@ -270,10 +283,12 @@ min-width:160px;
 #secret {
 font-size:18px;
 padding:18px 15px;
-max-height:250px; /* Smaller on mobile */
 }
 .heart {
 font-size:20px;
+}
+.message-scroll-area {
+margin:5px 0;
 }
 }
 
@@ -289,7 +304,6 @@ font-size:18px;
 
 <body>
 
-<!-- Floating hearts -->
 <div class="hearts">
     <div class="heart">❤️</div>
     <div class="heart">💕</div>
@@ -304,17 +318,22 @@ font-size:18px;
 </div>
 
 <div class="container">
-    <h2 class="glow">Private Access</h2>
-    <p class="subtitle">✨ For my favorite person ✨</p>
-    <p id="level">Enter today's code 💕</p>
+    <!-- Fixed header section - NEVER scrolls -->
+    <div class="header-section">
+        <h2 class="glow">Private Access</h2>
+        <p class="subtitle">✨ For my favorite person ✨</p>
+        <p id="level">Enter today's code 💕</p>
 
-    <div class="input-group">
-        <input id="code" placeholder="••••••" autocomplete="off" inputmode="text">
-        <button id="unlockBtn">Unlock</button>
+        <div class="input-group">
+            <input id="code" placeholder="••••••" autocomplete="off" inputmode="text">
+            <button id="unlockBtn">Unlock</button>
+        </div>
     </div>
 
-    <!-- Message area with FIXED SCROLLING -->
-    <div id="secret"></div>
+    <!-- THIS AREA SCROLLS - The fix is here -->
+    <div class="message-scroll-area" id="scrollArea">
+        <div id="secret"></div>
+    </div>
 </div>
 
 <script>
@@ -322,7 +341,7 @@ font-size:18px;
 // 🔑 DAILY PASSWORD
 const todayPassword = "success"; 
 
-// 🏆 BONUS PASSWORDS - only platinum and starlight
+// 🏆 BONUS PASSWORDS
 const tierPasswords = {
 "platinum": `🌟 *༺ DEEPER LAYER UNLOCKED ༻* 🌟
 
@@ -351,7 +370,7 @@ Ke jaise chaand ne apni roshni bant di ho
 💫 *My personal universe* 💫`
 };
 
-// 💌 DAILY MESSAGE (OPTIMIZED FOR MOBILE READING)
+// 💌 DAILY MESSAGE
 const dailyMessage = `
 ╔══════════════════════╗
     💖 YOU DID IT 💖    
@@ -394,41 +413,43 @@ let input = document.getElementById("code").value.trim().toLowerCase();
 let secret = document.getElementById("secret");
 let level = document.getElementById("level");
 let button = document.getElementById("unlockBtn");
-
-// Clear any existing timeout
-if(window.shakeTimeout) clearTimeout(window.shakeTimeout);
+let scrollArea = document.getElementById("scrollArea");
 
 if(input === todayPassword.toLowerCase()){
-// Success for daily code
 document.body.classList.add("fade-bg");
 secret.innerText = dailyMessage;
 secret.style.opacity = 1;
 level.innerHTML = "💖 LEVEL 1 • MY HEART 💖";
 level.style.color = "#ffff99";
 
-// Button feedback
 button.style.background = "linear-gradient(90deg,#00b09b,#96c93d)";
 setTimeout(() => {
 button.style.background = "linear-gradient(90deg,#ff4da6,#ff80bf)";
 }, 500);
 
+// Force scroll area to recognize new content
+setTimeout(() => {
+scrollArea.scrollTop = 0; // Scroll to top when new message appears
+}, 100);
+
 } 
 else if(tierPasswords[input]){
-// Success for bonus codes
 secret.innerText = tierPasswords[input];
 secret.style.opacity = 1;
 level.innerHTML = "🌟 BONUS UNLOCKED • YOU'RE MAGICAL 🌟";
 level.style.color = "#ffff99";
 
-// Button feedback
 button.style.background = "linear-gradient(90deg,#00b09b,#96c93d)";
 setTimeout(() => {
 button.style.background = "linear-gradient(90deg,#ff4da6,#ff80bf)";
 }, 500);
 
+setTimeout(() => {
+scrollArea.scrollTop = 0;
+}, 100);
+
 } 
 else{
-// Wrong code - shake effect
 button.classList.add("shake");
 level.innerHTML = "❌ Try again, my lady ❌";
 level.style.color = "#ff9999";
@@ -444,40 +465,23 @@ level.style.color = "#ffb3ec";
 }
 }
 
-// Add event listeners when page loads
+// Event listeners
 document.addEventListener('DOMContentLoaded', function() {
     const button = document.getElementById('unlockBtn');
     const input = document.getElementById('code');
     
-    button.removeEventListener('click', unlock);
     button.addEventListener('click', function(e) {
         e.preventDefault();
-        e.stopPropagation();
         unlock();
-        return false;
     });
     
-    input.removeEventListener('keypress', handleEnter);
-    input.addEventListener('keypress', handleEnter);
+    input.addEventListener('keypress', function(e) {
+        if(e.key === "Enter") {
+            e.preventDefault();
+            unlock();
+        }
+    });
 });
-
-function handleEnter(e) {
-    if(e.key === "Enter") {
-        e.preventDefault();
-        e.stopPropagation();
-        unlock();
-        return false;
-    }
-}
-
-// Touch handler
-document.addEventListener('touchstart', function(e) {
-    if (e.target.nodeName !== 'INPUT' && 
-        e.target.nodeName !== 'BUTTON' && 
-        !e.target.closest('button')) {
-        e.preventDefault();
-    }
-}, {passive: false});
 
 </script>
 
