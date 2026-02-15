@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>💕 Private Vault</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<style>
+
+* {
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+margin:0;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#1a0026,#330033,#4d004d);
+font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+color:white;
+transition:1s;
+position:relative;
+padding:10px;
+}
+
+/* Floating hearts animation - optimized for mobile */
+.hearts {
+position:fixed;
+width:100%;
+height:100%;
+top:0;
+left:0;
+pointer-events:none;
+z-index:0;
+}
+
+.heart {
+position:absolute;
+font-size:24px;
+color:rgba(255,77,166,0.2);
+animation:float 8s infinite;
+}
+
+@keyframes float {
+0% { transform:translateY(100vh) rotate(0deg); opacity:0; }
+20% { opacity:0.4; }
+100% { transform:translateY(-100px) rotate(360deg); opacity:0; }
+}
+
+/* More hearts for mobile */
+.heart:nth-child(1) { left:5%; animation-delay:0s; }
+.heart:nth-child(2) { left:15%; animation-delay:2s; }
+.heart:nth-child(3) { left:25%; animation-delay:4s; }
+.heart:nth-child(4) { left:35%; animation-delay:1s; }
+.heart:nth-child(5) { left:45%; animation-delay:3s; }
+.heart:nth-child(6) { left:55%; animation-delay:5s; }
+.heart:nth-child(7) { left:65%; animation-delay:2.5s; }
+.heart:nth-child(8) { left:75%; animation-delay:3.5s; }
+.heart:nth-child(9) { left:85%; animation-delay:4.5s; }
+.heart:nth-child(10) { left:95%; animation-delay:1.5s; }
+
+.container{
+text-align:center;
+width:100%;
+max-width:500px;
+position:relative;
+z-index:2;
+backdrop-filter:blur(10px);
+-webkit-backdrop-filter:blur(10px);
+background:rgba(0,0,0,0.25);
+border-radius:35px;
+padding:25px 18px;
+box-shadow:0 10px 30px rgba(255,77,166,0.3);
+border:1px solid rgba(255,128,191,0.3);
+margin:10px auto;
+}
+
+h2{
+letter-spacing:2px;
+font-weight:400;
+font-size:26px;
+text-shadow:0 0 15px #ff99cc;
+margin-bottom:5px;
+line-height:1.3;
+}
+
+.subtitle{
+font-size:15px;
+color:#ffccff;
+margin-bottom:20px;
+font-style:italic;
+opacity:0.9;
+}
+
+#level{
+margin:15px 0 12px;
+font-size:16px;
+color:#ffb3ec;
+font-weight:600;
+text-transform:uppercase;
+letter-spacing:1.5px;
+transition:0.3s;
+min-height:24px;
+}
+
+.input-group {
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:12px;
+margin:10px 0 5px;
+}
+
+input{
+padding:18px 16px;
+font-size:18px;
+border:none;
+border-radius:50px;
+text-align:center;
+outline:none;
+width:90%;
+background:rgba(255,255,255,0.95);
+box-shadow:0 4px 15px rgba(255,128,191,0.4);
+font-weight:500;
+border:2px solid transparent;
+transition:all 0.3s;
+}
+
+input:focus{
+border-color:#ff4da6;
+box-shadow:0 0 25px #ff66cc;
+transform:scale(1.02);
+}
+
+button{
+padding:16px 35px;
+border:none;
+border-radius:50px;
+background:linear-gradient(90deg,#ff4da6,#ff80bf);
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:all 0.3s;
+box-shadow:0 5px 20px rgba(255,77,166,0.5);
+text-transform:uppercase;
+letter-spacing:2px;
+width:auto;
+min-width:180px;
+border:2px solid rgba(255,255,255,0.2);
+-webkit-touch-callout:none;
+-webkit-user-select:none;
+touch-action:manipulation; /* Improves touch responsiveness */
+}
+
+button:active{
+transform:scale(0.95);
+background:linear-gradient(90deg,#ff80bf,#ff4da6);
+}
+
+/* Fix for mobile hover states */
+button:hover {
+opacity:1;
+}
+
+#secret{
+margin:25px 0 10px;
+font-size:19px;
+opacity:0;
+transition:0.5s;
+white-space:pre-line;
+line-height:1.7;
+font-weight:500;
+text-shadow:0 2px 5px rgba(0,0,0,0.3);
+background:rgba(255,255,255,0.15);
+padding:22px 18px;
+border-radius:25px;
+border-left:4px solid #ff4da6;
+border-right:4px solid #ff80bf;
+box-shadow:0 8px 25px rgba(255,128,191,0.3);
+color:#fff5ff;
+text-align:left;
+word-break:break-word;
+max-height:70vh;
+overflow-y:auto;
+-webkit-overflow-scrolling:touch;
+}
+
+/* Custom scrollbar for the message */
+#secret::-webkit-scrollbar {
+width:5px;
+}
+#secret::-webkit-scrollbar-track {
+background:rgba(255,255,255,0.1);
+border-radius:10px;
+}
+#secret::-webkit-scrollbar-thumb {
+background:#ff4da6;
+border-radius:10px;
+}
+
+.fade-bg{
+background:linear-gradient(135deg,#ff2e5f,#ff4d6d,#ff6b8b,#ff8aa1);
+background-size:400% 400%;
+animation:gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+0% { background-position:0% 50%; }
+50% { background-position:100% 50%; }
+100% { background-position:0% 50%; }
+}
+
+.shake{
+animation:shake 0.4s ease;
+}
+
+@keyframes shake{
+0%,100%{transform:translateX(0);}
+20%{transform:translateX(-6px);}
+40%{transform:translateX(6px);}
+60%{transform:translateX(-3px);}
+80%{transform:translateX(3px);}
+}
+
+/* Glowing text effect */
+.glow {
+animation:glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+0% { text-shadow:0 0 8px #fff, 0 0 15px #ff4da6; }
+50% { text-shadow:0 0 15px #fff, 0 0 25px #ff80bf, 0 0 35px #ffb3d9; }
+100% { text-shadow:0 0 8px #fff, 0 0 15px #ff4da6; }
+}
+
+/* Mobile optimizations */
+@media (max-width:480px) {
+.container {
+padding:20px 15px;
+border-radius:30px;
+}
+h2 {
+font-size:24px;
+}
+input {
+padding:16px;
+font-size:17px;
+width:95%;
+}
+button {
+padding:15px 25px;
+font-size:17px;
+min-width:160px;
+}
+#secret {
+font-size:18px;
+padding:18px 15px;
+max-height:65vh;
+}
+.heart {
+font-size:20px;
+}
+}
+
+/* Prevent zoom on input for iOS */
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+input {
+font-size:18px;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Floating hearts -->
+<div class="hearts">
+    <div class="heart">❤️</div>
+    <div class="heart">💕</div>
+    <div class="heart">💗</div>
+    <div class="heart">💓</div>
+    <div class="heart">💖</div>
+    <div class="heart">💘</div>
+    <div class="heart">💝</div>
+    <div class="heart">💞</div>
+    <div class="heart">💟</div>
+    <div class="heart">❣️</div>
+</div>
+
+<div class="container">
+    <h2 class="glow">Private Access</h2>
+    <p class="subtitle">✨ For my favorite person ✨</p>
+    <p id="level">Enter today's code 💕</p>
+
+    <div class="input-group">
+        <input id="code" placeholder="••••••" autocomplete="off" inputmode="text">
+        <button id="unlockBtn">Unlock</button>
+    </div>
+
+    <!-- Message area stays below, input stays above -->
+    <div id="secret"></div>
+</div>
+
+<script>
+
+// 🔑 DAILY PASSWORD
+const todayPassword = "success"; 
+
+// 🏆 BONUS PASSWORDS - only platinum and starlight
+const tierPasswords = {
+"platinum": `🌟 *༺ DEEPER LAYER UNLOCKED ༻* 🌟
+
+Ap se khaas maine na pehle dekha hai
+Na kabhi dekhunga
+
+Ap woh khaas insaan hain meri zindagi me
+Jiske lye main apni zindagi qurban kardun
+
+Ye jo ap kar rahi hain apne future ke lye mehnat
+Mujhe yakeen hai ye raaigah nahi jayegi
+
+━━━━━━━━━━━━━━━━━━
+💕 *You're not just special* 
+💕 *You're my everything*`,
+
+"starlight": `🌙 *FOR THE ONE WHO OUTSHINES THE STARS* 🌙
+
+Tumhari aankhon mein jo chamak hai
+Woh sitaron ko bhi sharminda kar de
+
+Jab tum muskurao to lagta hai
+Ke jaise chaand ne apni roshni bant di ho
+
+✨✨✨✨✨✨✨✨✨
+💫 *My personal universe* 💫`
+};
+
+// 💌 DAILY MESSAGE (OPTIMIZED FOR MOBILE READING)
+const dailyMessage = `
+╔══════════════════════╗
+    💖 YOU DID IT 💖    
+╚══════════════════════╝
+
+You showed up again today.
+
+And honestly? 
+That consistency is 
+**DANGEROUSLY ATTRACTIVE** 💫
+
+Tum jab focus karti ho na...
+It's different.
+It's calm. It's powerful. 
+It's **RARE**. 💗
+
+Most people just *talk* about dreams.
+But you? 
+You quietly **BUILD** them.
+
+Aur mujhe woh version 
+bohat pasand hai —
+The one that never quits 
+(and every other version too 🤭)
+
+I see it.
+I notice it.
+I **CHERISH** it.
+
+And maybe... 
+I'm starting to feel it 
+more than I planned to. ✨
+
+━━━━━━━━━━━━━━━━━━
+💕 *You're unforgettable* 💕
+`;
+
+function unlock() {
+let input = document.getElementById("code").value.trim().toLowerCase();
+let secret = document.getElementById("secret");
+let level = document.getElementById("level");
+let button = document.getElementById("unlockBtn");
+
+// Clear any existing timeout
+if(window.shakeTimeout) clearTimeout(window.shakeTimeout);
+
+if(input === todayPassword.toLowerCase()){
+// Success for daily code
+document.body.classList.add("fade-bg");
+secret.innerText = dailyMessage;
+secret.style.opacity = 1;
+level.innerHTML = "💖 LEVEL 1 • MY HEART 💖";
+level.style.color = "#ffff99";
+
+// Button feedback
+button.style.background = "linear-gradient(90deg,#00b09b,#96c93d)";
+setTimeout(() => {
+button.style.background = "linear-gradient(90deg,#ff4da6,#ff80bf)";
+}, 500);
+
+} 
+else if(tierPasswords[input]){
+// Success for bonus codes
+secret.innerText = tierPasswords[input];
+secret.style.opacity = 1;
+level.innerHTML = "🌟 BONUS UNLOCKED • YOU'RE MAGICAL 🌟";
+level.style.color = "#ffff99";
+
+// Button feedback
+button.style.background = "linear-gradient(90deg,#00b09b,#96c93d)";
+setTimeout(() => {
+button.style.background = "linear-gradient(90deg,#ff4da6,#ff80bf)";
+}, 500);
+
+} 
+else{
+// Wrong code - shake effect but KEEP EVERYTHING VISIBLE
+button.classList.add("shake");
+level.innerHTML = "❌ Try again, my lady ❌";
+level.style.color = "#ff9999";
+
+// Don't hide the message - keep it as is
+// Just shake and show error temporarily
+
+setTimeout(() => {
+button.classList.remove("shake");
+}, 400);
+
+setTimeout(() => {
+level.innerHTML = "Enter today's code 💕";
+level.style.color = "#ffb3ec";
+}, 1800);
+}
+}
+
+// Add event listeners when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the button and add click event
+    const button = document.getElementById('unlockBtn');
+    const input = document.getElementById('code');
+    
+    // Remove any existing listeners and add new ones
+    button.removeEventListener('click', unlock);
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        unlock();
+        return false;
+    });
+    
+    // Allow Enter key to trigger unlock
+    input.removeEventListener('keypress', handleEnter);
+    input.addEventListener('keypress', handleEnter);
+});
+
+function handleEnter(e) {
+    if(e.key === "Enter") {
+        e.preventDefault();
+        e.stopPropagation();
+        unlock();
+        return false;
+    }
+}
+
+// Remove the problematic touch event prevention
+// The previous touch event was blocking button clicks
+
+// Add a more specific touch handler that doesn't block buttons
+document.addEventListener('touchstart', function(e) {
+    // Only prevent default on non-interactive elements
+    if (e.target.nodeName !== 'INPUT' && 
+        e.target.nodeName !== 'BUTTON' && 
+        !e.target.closest('button')) {
+        e.preventDefault();
+    }
+}, {passive: false});
+
+</script>
+
+</body>
+</html>
