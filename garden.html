@@ -453,30 +453,60 @@ createPetals();
 createWaterDrops();
 </script>
 
-<!-- Soft background music - Arz Kiya Hai by Anuv Jain (No ads, extra soft) -->
+<!-- Soft background music - Arz Kiya Hai by Anuv Jain (Real volume control) -->
 <div style="position:fixed; bottom:-100px; left:-100px; width:1px; height:1px; opacity:0; pointer-events:none;">
     <iframe 
         width="1" 
         height="1" 
-        src="https://www.youtube-nocookie.com/embed/Kg8_ADYhYWE?autoplay=1&loop=1&playlist=Kg8_ADYhYWE&controls=0&showinfo=0&autohide=1&mute=0&modestbranding=1&rel=0" 
+        src="https://www.youtube-nocookie.com/embed/Kg8_ADYhYWE?autoplay=1&loop=1&playlist=Kg8_ADYhYWE&controls=0&showinfo=0&autohide=1&mute=1&modestbranding=1&rel=0&start=0" 
         frameborder="0" 
-        allow="autoplay; encrypted-media">
+        allow="autoplay; encrypted-media" 
+        id="youtubePlayer">
     </iframe>
 </div>
 
-<!-- Make volume softer -->
 <script>
-setTimeout(function() {
-    const iframe = document.querySelector('iframe');
-    if (iframe) {
-        iframe.style.opacity = '0.08';  // Change this number to adjust volume
-    }
-}, 1000);
+// REAL volume control using YouTube API
+let player;
+let volumeLevel = 09; // ← CHANGE THIS NUMBER (0-100)
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtubePlayer', {
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    // Start with very low volume (15% of max)
+    player.setVolume(volumeLevel);
+    
+    // Unmute after setting low volume
+    player.unMute();
+    
+    // Optional: Fade in slowly
+    let currentVol = 5;
+    const fadeInterval = setInterval(function() {
+        currentVol += 2;
+        if (currentVol <= volumeLevel) {
+            player.setVolume(currentVol);
+        } else {
+            clearInterval(fadeInterval);
+        }
+    }, 200);
+}
+
+// Load the YouTube IFrame API
+const tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(tag);
 </script>
     
 </body>
 
 </html>
+
 
 
 
