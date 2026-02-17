@@ -255,12 +255,6 @@ animation:dropFall 3s infinite;
     <!-- Water drops animation -->
     <div class="water-drops" id="waterDrops"></div>
 
-<!-- BACKGROUND MUSIC - Romantic piano playing automatically -->
-<div style="text-align:center; margin:20px 0; padding:10px; background:rgba(255,255,240,0.1); border-radius:50px; border:1px solid #ffd700;">
-    <span style="color:#ffd700; margin-right:15px;">🎵 romantic piano</span>
-    <button onclick="toggleMusic()" style="background:#ffd700; border:none; padding:8px 20px; border-radius:30px; color:#1a472a; font-weight:bold; cursor:pointer;">🔊 playing</button>
-</div>
-
     <!-- SECRET WORDS -->
     <div class="secret-area">
         <div class="secret-input">
@@ -378,71 +372,52 @@ function checkSecret() {
 }
 
 // =============================================
-// SIMPLE BACKGROUND MUSIC - Romantic piano
+// AUTOPLAY BACKGROUND MUSIC - Fades in automatically
 // =============================================
 let backgroundMusic = null;
-let isMusicPlaying = false;
 
-// Create audio element when page loads
+// Create and play audio immediately when page loads
 window.addEventListener('load', function() {
     backgroundMusic = new Audio();
-    // Soft romantic piano music that loops
     backgroundMusic.src = 'https://www.chosic.com/wp-content/uploads/2022/03/Piano-Moment.mp3';
     backgroundMusic.loop = true;
-    backgroundMusic.volume = 0.3; // 30% volume
+    backgroundMusic.volume = 0; // Start at 0 for fade-in
     
-    // Try to play (browsers may block autoplay)
-    backgroundMusic.play().then(() => {
-        isMusicPlaying = true;
-    }).catch(e => {
-        console.log('Autoplay blocked. User must interact first.');
-        // Show a message that music is ready
-        const playMsg = document.createElement('div');
-        playMsg.style.position = 'fixed';
-        playMsg.style.bottom = '100px';
-        playMsg.style.left = '50%';
-        playMsg.style.transform = 'translateX(-50%)';
-        playMsg.style.background = '#ffd700';
-        playMsg.style.color = '#1a472a';
-        playMsg.style.padding = '10px 25px';
-        playMsg.style.borderRadius = '50px';
-        playMsg.style.zIndex = '2000';
-        playMsg.style.fontSize = '14px';
-        playMsg.style.boxShadow = '0 5px 20px rgba(0,0,0,0.3)';
-        playMsg.innerHTML = '🎵 Tap anywhere to start music';
-        document.body.appendChild(playMsg);
-        
-        // Remove message after 5 seconds
-        setTimeout(() => playMsg.remove(), 5000);
-    });
+    // Try to play immediately
+    let playPromise = backgroundMusic.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.then(() => {
+            // Fade in over 3 seconds
+            let volume = 0;
+            const fadeInterval = setInterval(() => {
+                volume += 0.1;
+                backgroundMusic.volume = Math.min(volume, 0.3); // Max 30% volume
+                
+                if (volume >= 0.3) {
+                    clearInterval(fadeInterval);
+                }
+            }, 300); // Increase every 300ms
+        }).catch(e => {
+            console.log('Autoplay prevented by browser');
+            // Create a silent play attempt that works with browser policies
+            document.body.addEventListener('touchstart', function initMusic() {
+                backgroundMusic.play().then(() => {
+                    // Fade in
+                    let volume = 0;
+                    const fadeInterval = setInterval(() => {
+                        volume += 0.1;
+                        backgroundMusic.volume = Math.min(volume, 0.3);
+                        if (volume >= 0.3) clearInterval(fadeInterval);
+                    }, 300);
+                });
+                document.body.removeEventListener('touchstart', initMusic);
+            }, { once: true });
+        });
+    }
 });
 
-// Toggle music on/off
-function toggleMusic() {
-    if (!backgroundMusic) return;
-    
-    if (isMusicPlaying) {
-        backgroundMusic.pause();
-        isMusicPlaying = false;
-        event.target.innerText = '🔇 paused';
-    } else {
-        backgroundMusic.play();
-        isMusicPlaying = true;
-        event.target.innerText = '🔊 playing';
-    }
-}
-
-// Try to play when user taps anywhere (for browsers that block autoplay)
-document.addEventListener('click', function once() {
-    if (backgroundMusic && !isMusicPlaying) {
-        backgroundMusic.play().then(() => {
-            isMusicPlaying = true;
-            const btn = document.querySelector('button[onclick="toggleMusic()"]');
-            if (btn) btn.innerText = '🔊 playing';
-        }).catch(e => console.log('Still blocked:', e));
-    }
-}, { once: true });
-
+// No toggle button needed - music just plays
 // =============================================
 // FLOATING PETALS
 // =============================================
@@ -480,6 +455,7 @@ createWaterDrops();
 </body>
 
 </html>
+
 
 
 
