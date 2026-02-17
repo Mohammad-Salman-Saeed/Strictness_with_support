@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>🌸 manahil's secret garden</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* {
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body {
+background:linear-gradient(145deg, #1a472a, #2d5a3a);
+font-family:'Georgia', serif;
+min-height:100vh;
+padding:15px;
+color:#f5f0e6;
+}
+
+.garden {
+max-width:500px;
+margin:0 auto;
+text-align:center;
+}
+
+.header {
+background:rgba(255,255,240,0.1);
+backdrop-filter:blur(10px);
+border-radius:40px;
+padding:30px 20px;
+margin-bottom:25px;
+border:2px solid #ffd700;
+}
+
+h1 {
+font-size:32px;
+color:#ffd700;
+margin-bottom:10px;
+text-shadow:0 0 20px gold;
+}
+
+.subtitle {
+font-size:16px;
+color:#fff0f5;
+margin-bottom:20px;
+}
+
+/* Memory cards */
+.memories {
+display:flex;
+flex-direction:column;
+gap:25px;
+margin:20px 0;
+}
+
+.memory-card {
+background:rgba(255,255,240,0.1);
+backdrop-filter:blur(8px);
+border-radius:30px;
+padding:20px;
+border:2px solid rgba(255,215,0,0.3);
+}
+
+.photo-frame {
+width:100%;
+height:300px;
+border-radius:25px;
+margin-bottom:15px;
+border:3px solid #ffd700;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#1a472a;
+overflow:hidden;
+}
+
+.photo-frame img {
+max-width:100%;
+max-height:100%;
+width:auto;
+height:auto;
+object-fit:scale-down;
+display:block;
+}
+
+.memory-title {
+font-size:24px;
+color:#ffd700;
+margin-bottom:8px;
+}
+
+.memory-date {
+font-size:14px;
+color:#ffb6c1;
+margin-bottom:15px;
+letter-spacing:1px;
+}
+
+.memory-text {
+font-size:16px;
+line-height:1.8;
+color:white;
+font-style:italic;
+padding:0 5px;
+white-space:pre-line;
+}
+
+/* Secret entrance */
+.secret-area {
+margin-top:30px;
+background:rgba(0,0,0,0.3);
+backdrop-filter:blur(10px);
+border-radius:60px;
+padding:15px;
+border:1px solid #ffd700;
+}
+
+.secret-input {
+display:flex;
+gap:10px;
+margin-bottom:15px;
+}
+
+.secret-input input {
+flex:1;
+padding:15px;
+border-radius:40px;
+border:none;
+background:rgba(255,255,255,0.2);
+color:white;
+text-align:center;
+font-size:16px;
+outline:none;
+}
+
+.secret-input input::placeholder {
+color:rgba(255,255,255,0.5);
+}
+
+.secret-input button {
+padding:15px 25px;
+border-radius:40px;
+border:none;
+background:#ffd700;
+color:#1a472a;
+font-weight:bold;
+font-size:16px;
+cursor:pointer;
+}
+
+.secret-message {
+margin-top:15px;
+padding:20px;
+background:rgba(255,215,0,0.1);
+border-radius:30px;
+border-left:4px solid #ffd700;
+font-size:16px;
+line-height:1.8;
+white-space:pre-line;
+display:none;
+text-align:left;
+}
+
+/* Simple music */
+.music-bar {
+display:flex;
+justify-content:center;
+gap:10px;
+margin:20px 0;
+padding:15px;
+background:rgba(0,0,0,0.2);
+border-radius:50px;
+}
+
+.music-btn {
+padding:10px 20px;
+border-radius:30px;
+border:1px solid #ffd700;
+background:transparent;
+color:white;
+cursor:pointer;
+font-size:14px;
+}
+
+.music-btn.active {
+background:#ffd700;
+color:#1a472a;
+}
+
+/* Floating petals */
+.petals {
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:0;
+}
+
+.petal {
+position:absolute;
+background:rgba(255,192,203,0.4);
+width:10px;
+height:10px;
+border-radius:100% 0 100% 0;
+transform:rotate(45deg);
+animation:fall linear infinite;
+}
+
+@keyframes fall {
+0% { transform:translateY(-10vh) rotate(45deg); opacity:0.6; }
+100% { transform:translateY(110vh) rotate(90deg); opacity:0; }
+}
+
+/* Water drops */
+.water-drops {
+position:relative;
+width:100%;
+height:100px;
+margin:30px 0;
+overflow:hidden;
+}
+
+.drop {
+position:absolute;
+width:3px;
+height:15px;
+background:rgba(255,255,255,0.3);
+border-radius:50%;
+animation:dropFall 3s infinite;
+}
+
+@keyframes dropFall {
+0% { transform:translateY(-50px); opacity:1; }
+100% { transform:translateY(150px); opacity:0; }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating petals -->
+<div class="petals" id="petals"></div>
+
+<div class="garden">
+    <div class="header">
+        <h1>🌸 MANAHIL'S GARDEN</h1>
+        <div class="subtitle">where memories bloom and love grows wild</div>
+    </div>
+
+    <!-- MEMORIES SECTION - PHOTOS GO HERE -->
+    <div class="memories" id="memoriesContainer"></div>
+
+    <!-- Water drops animation -->
+    <div class="water-drops" id="waterDrops"></div>
+
+    <!-- SIMPLE MUSIC -->
+    <div class="music-bar">
+        <button class="music-btn" onclick="playSound('spring', this)">🌸 spring</button>
+        <button class="music-btn" onclick="playSound('love', this)">💕 love</button>
+        <button class="music-btn" onclick="playSound('night', this)">🌙 night</button>
+    </div>
+
+    <!-- SECRET WORDS -->
+    <div class="secret-area">
+        <div class="secret-input">
+            <input type="text" id="secretWord" placeholder="whisper a word">
+            <button onclick="checkSecret()">🌸</button>
+        </div>
+        <div id="secretMessage" class="secret-message"></div>
+    </div>
+</div>
+
+<script>
+// =============================================
+// FULL ROMANTIC MEMORIES - REPLACE PHOTO URLS
+// =============================================
+const memories = [
+    {
+        title: "The First Time I Saw You",
+        date: "the day everything changed",
+        text: "I don't know when it happened exactly. Maybe it was the way you smiled. Maybe it was the way your eyes lit up when you talked to me. Maybe it was just... you. But something shifted that day. You became more than someone I knew. You became someone I couldn't stop thinking about.\n\nYou became someone I could fall for.",
+        photo: "https://i.imgur.com/tVCDF6N.jpeg"  // ← REPLACE THIS
+    },
+    {
+        title: "That Smile",
+        date: "my favorite memory",
+        text: "Your smile. It's dangerous, you know. It makes me forget what I was saying. It makes me forget my own name. It makes me want to do stupid things—like build entire gardens just to see it again.\n\nEvery time you smile, a flower blooms somewhere. I'm sure of it.",
+        photo: "https://i.imgur.com/0qr0jur.jpeg"  // ← REPLACE THIS
+    },
+    {
+        title: "Lost in Thought",
+        date: "when you didn't know I was watching",
+        text: "This is you, being you. No pose. No pretense. Just you, existing, being beautiful without even trying. These are the moments I cherish most—when you forget anyone's watching, and I get to witness the real you.\n\nThe real you is everything.",
+        photo: "https://i.imgur.com/NZCBLbZ.jpeg"  // ← REPLACE THIS
+    },
+    {
+        title: "The Dreamer",
+        date: "chasing something beautiful",
+        text: "You have this look when you're thinking about your future. Your eyes get distant. Soft. Hopeful. I'd give anything to be in that future with you. To be the one you turn to when you achieve everything you're working for.\n\nTo be the one you come home to.",
+        photo: "https://i.imgur.com/yNd12Cf.jpeg"  // ← REPLACE THIS
+    },
+    {
+        title: "Quiet Moment",
+        date: "just you",
+        text: "No words needed here. This photo says everything—that you're human, that you're real, that you're more beautiful than any painting in any gallery anywhere in the world.\n\nYou don't need to pose. You don't need to try. Just you is enough. More than enough.",
+        photo: "https://i.imgur.com/A4jD3BD.jpeg"  // ← REPLACE THIS
+    },
+    {
+        title: "My Favorite View",
+        date: "always",
+        text: "If I could freeze one moment forever, it would be this. Not because of anything special happening. Just because you're in it. And anywhere you are is where I want to be.\n\nYou are my favorite view. Always have been. Always will be.",
+        photo: "https://i.imgur.com/CVNYeNf.jpeg"  // ← REPLACE THIS
+    }
+];
+
+// =============================================
+// ROMANTIC SECRET WORDS - FULL MESSAGES
+// =============================================
+const secrets = {
+    "manahil": "🌸 Manahil.\n\nI've been waiting to write that. Your name. It feels different on my lips—like poetry, like music, like something sacred.\n\nIn Arabic, it means 'a path to water'—a source of life in the desert. And that's what you are to me. When everything feels dry and difficult, you're the oasis I keep walking toward.\n\nYour name deserves to be written in gold. In starlight. In every language love has ever been spoken.\n\nManahil. Say it slowly. Feel how it lingers. That's how long I want to be with you—lingering, never leaving, always yours.",
+    
+    "zindagi": "💫 Zindagi.\n\nThey say life is what happens while you're busy making plans. But my life? It started the day I saw you.\n\nBefore you, I was just existing. Breathing, eating, sleeping—going through motions. After you? Every moment has color. Every breath has meaning. Every heartbeat has a reason.\n\nYou are not just part of my zindagi. You ARE my zindagi. The before doesn't count. The after is all I care about.\n\nAnd in this garden, every flower that blooms is a day I got to love you. Every petal that falls is a memory I'll keep forever.\n\nMere zindagi. Meri manahil.",
+    
+    "aankhein": "👁️ Aankhein.\n\nI could get lost in your eyes and never want to be found.\n\nDo you know what I see when I look at you? Not just beauty—though there's plenty of that. I see depth. I see stories. I see a soul that's been waiting to be seen, really seen, by someone who understands.\n\nI understand.\n\nI see the way your eyes light up when you're happy. I see the way they cloud over when you're tired. I see the fire in them when you're determined, the softness when you're at peace.\n\nYour eyes hold universes. And I want to spend forever exploring them.\n\nKabhi dekha hai tumne apni aankhon ko? Main ne dekha hai. Aur main kabhi bhool nahi sakta.",
+    
+    "baatein": "💬 Baatein.\n\nThe things I want to say to you... they don't fit in words. They're too big. Too real. Too everything.\n\nI want to tell you about the way my heart stops when your name appears on my phone. About the way I smile at nothing, and people ask why, and I can't say 'I was thinking of her.'\n\nI want to tell you about the dreams I have—not the ones at night, but the ones for us. A future. A home. A thousand small moments that add up to forever.\n\nBut words fail me. They always have. So instead, I built you this garden. Every flower, every petal, every ray of moonlight—they're all saying what I can't.\n\nSunlo meri baatein. Chahe labon se na keh sakun, dil se keh raha hoon.",
+    
+    "khwab": "✨ Khwab.\n\nI used to think dreams were just things that happened when you slept—random images, forgotten by morning.\n\nThen I met you.\n\nNow my dreams have a face. A voice. A laugh that plays on repeat in my mind.\n\nI dream of holding your hand in crowded places. Of late-night conversations that last until dawn. Of waking up next to you and realizing that the dream wasn't the night—it was you, here, real, mine.\n\nTum mere khwab ho. Lekin sach se bhi khoobsurat.\n\nJagta hoon toh tumhari yaad. Sota hoon toh tumhara chehra. Yeh zindagi bhi ek khwab hai—aur main nahi jaagna chahta.",
+    
+    "dhadkan": "💓 Dhadkan.\n\nClose your eyes. Put your hand on your chest. Feel that?\n\nThat rhythm? That beat? That proof that you're alive?\n\nIt has a name now. Yours.\n\nEvery single beat—thump-thump, thump-thump—it sounds like your name. Over and over, without stopping, without resting, without ever giving up.\n\nThat's what you do to me. You make my heart work harder just to keep up with how much I feel.\n\nSometimes I worry it'll give out. That one day it'll just stop from loving you too much.\n\nAnd then I think—what a beautiful way to go.",
+    
+    "chand": "🌙 Chand.\n\nHave you ever wondered why people write so much about the moon?\n\nBecause it's constant. Reliable. Always there, even when clouds try to hide it.\n\nLike you.\n\nNo matter what's happening in my world, I look up and there you are—steady, beautiful, glowing.\n\nThe moon doesn't ask for anything. It just shines. It just exists. And somehow, that's enough.\n\nThat's you. You just exist, and my world lights up.\n\nMain ne chand ko dekha hai. Lekin tumhare paas jo roshni hai, woh chand mein nahi.\n\nTum chand se bhi zyada khoobsurat ho. Tum chand se bhi zyada qareeb ho. Tum chand se bhi zyada meri ho.",
+    
+    "raat": "🌃 Raat.\n\nThere's something about the night that makes honesty easier.\n\nWhen the world sleeps, when it's quiet, when it's just me and the darkness—that's when I miss you most.\n\nI imagine you sleeping peacefully. I hope you are. I hope your dreams are sweet. I hope somewhere in them, you feel me thinking of you.\n\nRaat ke andheron mein, main sirf tumhe dekhta hoon.\n\nTaare bhi tumhe yaad dilate hain. Hawa bhi tumhari baatein karti hai. Aur yeh dil? Yeh toh sirf tumhara naam leta hai.\n\n. Jab tum so rahi ho, main jag raha hoon—tumhari yaad mein.",
+    
+    "dooriyan": "📏 Dooriyan.\n\nThey say distance makes the heart grow fonder.\n\nThey're wrong.\n\nDistance doesn't make the heart fonder. It makes it ache. It makes it count the minutes. It makes it wonder if you're okay, if you're happy, if you're thinking of me too.\n\nBut you know what? Even with all these kilometers between us, I've never felt closer to anyone.\n\nBecause distance is just space. And space can be crossed.\n\nTumse door hoon, lekin tumse juda nahi.\n\nHar doori ko maine paal liya hai. Har faasle ko maine apna bana liya hai. Kyunke inhi dooriyon ke beech maine tumhe paya hai.\n\nEk din yeh dooriyan khatam hongi. Aur jab hongi, main tumhe kabhi jaane nahi dunga."
+};
+
+// =============================================
+// DISPLAY MEMORIES
+// =============================================
+function displayMemories() {
+    const container = document.getElementById('memoriesContainer');
+    container.innerHTML = '';
+    
+    memories.forEach(memory => {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.innerHTML = `
+            <div class="photo-frame">
+                <img src="${memory.photo}" alt="${memory.title}" onerror="this.src='🌸'">
+            </div>
+            <div class="memory-title">${memory.title}</div>
+            <div class="memory-date">${memory.date}</div>
+            <div class="memory-text">${memory.text}</div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+// =============================================
+// CHECK SECRET WORDS
+// =============================================
+function checkSecret() {
+    const word = document.getElementById('secretWord').value.toLowerCase().trim();
+    const messageDiv = document.getElementById('secretMessage');
+    
+    if (secrets[word]) {
+        messageDiv.style.display = 'block';
+        messageDiv.innerHTML = secrets[word];
+    } else {
+        messageDiv.style.display = 'block';
+        messageDiv.innerHTML = '🌸 The garden doesn\'t know that word yet. Try another.';
+    }
+    
+    document.getElementById('secretWord').value = '';
+}
+
+// =============================================
+// MUSIC (visual only)
+// =============================================
+function playSound(type, btn) {
+    document.querySelectorAll('.music-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    // Visual feedback
+    const msg = document.createElement('div');
+    msg.style.position = 'fixed';
+    msg.style.top = '50%';
+    msg.style.left = '50%';
+    msg.style.transform = 'translate(-50%, -50%)';
+    msg.style.background = 'rgba(255,215,0,0.9)';
+    msg.style.color = '#1a472a';
+    msg.style.padding = '20px 40px';
+    msg.style.borderRadius = '50px';
+    msg.style.fontSize = '24px';
+    msg.style.zIndex = '1000';
+    msg.style.animation = 'fadeOut 2s';
+    msg.innerText = `🎵 ${type} melody...`;
+    document.body.appendChild(msg);
+    
+    setTimeout(() => msg.remove(), 2000);
+}
+
+// Add fadeOut animation
+const style = document.createElement('style');
+style.innerHTML = `
+    @keyframes fadeOut {
+        0% { opacity:1; }
+        70% { opacity:1; }
+        100% { opacity:0; }
+    }
+`;
+document.head.appendChild(style);
+
+// =============================================
+// FLOATING PETALS
+// =============================================
+function createPetals() {
+    const container = document.querySelector('.petals');
+    for (let i = 0; i < 30; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.style.left = Math.random() * 100 + '%';
+        petal.style.animationDuration = Math.random() * 5 + 5 + 's';
+        petal.style.animationDelay = Math.random() * 5 + 's';
+        container.appendChild(petal);
+    }
+}
+
+// =============================================
+// WATER DROPS
+// =============================================
+function createWaterDrops() {
+    const container = document.getElementById('waterDrops');
+    for (let i = 0; i < 15; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'drop';
+        drop.style.left = Math.random() * 100 + '%';
+        drop.style.animationDelay = Math.random() * 2 + 's';
+        container.appendChild(drop);
+    }
+}
+
+// Initialize everything
+displayMemories();
+createPetals();
+createWaterDrops();
+</script>
+</body>
+</html>
