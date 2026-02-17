@@ -402,16 +402,15 @@ function playSound(type, btn) {
     // Create new audio element
     currentAudio = new Audio();
     
-    // Use free, reliable audio files
-    if (type === 'spring') {
-    // Soft romantic piano - "Comptine d'un autre été"
-    currentAudio.src = 'https://actions.google.com/sounds/v1/alarms/digital_watch_alarm.ogg';
+if (type === 'spring') {
+    // Yiruma style - River Flows in You type
+    currentAudio.src = 'https://www.chosic.com/wp-content/uploads/2022/05/River-Flows-in-You.mp3';
 } else if (type === 'love') {
-    // Gentle love melody
-    currentAudio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3';
+    // Love song piano
+    currentAudio.src = 'https://www.chosic.com/wp-content/uploads/2022/05/Love-Song-Piano.mp3';
 } else if (type === 'night') {
-    // Calm starry night music
-    currentAudio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3';
+    // Clair de Lune style
+    currentAudio.src = 'https://www.chosic.com/wp-content/uploads/2022/05/Clair-de-Lune.mp3';
 }
     
     // Play the audio
@@ -497,4 +496,5 @@ createWaterDrops();
 </body>
 
 </html>
+
 
