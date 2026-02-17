@@ -255,15 +255,10 @@ animation:dropFall 3s infinite;
     <!-- Water drops animation -->
     <div class="water-drops" id="waterDrops"></div>
 
-<!-- SIMPLE MUSIC -->
-<div class="music-bar">
-    <button class="music-btn" onclick="playSound('spring', this)">🌸 spring</button>
-    <button class="music-btn" onclick="playSound('love', this)">💕 love</button>
-    <button class="music-btn" onclick="playSound('night', this)">🌙 night</button>
-</div>
-<!-- Add this stop button -->
-<div style="text-align:center; margin-bottom:20px;">
-    <button class="music-btn" onclick="stopMusic()">⏹️ stop music</button>
+<!-- BACKGROUND MUSIC - Romantic piano playing automatically -->
+<div style="text-align:center; margin:20px 0; padding:10px; background:rgba(255,255,240,0.1); border-radius:50px; border:1px solid #ffd700;">
+    <span style="color:#ffd700; margin-right:15px;">🎵 romantic piano</span>
+    <button onclick="toggleMusic()" style="background:#ffd700; border:none; padding:8px 20px; border-radius:30px; color:#1a472a; font-weight:bold; cursor:pointer;">🔊 playing</button>
 </div>
 
     <!-- SECRET WORDS -->
@@ -383,81 +378,70 @@ function checkSecret() {
 }
 
 // =============================================
-// REAL MUSIC - Working audio
+// SIMPLE BACKGROUND MUSIC - Romantic piano
 // =============================================
-let currentAudio = null;
-let isPlaying = false;
+let backgroundMusic = null;
+let isMusicPlaying = false;
 
-function playSound(type, btn) {
-    // Remove active class from all buttons
-    document.querySelectorAll('.music-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+// Create audio element when page loads
+window.addEventListener('load', function() {
+    backgroundMusic = new Audio();
+    // Soft romantic piano music that loops
+    backgroundMusic.src = 'https://www.chosic.com/wp-content/uploads/2022/03/Piano-Moment.mp3';
+    backgroundMusic.loop = true;
+    backgroundMusic.volume = 0.3; // 30% volume
     
-    // Stop any currently playing audio
-    if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-    }
+    // Try to play (browsers may block autoplay)
+    backgroundMusic.play().then(() => {
+        isMusicPlaying = true;
+    }).catch(e => {
+        console.log('Autoplay blocked. User must interact first.');
+        // Show a message that music is ready
+        const playMsg = document.createElement('div');
+        playMsg.style.position = 'fixed';
+        playMsg.style.bottom = '100px';
+        playMsg.style.left = '50%';
+        playMsg.style.transform = 'translateX(-50%)';
+        playMsg.style.background = '#ffd700';
+        playMsg.style.color = '#1a472a';
+        playMsg.style.padding = '10px 25px';
+        playMsg.style.borderRadius = '50px';
+        playMsg.style.zIndex = '2000';
+        playMsg.style.fontSize = '14px';
+        playMsg.style.boxShadow = '0 5px 20px rgba(0,0,0,0.3)';
+        playMsg.innerHTML = '🎵 Tap anywhere to start music';
+        document.body.appendChild(playMsg);
+        
+        // Remove message after 5 seconds
+        setTimeout(() => playMsg.remove(), 5000);
+    });
+});
+
+// Toggle music on/off
+function toggleMusic() {
+    if (!backgroundMusic) return;
     
-    // Create new audio element
-    currentAudio = new Audio();
-    
-if (type === 'spring') {
-    // Yiruma style - River Flows in You type
-    currentAudio.src = 'https://www.chosic.com/wp-content/uploads/2022/05/River-Flows-in-You.mp3';
-} else if (type === 'love') {
-    // Love song piano
-    currentAudio.src = 'https://www.chosic.com/wp-content/uploads/2022/05/Love-Song-Piano.mp3';
-} else if (type === 'night') {
-    // Clair de Lune style
-    currentAudio.src = 'https://www.chosic.com/wp-content/uploads/2022/05/Clair-de-Lune.mp3';
-}
-    
-    // Play the audio
-    currentAudio.loop = true;
-    currentAudio.volume = 0.4; // 40% volume
-    
-    // Handle browser autoplay restrictions
-    let playPromise = currentAudio.play();
-    
-    if (playPromise !== undefined) {
-        playPromise.catch(error => {
-            console.log("Autoplay prevented:", error);
-            
-            // Show a helpful message
-            const msg = document.createElement('div');
-            msg.style.position = 'fixed';
-            msg.style.top = '50%';
-            msg.style.left = '50%';
-            msg.style.transform = 'translate(-50%, -50%)';
-            msg.style.background = '#ffd700';
-            msg.style.color = '#1a472a';
-            msg.style.padding = '20px 30px';
-            msg.style.borderRadius = '50px';
-            msg.style.zIndex = '2000';
-            msg.style.fontSize = '16px';
-            msg.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
-            msg.innerText = '🎵 Tap anywhere on the page first, then try music';
-            document.body.appendChild(msg);
-            
-            setTimeout(() => msg.remove(), 3000);
-        });
+    if (isMusicPlaying) {
+        backgroundMusic.pause();
+        isMusicPlaying = false;
+        event.target.innerText = '🔇 paused';
+    } else {
+        backgroundMusic.play();
+        isMusicPlaying = true;
+        event.target.innerText = '🔊 playing';
     }
 }
 
-function stopMusic() {
-    if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        currentAudio = null;
+// Try to play when user taps anywhere (for browsers that block autoplay)
+document.addEventListener('click', function once() {
+    if (backgroundMusic && !isMusicPlaying) {
+        backgroundMusic.play().then(() => {
+            isMusicPlaying = true;
+            const btn = document.querySelector('button[onclick="toggleMusic()"]');
+            if (btn) btn.innerText = '🔊 playing';
+        }).catch(e => console.log('Still blocked:', e));
     }
-    document.querySelectorAll('.music-btn').forEach(b => b.classList.remove('active'));
-    isPlaying = false;
-}
-
-// Add a stop button (add this to your HTML)
-// Put this right after your music bar:
-// <button class="music-btn" onclick="stopMusic()">⏹️ stop</button>
+}, { once: true });
 
 // =============================================
 // FLOATING PETALS
@@ -496,5 +480,6 @@ createWaterDrops();
 </body>
 
 </html>
+
 
 
