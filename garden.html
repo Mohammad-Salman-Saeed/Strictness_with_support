@@ -255,12 +255,16 @@ animation:dropFall 3s infinite;
     <!-- Water drops animation -->
     <div class="water-drops" id="waterDrops"></div>
 
-    <!-- SIMPLE MUSIC -->
-    <div class="music-bar">
-        <button class="music-btn" onclick="playSound('spring', this)">🌸 spring</button>
-        <button class="music-btn" onclick="playSound('love', this)">💕 love</button>
-        <button class="music-btn" onclick="playSound('night', this)">🌙 night</button>
-    </div>
+<!-- SIMPLE MUSIC -->
+<div class="music-bar">
+    <button class="music-btn" onclick="playSound('spring', this)">🌸 spring</button>
+    <button class="music-btn" onclick="playSound('love', this)">💕 love</button>
+    <button class="music-btn" onclick="playSound('night', this)">🌙 night</button>
+</div>
+<!-- Add this stop button -->
+<div style="text-align:center; margin-bottom:20px;">
+    <button class="music-btn" onclick="stopMusic()">⏹️ stop music</button>
+</div>
 
     <!-- SECRET WORDS -->
     <div class="secret-area">
@@ -379,41 +383,82 @@ function checkSecret() {
 }
 
 // =============================================
-// MUSIC (visual only)
+// REAL MUSIC - Working audio
 // =============================================
+let currentAudio = null;
+let isPlaying = false;
+
 function playSound(type, btn) {
+    // Remove active class from all buttons
     document.querySelectorAll('.music-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     
-    // Visual feedback
-    const msg = document.createElement('div');
-    msg.style.position = 'fixed';
-    msg.style.top = '50%';
-    msg.style.left = '50%';
-    msg.style.transform = 'translate(-50%, -50%)';
-    msg.style.background = 'rgba(255,215,0,0.9)';
-    msg.style.color = '#1a472a';
-    msg.style.padding = '20px 40px';
-    msg.style.borderRadius = '50px';
-    msg.style.fontSize = '24px';
-    msg.style.zIndex = '1000';
-    msg.style.animation = 'fadeOut 2s';
-    msg.innerText = `🎵 ${type} melody...`;
-    document.body.appendChild(msg);
+    // Stop any currently playing audio
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
     
-    setTimeout(() => msg.remove(), 2000);
+    // Create new audio element
+    currentAudio = new Audio();
+    
+    // Use free, reliable audio files
+    if (type === 'spring') {
+        // Romantic piano
+        currentAudio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+    } else if (type === 'love') {
+        // Soft love melody
+        currentAudio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3';
+    } else if (type === 'night') {
+        // Calm night music
+        currentAudio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3';
+    }
+    
+    // Play the audio
+    currentAudio.loop = true;
+    currentAudio.volume = 0.4; // 40% volume
+    
+    // Handle browser autoplay restrictions
+    let playPromise = currentAudio.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            console.log("Autoplay prevented:", error);
+            
+            // Show a helpful message
+            const msg = document.createElement('div');
+            msg.style.position = 'fixed';
+            msg.style.top = '50%';
+            msg.style.left = '50%';
+            msg.style.transform = 'translate(-50%, -50%)';
+            msg.style.background = '#ffd700';
+            msg.style.color = '#1a472a';
+            msg.style.padding = '20px 30px';
+            msg.style.borderRadius = '50px';
+            msg.style.zIndex = '2000';
+            msg.style.fontSize = '16px';
+            msg.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+            msg.innerText = '🎵 Tap anywhere on the page first, then try music';
+            document.body.appendChild(msg);
+            
+            setTimeout(() => msg.remove(), 3000);
+        });
+    }
 }
 
-// Add fadeOut animation
-const style = document.createElement('style');
-style.innerHTML = `
-    @keyframes fadeOut {
-        0% { opacity:1; }
-        70% { opacity:1; }
-        100% { opacity:0; }
+function stopMusic() {
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
     }
-`;
-document.head.appendChild(style);
+    document.querySelectorAll('.music-btn').forEach(b => b.classList.remove('active'));
+    isPlaying = false;
+}
+
+// Add a stop button (add this to your HTML)
+// Put this right after your music bar:
+// <button class="music-btn" onclick="stopMusic()">⏹️ stop</button>
 
 // =============================================
 // FLOATING PETALS
@@ -450,4 +495,5 @@ createPetals();
 createWaterDrops();
 </script>
 </body>
+
 </html>
