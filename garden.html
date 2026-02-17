@@ -453,50 +453,102 @@ createPetals();
 createWaterDrops();
 </script>
 
-<!-- Soft background music - Arz Kiya Hai (Volume 8%) -->
+<!-- Elegant background music - Arz Kiya Hai by Anuv Jain -->
+<div style="position:fixed; bottom:20px; right:20px; z-index:1000; background:rgba(255,215,0,0.2); backdrop-filter:blur(10px); border-radius:50px; padding:12px 20px; border:1px solid #ffd700; display:flex; align-items:center; gap:15px; box-shadow:0 5px 20px rgba(0,0,0,0.3);">
+    <span style="color:#ffd700; font-size:20px; animation:gentlePulse 3s infinite;">🎵</span>
+    <span style="color:white; font-size:14px; letter-spacing:1px;">Arz Kiya Hai</span>
+    <div style="display:flex; gap:8px;">
+        <button onclick="toggleMusic()" style="background:#ffd700; border:none; width:35px; height:35px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:18px;">⏸️</button>
+    </div>
+</div>
+
+<!-- Hidden YouTube player with REAL volume control -->
 <div style="position:fixed; bottom:-100px; left:-100px; width:1px; height:1px; opacity:0; pointer-events:none;">
     <iframe 
         width="1" 
         height="1" 
-        src="https://www.youtube-nocookie.com/embed/Kg8_ADYhYWE?autoplay=1&loop=1&playlist=Kg8_ADYhYWE&controls=0&showinfo=0&autohide=1&mute=1&modestbranding=1&rel=0&start=0" 
+        src="https://www.youtube.com/embed/Kg8_ADYhYWE?autoplay=1&loop=1&playlist=Kg8_ADYhYWE&controls=0&showinfo=0&autohide=1&mute=0&enablejsapi=1" 
         frameborder="0" 
-        allow="autoplay; encrypted-media" 
+        allow="autoplay; encrypted-media"
         id="youtubePlayer">
     </iframe>
 </div>
 
+<!-- Advanced volume control with fade in -->
 <script>
-// Simple volume control - set to 8%
-let volumeLevel = 8;
-
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('youtubePlayer', {
-        events: {
-            'onReady': function(event) {
-                event.target.setVolume(volumeLevel);
-                event.target.unMute();
-            }
-        }
-    });
-}
+let player;
+let isPlaying = true;
+let volumeLevel = 8; // ← CHANGE THIS NUMBER (1-100) for volume
 
 // Load YouTube API
 const tag = document.createElement('script');
 tag.src = 'https://www.youtube.com/iframe_api';
 document.head.appendChild(tag);
 
-// Restart if it stops (gentle)
-setInterval(function() {
-    const iframe = document.getElementById('youtubePlayer');
-    if (iframe && !iframe.contentWindow) {
-        iframe.src = iframe.src;
+// Create player when API is ready
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtubePlayer', {
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    // Start with very low volume (2%)
+    event.target.setVolume(2);
+    event.target.unMute();
+    
+    // Fade in slowly over 4 seconds to target volume
+    let currentVol = 2;
+    const fadeInterval = setInterval(function() {
+        currentVol += 1.5;
+        if (currentVol <= volumeLevel) {
+            event.target.setVolume(Math.round(currentVol));
+        } else {
+            event.target.setVolume(volumeLevel);
+            clearInterval(fadeInterval);
+        }
+    }, 250);
+}
+
+function onPlayerStateChange(event) {
+    // Keep playing if it stops
+    if (event.data === YT.PlayerState.ENDED) {
+        player.playVideo();
     }
-}, 45000);
+}
+
+function toggleMusic() {
+    const btn = event.currentTarget;
+    if (isPlaying) {
+        player.pauseVideo();
+        btn.innerHTML = '▶️';
+        isPlaying = false;
+    } else {
+        player.playVideo();
+        btn.innerHTML = '⏸️';
+        isPlaying = true;
+    }
+}
+
+// Add gentle pulse animation
+const style = document.createElement('style');
+style.innerHTML = `
+    @keyframes gentlePulse {
+        0% { opacity:0.6; transform:scale(1); }
+        50% { opacity:1; transform:scale(1.1); }
+        100% { opacity:0.6; transform:scale(1); }
+    }
+`;
+document.head.appendChild(style);
 </script>
     
 </body>
 
 </html>
+
 
 
 
