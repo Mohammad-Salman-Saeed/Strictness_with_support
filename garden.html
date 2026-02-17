@@ -404,15 +404,15 @@ function playSound(type, btn) {
     
     // Use free, reliable audio files
     if (type === 'spring') {
-        // Romantic piano
-        currentAudio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
-    } else if (type === 'love') {
-        // Soft love melody
-        currentAudio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3';
-    } else if (type === 'night') {
-        // Calm night music
-        currentAudio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3';
-    }
+    // Soft romantic piano - "Comptine d'un autre été"
+    currentAudio.src = 'https://actions.google.com/sounds/v1/alarms/digital_watch_alarm.ogg';
+} else if (type === 'love') {
+    // Gentle love melody
+    currentAudio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3';
+} else if (type === 'night') {
+    // Calm starry night music
+    currentAudio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3';
+}
     
     // Play the audio
     currentAudio.loop = true;
@@ -497,3 +497,4 @@ createWaterDrops();
 </body>
 
 </html>
+
