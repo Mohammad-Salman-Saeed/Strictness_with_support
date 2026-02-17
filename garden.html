@@ -453,7 +453,7 @@ createPetals();
 createWaterDrops();
 </script>
 
-<!-- Soft background music - Arz Kiya Hai by Anuv Jain (Real volume control) -->
+<!-- Soft background music - Arz Kiya Hai (Volume 8%) -->
 <div style="position:fixed; bottom:-100px; left:-100px; width:1px; height:1px; opacity:0; pointer-events:none;">
     <iframe 
         width="1" 
@@ -466,46 +466,38 @@ createWaterDrops();
 </div>
 
 <script>
-// REAL volume control using YouTube API
-let player;
-let volumeLevel = 09; // ← CHANGE THIS NUMBER (0-100)
+// Simple volume control - set to 8%
+let volumeLevel = 8;
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('youtubePlayer', {
         events: {
-            'onReady': onPlayerReady
+            'onReady': function(event) {
+                event.target.setVolume(volumeLevel);
+                event.target.unMute();
+            }
         }
     });
 }
 
-function onPlayerReady(event) {
-    // Start with very low volume (15% of max)
-    player.setVolume(volumeLevel);
-    
-    // Unmute after setting low volume
-    player.unMute();
-    
-    // Optional: Fade in slowly
-    let currentVol = 5;
-    const fadeInterval = setInterval(function() {
-        currentVol += 2;
-        if (currentVol <= volumeLevel) {
-            player.setVolume(currentVol);
-        } else {
-            clearInterval(fadeInterval);
-        }
-    }, 200);
-}
-
-// Load the YouTube IFrame API
+// Load YouTube API
 const tag = document.createElement('script');
 tag.src = 'https://www.youtube.com/iframe_api';
 document.head.appendChild(tag);
+
+// Restart if it stops (gentle)
+setInterval(function() {
+    const iframe = document.getElementById('youtubePlayer');
+    if (iframe && !iframe.contentWindow) {
+        iframe.src = iframe.src;
+    }
+}, 45000);
 </script>
     
 </body>
 
 </html>
+
 
 
 
