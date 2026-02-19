@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>✨ What's this? ✨</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff0f5, #ffe6f0);
+            height: 100vh;
+            overflow: hidden;
+            font-family: Georgia, serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .instruction {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 6vw;
+            color: rgba(0,0,0,0.2);
+            font-style: italic;
+        }
+
+        .counter {
+            position: absolute;
+            bottom: 3vh;
+            right: 5vw;
+            font-size: 4vw;
+            color: rgba(0,0,0,0.25);
+        }
+
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 85vw;
+            text-align: center;
+            font-size: 6vw;
+            line-height: 1.5;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            padding: 10px;
+        }
+
+        .message.show {
+            opacity: 1;
+        }
+
+        .urdu {
+            font-size: 6.5vw;
+            line-height: 1.7;
+        }
+
+        .long {
+            font-size: 5vw;
+        }
+
+        .finale {
+            position: absolute;
+            inset: 0;
+            background: rgba(255,220,230,0.98);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .finale.show {
+            opacity: 1;
+        }
+
+        .heart {
+            font-size: 28vw;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        .final-text {
+            font-size: 8vw;
+            margin-top: 2vh;
+            font-weight: bold;
+            color: #ff2e63;
+        }
+
+        .small {
+            font-size: 4.5vw;
+            margin-top: 1vh;
+            color: #ff8fab;
+        }
+    </style>
+</head>
+
+<body>
+<div id="container">
+    <div class="instruction" id="instruction">✨ tap anywhere ✨</div>
+    <div class="counter" id="counter">0 / 15</div>
+</div>
+
+<script>
+
+const messages = [
+"Your name is my favourite word.",
+"I notice the little things you do.",
+"Loving you is hard, but being with you makes it seem easy.",
+"I'd choose you a million times over.",
+"You have a beautiful soul.",
+"You're doing better than you think.",
+"I trust you with my heart. Keep it. Forever.",
+"With you, I don't have to pretend.",
+"You make vulnerability feel safe.",
+"Meri zindagi ho tum.",
+"Duniya se chura ke apne dil me basaya hai tumhe.",
+"Har soch, har khayal me bas tumhara naam hai.",
+"You make me smile like an idiot.",
+"Stop being so lovable, girl.",
+"Before you, I didn't know I could feel this. I didn't know someone could understand me without words. I didn't know home could be a person. You've changed everything. And the scariest part? I don't want to go back."
+];
+
+const colors = [
+"#ff8ca8","#ff8ca8",
+"#ff5277","#ff5277",
+"#e5b80b","#e5b80b",
+"#b57cff","#b57cff","#b57cff",
+"#d23669","#d23669","#d23669",
+"#ff9f4b","#ff9f4b",
+"#aa9988"
+];
+
+const urduIndexes = [9,10,11];
+
+let index = 0;
+let currentMessage = null;
+let allMessagesShown = false;
+let finaleShown = false;
+
+const container = document.getElementById("container");
+const instruction = document.getElementById("instruction");
+const counter = document.getElementById("counter");
+
+function reveal() {
+
+    // If finale already shown → stop
+    if(finaleShown) return;
+
+    // If all messages were shown → this click reveals heart
+    if(allMessagesShown){
+        showFinale();
+        finaleShown = true;
+        instruction.style.display = "none";
+        return;
+    }
+
+    if(index >= messages.length) return;
+
+    if(currentMessage){
+        currentMessage.remove();
+    }
+
+    const div = document.createElement("div");
+    div.className = "message";
+    div.textContent = messages[index];
+    div.style.color = colors[index];
+
+    if(urduIndexes.includes(index)){
+        div.classList.add("urdu");
+    }
+
+    if(index === messages.length - 1){
+        div.classList.add("long");
+    }
+
+    container.appendChild(div);
+
+    setTimeout(() => {
+        div.classList.add("show");
+    }, 50);
+
+    currentMessage = div;
+
+    index++;
+    counter.innerText = `${index} / ${messages.length}`;
+    instruction.style.display = "none";
+
+    // When the 15th message appears
+    if(index === messages.length){
+        allMessagesShown = true;
+        instruction.innerText = "✨ one more tap ✨";
+        instruction.style.display = "block";
+    }
+}
+
+function showFinale(){
+    const finale = document.createElement("div");
+    finale.className = "finale";
+    finale.innerHTML = `
+        <div class="heart">❤️</div>
+        <div class="final-text">I adore you</div>
+        <div class="small">(won't say it with the L word that easily this time hehe)</div>
+    `;
+    container.appendChild(finale);
+    setTimeout(()=>finale.classList.add("show"),50);
+}
+
+container.addEventListener("touchstart", function(e){
+    e.preventDefault();
+    reveal();
+});
+
+container.addEventListener("click", reveal);
+
+counter.innerText = `0 / ${messages.length}`;
+
+</script>
+
+</body>
+</html>
