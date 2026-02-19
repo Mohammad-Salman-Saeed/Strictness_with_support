@@ -255,14 +255,64 @@ animation:dropFall 3s infinite;
     <!-- Water drops animation -->
     <div class="water-drops" id="waterDrops"></div>
 
-    <!-- SECRET WORDS -->
-    <div class="secret-area">
-        <div class="secret-input">
-            <input type="text" id="secretWord" placeholder="whisper a word">
-            <button onclick="checkSecret()">🌸</button>
-        </div>
-        <div id="secretMessage" class="secret-message"></div>
+    <!-- SECRET WORDS - Romantic version -->
+<div style="margin:40px 0 20px; text-align:center;">
+    <!-- Floating hearts decoration -->
+    <div style="display:flex; justify-content:center; gap:10px; margin-bottom:15px;">
+        <span style="color:#ffd700; animation:floatHeart 2s infinite;">💕</span>
+        <span style="color:#ffd700; animation:floatHeart 2s infinite 0.3s;">💗</span>
+        <span style="color:#ffd700; animation:floatHeart 2s infinite 0.6s;">💖</span>
     </div>
+    
+    <!-- Romantic label -->
+    <p style="color:#ffb6c1; font-size:16px; font-style:italic; margin-bottom:15px; letter-spacing:2px;">
+        ✦ whisper a secret word ✦
+    </p>
+    
+    <!-- Beautiful input area -->
+    <div style="position:relative; max-width:300px; margin:0 auto;">
+        <!-- Decorative vine left -->
+        <span style="position:absolute; left:-20px; top:50%; transform:translateY(-50%); font-size:24px; color:#ffd700; opacity:0.5;">🌿</span>
+        
+        <!-- Main input -->
+        <input type="text" 
+               id="secretWord" 
+               placeholder="your secret word..."
+               style="width:100%; padding:18px 25px; border-radius:50px; border:2px solid #ffd700; background:rgba(255,255,240,0.15); backdrop-filter:blur(5px); color:white; font-size:16px; text-align:center; outline:none; transition:all 0.3s; box-shadow:0 0 20px rgba(255,215,0,0.2);"
+               onfocus="this.style.boxShadow='0 0 30px #ffd700'; this.style.borderColor='#ffd700'"
+               onblur="this.style.boxShadow='0 0 20px rgba(255,215,0,0.2)'; this.style.borderColor='#ffd700'">
+        
+        <!-- Decorative vine right -->
+        <span style="position:absolute; right:-20px; top:50%; transform:translateY(-50%); font-size:24px; color:#ffd700; opacity:0.5;">🌿</span>
+    </div>
+    
+    <!-- Magical submit button -->
+    <button onclick="checkSecret()" 
+            style="margin-top:20px; padding:12px 35px; border-radius:50px; border:none; background:linear-gradient(45deg, #ffd700, #ff69b4); color:#1a472a; font-weight:bold; font-size:16px; cursor:pointer; transition:all 0.3s; box-shadow:0 5px 20px rgba(255,215,0,0.3); display:inline-flex; align-items:center; gap:10px;"
+            onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 30px rgba(255,215,0,0.5)';"
+            onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 20px rgba(255,215,0,0.3)';">
+        <span>🌸</span>
+        <span>reveal secret</span>
+        <span>✨</span>
+    </button>
+    
+    <!-- This is where the secret message appears -->
+    <div id="secretMessage" class="secret-message" style="margin-top:20px;"></div>
+    
+    <!-- Gentle reminder -->
+    <p style="color:rgba(255,255,255,0.3); font-size:12px; margin-top:15px; font-style:italic;">
+        some words hold magic...
+    </p>
+</div>
+
+<!-- Add floating heart animation -->
+<style>
+@keyframes floatHeart {
+    0% { transform:translateY(0) scale(1); opacity:0.5; }
+    50% { transform:translateY(-5px) scale(1.1); opacity:1; }
+    100% { transform:translateY(0) scale(1); opacity:0.5; }
+}
+</style>
 </div>
 
 <script>
@@ -316,7 +366,7 @@ const secrets = {
     
     "zindagi": "💫 Zindagi.\n\nThey say life is what happens while you're busy making plans. But my life? It started the day I saw you.\n\nBefore you, I was just existing. Breathing, eating, sleeping—going through motions. After you? Every moment has color. Every breath has meaning. Every heartbeat has a reason.\n\nYou are not just part of my zindagi. You ARE my zindagi. The before doesn't count. The after is all I care about.\n\nAnd in this garden, every flower that blooms is a day I got to love you. Every petal that falls is a memory I'll keep forever.\n\nMere zindagi. Meri manahil.",
     
-    "aankhein": "👁️ Aankhein.\n\nI could get lost in your eyes and never want to be found.\n\nDo you know what I see when I look at you? Not just beauty—though there's plenty of that. I see depth. I see stories. I see a soul that's been waiting to be seen, really seen, by someone who understands.\n\nI understand.\n\nI see the way your eyes light up when you're happy. I see the way they cloud over when you're tired. I see the fire in them when you're determined, the softness when you're at peace.\n\nYour eyes hold universes. And I want to spend forever exploring them.\n\nKabhi dekha hai tumne apni aankhon ko? Main ne dekha hai. Aur main kabhi bhool nahi sakta.",
+    "aankhein": "👁️ Aankhein.\n\nTumhari aankhon mein kuch hai... kuch alag. Kuch jo mujhe rok leta hai. Kuch jo mujhe bulata hai.\n\nI've tried to find the right words, but how do you describe the way your eyes hold the moonlight? How do you explain that when you look at me, the world stops existing?\n\nIn your eyes, I've seen galaxies. I've seen warmth. I've seen the kind of depth that makes a man want to dive and never come back up.\n\nSometimes I catch myself staring, and I hope you don't notice. But I also hope you do. Because in those moments, I'm not just looking at you—I'm memorizing you. I'm etching every shade of brown, every fleck of gold, every curve of your gaze into my memory.\n\nTumhari aankhein sirf aankhein nahi hain. Yeh raaste hain—mere dil tak ke raaste. Aur main har roz in raaston se guzarta hoon, bas tum tak pahunchne ke liye.\n\nJab tum mujhe dekhti ho, main ghar mehsoos karta hoon. Jab tum nazar jhuka leti ho, main khud ko dhundhta hoon. Tumhari aankhon ke saamne rehna chahta hoon main — hamesha ke liye.",
     
     "baatein": "💬 Baatein.\n\nThe things I want to say to you... they don't fit in words. They're too big. Too real. Too everything.\n\nI want to tell you about the way my heart stops when your name appears on my phone. About the way I smile at nothing, and people ask why, and I can't say 'I was thinking of her.'\n\nI want to tell you about the dreams I have—not the ones at night, but the ones for us. A future. A home. A thousand small moments that add up to forever.\n\nBut words fail me. They always have. So instead, I built you this garden. Every flower, every petal, every ray of moonlight—they're all saying what I can't.\n\nSunlo meri baatein. Chahe labon se na keh sakun, dil se keh raha hoon.",
     
@@ -548,6 +598,7 @@ document.head.appendChild(style);
 </body>
 
 </html>
+
 
 
 
