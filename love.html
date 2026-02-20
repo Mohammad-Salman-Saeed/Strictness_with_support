@@ -391,35 +391,16 @@ function unlock() {
     // Clear previous error
     errorDiv.innerText = '';
     
-    // Find which day this password matches
-    let matchedDay = -1;
-    for (let day = 0; day < dayPasswords.length; day++) {
-        if (dayPasswords[day] === input) {
-            matchedDay = day + 1; // +1 because array is 0-indexed
-            break;
-        }
-    }
+    // Find the NEXT UNLOCKED DAY by scanning from day 1 onward
+    let nextDay = unlockedDays.length + 1;
     
-    // If password found
-    if (matchedDay !== -1) {
-        // Check if it's the next day in sequence
-        const nextDay = unlockedDays.length + 1;
-        
-        if (matchedDay === nextDay) {
-            // Correct! It's the next day
-            unlockedDays.push(matchedDay);
-            localStorage.setItem('unlockedLetters', JSON.stringify(unlockedDays));
-            errorDiv.innerText = '✅ Letter unlocked!';
-            errorDiv.style.color = '#4CAF50';
-        } else if (matchedDay < nextDay) {
-            // Already unlocked
-            errorDiv.innerText = '❌ You already unlocked this letter';
-            errorDiv.style.color = '#ff6b6b';
-        } else {
-            // Future day - can't skip ahead
-            errorDiv.innerText = `❌ You need to unlock day ${nextDay} first`;
-            errorDiv.style.color = '#ff6b6b';
-        }
+    // Check if the input matches the password for the next day
+    if (nextDay <= dayPasswords.length && dayPasswords[nextDay - 1] === input) {
+        // Correct! It's the next day's password
+        unlockedDays.push(nextDay);
+        localStorage.setItem('unlockedLetters', JSON.stringify(unlockedDays));
+        errorDiv.innerText = '✅ Letter unlocked!';
+        errorDiv.style.color = '#4CAF50';
     } else {
         // Wrong password
         errorDiv.innerText = '❌ Wrong password';
