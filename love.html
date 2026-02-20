@@ -130,7 +130,7 @@ font-size:14px;
     </div>
     
     <div id="error" class="error-message"></div>
-    <div id="progress" class="progress">📬 0 of 30 letters unlocked</div>
+    <div id="progress" class="progress">📬 0 of 45 letters unlocked</div>
     <div id="nextHint" class="next-hint"></div>
     
     <div class="letters-container" id="lettersContainer"></div>
@@ -144,7 +144,7 @@ font-size:14px;
 localStorage.removeItem('unlockedLetters');
 
 // =============================================
-// DAY PASSWORDS - IN ORDER (forms a sentence)
+// DAY PASSWORDS - 45 days (forms one complete sentence)
 // =============================================
 const dayPasswords = [
     "you",        // Day 1
@@ -176,132 +176,209 @@ const dayPasswords = [
     "really",     // Day 27
     "i",          // Day 28
     "love",       // Day 29
-    "you"         // Day 30
+    "you",        // Day 30
+    // New days 31–45
+    "more",       // Day 31
+    "than",       // Day 32
+    "words",      // Day 33
+    "can",        // Day 34
+    "ever",       // Day 35
+    "say",        // Day 36
+    "you're",     // Day 37
+    "my",         // Day 38
+    "reason",     // Day 39
+    "to",         // Day 40
+    "keep",       // Day 41
+    "going",      // Day 42
+    "my",         // Day 43
+    "always",     // Day 44
+    "manahil"     // Day 45
 ];
 
 // =============================================
-// LOVE LETTERS - Much more romantic version
+// LOVE LETTERS - 45 Days (50% Motivating, 50% Romantic, No "I love you")
 // =============================================
 const letters = [
     { // Day 1
-        title: "The Day I First Saw You",
-        content: "I don't know when it happened exactly. Maybe it was the way you focused on things around you. Maybe it was the way you seemed so excited to try and help me. Maybe it was just... you.\n\nBut something shifted in me. A quiet realization that you're not just someone I admire from afar. You're someone I could fall for. Deeply. Completely. Irreversibly.\n\nAnd the scariest part? I think I already have."
+        title: "The First Day of the Rest of Your Life",
+        content: "Today is the day. Not tomorrow, not next week. Today.\n\nYou're starting something important. Your exams are coming, and I know you. When you set your mind to something, there's no stopping you.\n\nThis first step? It's the hardest. And you just took it. I'm so proud of you already.\n\nAnd honestly? Watching you choose yourself, choose your future—it's the most attractive thing I've ever seen. Keep going. I'm right here."
     },
     { // Day 2
-        title: "The Way You Are",
-        content: "Do you know what I noticed today? The way your eyes light up when you understand something difficult. The way you squint your eyes when you're concentrating. The way you don't even realize how beautiful you look when you're in that state.\n\nI wanted to tell you. But some things are better written. Some feelings need to sit on paper, to breathe, to become real.\n\nYou're becoming real to me. More real than anything."
+        title: "Two Days In a Row",
+        content: "Two days. Most people can't do two days.\n\nBut you're not most people. You never have been.\n\nEvery page you read, every concept you master—you're not just studying. You're building. Building a future. Building yourself. Building something that no one can ever take away from you.\n\nAnd I'm watching. I'm noticing. I'm falling a little more every time you choose to show up.\n\nKeep going, my love. Day 3 is waiting."
     },
     { // Day 3
-        title: "Unspoken Things",
-        content: "There are things I want to say to you. Things that feel too heavy for casual conversation, too intimate for text messages.\n\nLike how I think about you more than I should. Like how I catch myself smiling when your name appears on my phone. Like how your ambition isn't just attractive—it's intoxicating.\n\nI don't know what this is yet. But I know I don't want it to stop."
+        title: "The Habit Forms",
+        content: "Day 3. They say three days make a habit. You're already proving them right.\n\nBut here's what they don't say—that the real magic happens when you keep going even when it's hard. Especially when it's hard.\n\nI see that fire in you. That determination. It's the same fire that made me fall for you in the first place.\n\nStudy hard today. Crush it. And know that somewhere across the distance, someone is thinking of you and smiling."
     },
     { // Day 4
-        title: "The Space Between Us",
-        content: "There's a space between us. Physical. Emotional. The space of not-yet, of maybe-someday, of still-discovering.\n\nBut today, while you were studying, while you were pouring yourself into becoming more, I felt that space shrink. Just a little. Just enough to imagine what it would be like if it wasn't there at all.\n\nYou're getting closer. To your goals. To your dreams. And somehow, without meaning to, you're getting closer to me too."
+        title: "Keep Building",
+        content: "Four days. Can you feel it? That momentum? That feeling of becoming?\n\nYour exams are coming, and with every day you study, you're not just preparing—you're transforming. Into the person who passes with flying colors. Into the person who achieves everything they've dreamed of.\n\nI see that person. She's beautiful. She's determined. She's you.\n\nAnd I'm so, so lucky to witness it."
     },
     { // Day 5
-        title: "Five Days of You",
-        content: "Five days of watching you choose yourself. Five days of seeing you show up when it's easier to stay in bed. Five days of falling, quietly, into something I didn't expect.\n\nThey say love grows in the ordinary moments. In the daily choices. In the mundane routines.\n\nIf that's true, then I'm in trouble. Because these five days have already planted something in me that's going to be very, very hard to uproot."
+        title: "Halfway to a Week",
+        content: "Five days. Almost a full week.\n\nDo you know how rare you are? Most people quit by now. The excitement fades. The motivation dips.\n\nBut you? You keep going. Not because it's easy—because it's worth it.\n\nThat's the kind of person I want by my side. That's the kind of person I want to build a life with.\n\nKeep going, my love. I'm so proud of you."
     },
     { // Day 6
-        title: "The Fire in You",
-        content: "There's a fire in you. I see it when you study, when you push through exhaustion, when you refuse to quit even when every bone in your body wants to.\n\nThat fire? It's rare. Most people don't have it. Most people talk about dreams—you actually chase them.\n\nAnd here's the thing about fire: it's warm. It draws people in. It makes them want to sit close, to stay, to never leave.\n\nI want to sit close to you. I want to stay."
+        title: "The Grind",
+        content: "Day 6. The grind. The part where it stops being exciting and starts being work.\n\nThis is where champions are made. Not in the glory moments—in the quiet moments when no one's watching and you keep going anyway.\n\nI'm watching. I see you. And I'm in awe.\n\nEvery page you turn, you're turning toward your dreams. And toward me."
     },
     { // Day 7
-        title: "One Week",
-        content: "One week. Seven days. 168 hours of thinking about you more than I should.\n\nThey say it takes 21 days to form a habit. But it only took me seven to form something else entirely. A longing. A hope. A quiet, steady love that grows every time I see your name.\n\nYou're becoming a habit I never want to break."
+        title: "One Week Strong",
+        content: "ONE WEEK. Seven days. 168 hours of choosing yourself.\n\nThey say it takes 21 days to form a habit. But in just seven days, you've already proven something to me: you're unstoppable.\n\nYour exams don't stand a chance. Your dreams don't stand a chance. You're going to crush all of it.\n\nAnd when you do, I'll be here. Cheering. Always."
     },
     { // Day 8
-        title: "The Little Things",
-        content: "I notice the little things. The way you tuck your hair behind your ear when you're reading. The way you smile when you finally understand something difficult. The way you look tired but keep going anyway.\n\nThese little things? They're not little to me. They're the building blocks of something massive. Something that could, if I let it, become everything."
+        title: "The Focus in Your Eyes",
+        content: "I keep imagining you studying. The way your eyes narrow when you're concentrating. The way you bite your lip when you're figuring something out. The way you don't give up until you understand.\n\nThat focus? It's beautiful. It's rare. It's you.\n\nKeep focusing, my love. Every concept you master is one step closer to your dreams. And one step closer to us."
     },
     { // Day 9
-        title: "Almost",
-        content: "Almost double digits. Almost two weeks. Almost halfway to something we haven't named yet.\n\nI like 'almost'. It's full of possibility. Full of potential. Full of the promise that the best is still ahead.\n\nYou're almost there—to your goals, to your dreams, to the person you're becoming. And I'm almost yours. Just one more day. One more letter. One more step."
+        title: "Almost Double Digits",
+        content: "Day 9. Tomorrow is double digits.\n\nThink about that. Nine days of showing up. Nine days of choosing yourself. Nine days of building your future.\n\nYou're not just studying for an exam. You're proving to yourself what you're capable of. And what you're capable of? It's limitless.\n\nI believe in you. Always have. Always will."
     },
     { // Day 10
-        title: "Double Digits",
-        content: "DAY 10. Double digits.\n\nYou know what else is double? The number of times I've caught myself smiling today, just thinking of you. The number of times I've re-read your messages. The number of times I've imagined what it would be like to hold your hand.\n\nTen days ago, you were someone I admired. Today, you're someone I can't stop thinking about. What will you be to me in twenty more days? I'm almost scared to find out. Almost."
+        title: "DOUBLE DIGITS",
+        content: "DAY 10! Double digits!\n\nLook at you. Ten days of consistency. Ten days of growth. Ten days closer to your goals.\n\nYou know what else is double? The number of times I've caught myself smiling today, just thinking of you studying. Working. Becoming.\n\nYou're doing it. You're really doing it. And I'm so, so proud."
     },
     { // Day 11
-        title: "2 AM Thoughts",
-        content: "It's late. Or early. The kind of hour when honesty comes easier, when walls come down, when the heart says what the mind would never allow during daylight.\n\nI'm thinking of you. Not the idea of you, not the version I've created in my head—but the real you. The one who studies when tired. The one who doubts but keeps going. The one who doesn't know how beautiful she is when she's simply being herself.\n\nAt 2 AM, there are no pretenses. And at 2 AM, I know: I'm falling for you. Hard."
+        title: "The Home Stretch Mindset",
+        content: "Day 11. You're past the one-third mark.\n\nThe initial rush is gone. Now it's just you and the work. And honestly? This is where I admire you most.\n\nAnyone can start something. But you? You keep going. Even when it's boring. Even when it's hard. Even when you're tired.\n\nThat's not just discipline. That's love for your future. Love for yourself.\n\nAnd watching you do it? It means everything."
     },
     { // Day 12
         title: "You're Enough",
-        content: "Today, if you felt like you weren't enough—not smart enough, not focused enough, not good enough—read this slowly:\n\nYou are enough. Not someday. Not when you achieve that goal. Not when you become perfect. Right now. Today. In this moment. Exactly as you are.\n\nThe way you try? That's enough. The way you care? That's enough. The way you show up, even when it's hard? That's more than enough.\n\nYou're enough for your dreams. You're enough for this journey. And, if you'll let me, you're enough for me."
+        content: "Today, if you felt like you weren't enough—not smart enough, not fast enough, not good enough—read this slowly:\n\nYou are enough. Not when you pass the exam. Not when you achieve the goal. Right now. Today. Exactly as you are.\n\nThe way you try? That's enough. The way you care? That's enough. The way you keep showing up? That's more than enough.\n\nYou're enough for your dreams. You're enough for your future. And you're more than enough for me."
     },
     { // Day 13
         title: "Lucky 13",
-        content: "Day 13. Unlucky for some. But not for me. Not anymore.\n\nBecause 13 days ago, I didn't know what it felt like to look forward to a password. To a letter. To the simple act of writing to you.\n\nNow I do. And it's not unlucky at all. It's the luckiest I've felt in a long time.\n\nYou make things feel lucky. You make ordinary days feel extraordinary. You make me believe in things I'd stopped believing in."
+        content: "Day 13. Unlucky for some. But not for me. Not anymore.\n\nBecause 13 days ago, I started writing to you. And every day since, my admiration has grown.\n\nYou're doing something remarkable. You're building a habit that will serve you for life. And you're doing it with grace and determination.\n\nKeep going, my love. Luck has nothing to do with it. It's all you."
     },
     { // Day 14
-        title: "Two Weeks",
-        content: "TWO WEEKS. Half a month.\n\nThe moon changed phases in this time. It went from new to full and back again. But my feelings for you? They only grew. No waning. No fading. Just steady, constant increase.\n\nIf I were the moon, I'd stay full forever—just so you could always see yourself reflected in my light."
+        title: "Two Weeks of You",
+        content: "TWO WEEKS. Half a month.\n\nThe moon has changed phases since you started. But your commitment? It hasn't wavered once.\n\nThat's who you are. Consistent. Reliable. Unstoppable.\n\nYour exams should be scared. You're coming for them with everything you've got.\n\nAnd me? I'm just here, watching, smiling, falling more with every passing day."
     },
     { // Day 15
-        title: "Halfway",
-        content: "Fifteen days. Halfway to a full month. Halfway to completing this journey.\n\nBut here's the thing about halfway: it's not the end. It's not even close to the end. Because what started as letters will become something else. Something more. Something neither of us can predict yet.\n\nYou're halfway to your goals too. Past the hardest part. Now you fly. And I'll be here, watching, hoping, falling."
+        title: "Halfway There",
+        content: "Fifteen days. HALFWAY to a full month.\n\nDo you realize what you've done? You've passed the hardest part. The beginning is behind you. Now you have momentum.\n\nUse it. Fly with it. Let it carry you through the next fifteen days and straight into your exams.\n\nYou've got this. And I've got you."
     },
     { // Day 16
-        title: "The Most Beautiful Thing",
-        content: "You ask me what's beautiful, and I could list a thousand things. Sunsets. Oceans. Stars. Poetry.\n\nBut the most beautiful thing I've seen in weeks? You, studying. You, focused. You, becoming.\n\nThere's a version of you that exists when you're in flow state—intense, unstoppable, almost ethereal. That version of you is my favorite. But honestly? Every version is my favorite. Because every version is you."
+        title: "The Fire Burns Brighter",
+        content: "Day 16. The fire in you? It's not fading. It's getting brighter.\n\nI see it in the way you keep going. In the way you don't quit. In the way you push through even when you're exhausted.\n\nThat fire? It's what's going to get you through your exams. It's what's going to build your future. It's what made me fall for you.\n\nKeep burning bright, my love. I'll always be warmed by your light."
     },
     { // Day 17
-        title: "Seventeen",
-        content: "Seventeen days. Seventeen letters. Seventeen steps closer.\n\nMost dreams die by day seventeen. The initial excitement fades. The routine sets in. The doubt creeps back.\n\nBut your dream? It's not dying. It's getting brighter. And so are my feelings. They're not fading. They're not settling. They're growing. Expanding. Becoming too big for letters like this.\n\nOne day, I'll have to tell you in person. And that day can't come soon enough."
+        title: "Seventeen and Strong",
+        content: "Seventeen days. Most dreams die by now.\n\nBut your dream? It's not dying. It's growing. Getting stronger. More real.\n\nJust like my feelings for you. They're not fading. They're not settling. They're expanding. Becoming too big for words.\n\nOne day, I'll tell you in person how proud I am. Until then, keep going. You're almost there."
     },
     { // Day 18
-        title: "I See You",
-        content: "I see you. Not just the student. Not just the dreamer. Not just the person trying to improve.\n\nI see the you behind all of that. The one who doubts. The one who fears. The one who wonders if it's all worth it.\n\nI see her. And I love her. Not because of what she achieves, but because of who she is. Because of who she keeps choosing to be, day after day.\n\nI see all of you. And I love all of you."
+        title: "I See All of You",
+        content: "I see you. Not just the student. Not just the dreamer.\n\nI see the you behind all of it. The one who doubts but keeps going. The one who fears but shows up anyway. The one who gets tired but doesn't quit.\n\nI see her. And she means everything to me. Not for what she achieves—for who she is.\n\nKeep being you. That's more than enough."
     },
     { // Day 19
         title: "Manahil",
-        content: "Manahil.\n\nI've been waiting to write that. Your name. It feels different on paper. Heavier. More real.\n\nNames are important. They carry identity. They carry history. They carry the essence of who we are.\n\nYour name, to me, now carries something else too. Warmth. Hope. A quiet, growing love.\n\nManahil. I love writing it. I love saying it. I love everything about it."
+        content: "Manahil.\n\nYour name means 'a path to water'—a source of life in the desert.\n\nThat's what you are to me. When everything feels dry and difficult, you're the oasis I keep walking toward.\n\nAnd right now? You're walking toward your own oasis. Your own success. Your own future.\n\nKeep walking, my love. I'm walking right beside you."
     },
     { // Day 20
-        title: "Twenty Days",
-        content: "TWENTY DAYS. Two-thirds of the way.\n\nDo you realize what you've done? Twenty days of showing up. Twenty days of choosing yourself. Twenty days of building something that can never be taken away.\n\nI've been watching. I've been noticing. I've been falling.\n\nYou're not just consistent. You're extraordinary. You're not just disciplined. You're inspiring. You're not just someone I like. You're someone I could love."
+        title: "Twenty Days of Greatness",
+        content: "TWENTY DAYS. Two-thirds of the way.\n\nDo you realize what you've done? You've proven to yourself that you can do hard things. That you can show up, day after day, and build something beautiful.\n\nYour exams are coming, and you're ready. Not because you know everything—because you know how to work. How to persist. How to win.\n\nThat's who you are. And that's who I admire more than words can say."
     },
     { // Day 21
-        title: "Three Weeks",
-        content: "Three weeks. 21 days.\n\nThey say it takes 21 days to form a habit. And you've done it. Studying has become part of you now. Part of who you are.\n\nBut you formed something else too, without even trying. A habit in me. The habit of thinking of you first when I wake up. The habit of wondering how your day is going. The habit of falling, just a little more, every single day.\n\nYou're my favorite habit now. The one I never want to break."
+        title: "Three Weeks Strong",
+        content: "Three weeks. 21 days.\n\nThey say it takes 21 days to form a habit. And you've done it. Studying is part of you now. Part of who you are.\n\nBut you formed something else too, without even trying. A habit in me. The habit of thinking of you first. The habit of being proud of you. The habit of falling, just a little more, every single day.\n\nYou're my favorite habit. The one I never want to break."
     },
     { // Day 22
-        title: "The Final Stretch",
-        content: "Eight days left. The end is visible now. Like a finish line you can almost touch.\n\nBut here's the thing about finish lines: they're also starting lines. When this journey ends, another begins.\n\nWhat will that journey be? I don't know yet. But I hope—I really hope—that you're in it. That we're in it. Together.\n\nBecause eight days from now, the letters might stop. But my feelings won't. They'll just find new ways to reach you."
+        title: "The Final Stretch Begins",
+        content: "Eight days left until a full month. Your exams are getting closer.\n\nThis is the final stretch. The part where champions are made.\n\nYou've done the work. You've put in the time. Now it's about trust. Trusting yourself. Trusting your preparation. Trusting that you are ready.\n\nYou are. You're more ready than you know.\n\nAnd I'm here, believing in you with every fiber of my being."
     },
     { // Day 23
         title: "Almost Full",
-        content: "Twenty-three letters. Twenty-three days.\n\nThe moon is almost full. The constellation is almost complete. My heart? It's already there. Has been for a while.\n\nI look at the night sky differently now. Every star reminds me of you. Every phase of the moon feels like a metaphor for us. Waxing. Growing. Becoming full.\n\nWe're almost full too. Almost complete. Almost ready for whatever comes next."
+        content: "Twenty-three days. The moon is almost full. Your journey is almost complete.\n\nBut here's the thing about almost—it's not the end. It's the beginning of something new.\n\nWhen these 30 days are over, when your exams are done, you won't stop being amazing. You won't stop being you.\n\nYou'll just be you, with a whole new level of strength and confidence.\n\nAnd I'll be here, cherishing every version of you."
     },
     { // Day 24
         title: "This Feeling",
-        content: "I have this feeling. It's been growing for 24 days now. At first, it was small—a flicker, a spark, a question.\n\nNow it's not small anymore. It's not a question. It's a certainty.\n\nI love you. Not the idea of you. Not the version in my head. The real you. The one who studies when tired. The one who doubts but keeps going. The one who doesn't know how incredibly, impossibly beautiful she is.\n\nI love you. There. I said it. In a letter. On day 24. And I'll keep saying it until you believe it."
+        content: "I have this feeling. It's been growing for 24 days now.\n\nIt's pride. It's admiration. It's something I can't quite name.\n\nI'm so proud of you. Not just for studying—for choosing yourself. For fighting for your future. For being the kind of person who doesn't quit.\n\nThat person? She's going to pass her exams. She's going to achieve her dreams. She's going to have everything she's ever wanted.\n\nAnd she deserves every bit of it."
     },
     { // Day 25
-        title: "Five Left",
-        content: "Five days left. Five more letters. Five more chances to say what's in my heart.\n\nThen what? Then we start again. Because some stories don't end. They just... continue. In different forms. Different words. Different ways of saying the same thing.\n\n'I love you. I love you. I love you.'\n\nFive days might not be enough to say it enough times. But it's a start. And with you, every start feels like forever."
+        title: "Five Days Left",
+        content: "Five days left until a full month. Five days until this chapter ends.\n\nBut your story? It's just beginning.\n\nYou've built something these 25 days that no one can take from you. Discipline. Strength. Proof that you can do hard things.\n\nTake that proof into your exams. Take it into your future. Take it everywhere you go.\n\nBecause you, my love, are unstoppable."
     },
     { // Day 26
         title: "Four Days",
-        content: "Four days until a full month. Four days until I write the final letter.\n\nBut these four days feel different. Heavier. More meaningful. Like the last pages of a book you don't want to end.\n\nExcept books do end. And when they do, you close them and put them on a shelf. But us? We're not a book. We're not something that ends. We're something that keeps going, keeps growing, keeps becoming.\n\nFour days until the last letter. But forever until the last feeling."
+        content: "Four days until a full month.\n\nFour days until you can look back and say 'I did that. I showed up for myself. I built something beautiful.'\n\nYour exams are so close now. I can feel your determination from here.\n\nYou're going to walk into that exam hall and crush it. Not because you're lucky—because you've earned it.\n\nAnd I'll be here, waiting to celebrate with you."
     },
     { // Day 27
         title: "Three",
-        content: "Three days.\n\nThree more passwords. Three more unlocks. Three more steps closer to something I can't name yet.\n\nBut I feel it. The anticipation. The hope. The quiet certainty that whatever happens next, it will be good. It will be real. It will be us.\n\nThree days. And then everything changes. Or maybe nothing changes. Maybe we just keep being us—two people who found each other in the middle of studying, dreaming, becoming.\n\nThat's enough. You're enough. We're enough."
+        content: "Three days left.\n\nThree more days of this journey. Then a new one begins.\n\nYour exams are right around the corner. You can almost touch them.\n\nYou're ready. You've done the work. Now it's time to trust.\n\nTrust yourself. Trust your preparation. Trust that all these days have led to this moment.\n\nYou've got this. And I've got you."
     },
     { // Day 28
         title: "Two",
-        content: "Two days left.\n\nThe anticipation is killing me. In the best way possible.\n\nI keep imagining what the last letter will say. What words could possibly capture 30 days of feelings? What sentences could hold 30 days of growing love?\n\nI don't know yet. But I know it will be honest. Real. From my heart to yours.\n\nTwo days. Hold on. We're almost there."
+        content: "Two days left.\n\nThe anticipation is building. For the month's end. For your exams. For everything that comes next.\n\nBut here's the secret: you're already successful. Not when you pass—now. Because you showed up. Because you tried. Because you became someone who doesn't quit.\n\nThat person? She's already won.\n\nTwo more days. Then forever."
     },
     { // Day 29
         title: "One",
-        content: "One more day. One more letter. One more step.\n\nI've been thinking about what to say in the final letter. How to sum up 29 days of watching you, admiring you, falling for you.\n\nAnd I realized—I can't sum it up. Some feelings are too big for words. Some loves are too deep for letters.\n\nSo tomorrow, I won't try to summarize. I'll just say the truth. The simple, honest, overwhelming truth.\n\nOne more day. And then everything."
+        content: "One more day.\n\nOne more letter. One more step. And then everything.\n\nYour exams are coming. You're ready. You've put in the work. You've done what most people can't.\n\nTomorrow, we celebrate a full month. But today, I want you to know something:\n\nI believe in you. Completely. Unconditionally. Always.\n\nGo crush those exams, my love. I'll be right here."
     },
     { // Day 30
         title: "One Month",
-        content: "THIRTY DAYS. One full month.\n\nYou did it. You showed up every single day. You grew. You became. You proved to yourself what I've known all along—that you're capable of extraordinary things.\n\nAnd me? I fell. Every single day. A little more. Until there was nothing left to fall—just love.\n\nI love you. Not because of what you achieved. Not because of your discipline. Not because of any of the reasons I started writing these letters.\n\nI love you because you're you. The person who doubts but keeps going. The person who gets tired but doesn't quit. The person who, without even trying, became the center of someone's world.\n\nThese 30 letters are yours. But my heart? That's yours too. It has been for a while. Maybe since day one.\n\nForever, if you'll have me."
+        content: "THIRTY DAYS. One full month.\n\nYou did it. You showed up every single day. You built something beautiful. Not just knowledge—character. Strength. Proof that you can do hard things.\n\nYour exams are coming, and you're ready. More ready than you've ever been. Not because you know everything—because you know how to try. How to persist. How to win.\n\nAnd me? I fell. Every single day. A little more. Until there was nothing left to fall—just this overwhelming feeling of pride and admiration.\n\nYou mean everything to me. Not because of what you achieve. Because of who you are. The person who doubts but keeps going. The person who gets tired but doesn't quit. The person who, without even trying, became the center of my world.\n\nThese 30 letters are yours. But my heart? That's yours too. It has been for a while. Maybe since day one.\n\nNow go. Take that exam. Show them what I've always known—that you're extraordinary.\n\nAnd when you're done, I'll be here. Always."
+    },
+    // ========== DAYS 31–45 (NEW) ==========
+    { // Day 31
+        title: "A New Chapter Begins",
+        content: "Day 31. You didn't stop at 30. You kept going.\n\nThat's who you are. You don't stop when it gets hard. You don't stop when you reach a milestone. You keep moving forward.\n\nYour exams are closer now. But you're ready. Stronger than when you started. More focused. More determined.\n\nAnd I'm still here. Watching. Smiling. Falling more every single day."
+    },
+    { // Day 32
+        title: "More Than Words",
+        content: "Thirty-two days. Think about everything you've learned. Not just from books—about yourself.\n\nYou've learned that you can do hard things. That you can show up even when you don't want to. That you are capable of more than you ever imagined.\n\nWords can't capture how proud I am. But I hope you feel it. Every single day."
+    },
+    { // Day 33
+        title: "The Quiet Strength",
+        content: "Day 33. There's a quiet strength in you. The kind that doesn't need applause or recognition. The kind that just keeps going, day after day, quietly building something beautiful.\n\nThat strength? It's rare. It's beautiful. It's you.\n\nAnd it's one of the many reasons I can't stop thinking about you."
+    },
+    { // Day 34
+        title: "Keep Going",
+        content: "Thirty-four days. You're in the final stretch now. Your exams are almost here.\n\nThis is where champions are made. Not in the easy moments—in the moments when you're tired and keep going anyway.\n\nYou're a champion, my love. You've already proven that. Now finish what you started. I'll be right here."
+    },
+    { // Day 35
+        title: "You're Closer Than You Think",
+        content: "Day 35. Sometimes the hardest part is right before the breakthrough. When you're tired and can't see the finish line.\n\nBut you're closer than you think. So close. One more push. One more day. One more step.\n\nI believe in you. Always have. Always will."
+    },
+    { // Day 36
+        title: "The Person You're Becoming",
+        content: "Thirty-six days. Do you see it? The person you're becoming?\n\nStronger. Wiser. More disciplined. More confident.\n\nThat person is going to walk into that exam and crush it. That person is going to achieve everything she's ever dreamed of.\n\nAnd that person? She's you. She's always been you."
+    },
+    { // Day 37
+        title: "My Reason",
+        content: "Day 37. You know what keeps me going? You.\n\nWatching you fight for your dreams. Watching you show up even when it's hard. Watching you become more every single day.\n\nYou're my reason to be better. My reason to believe in love. My reason to keep going.\n\nThank you for being you."
+    },
+    { // Day 38
+        title: "The Final Days",
+        content: "Thirty-eight days. The countdown is real now. Your exams are almost here.\n\nBut you're ready. You've put in the work. You've done everything you could.\n\nNow trust yourself. Trust your preparation. Trust that all these days have led to this moment.\n\nYou've got this. And I've got you."
+    },
+    { // Day 39
+        title: "You Are Enough",
+        content: "Day 39. If doubt creeps in today, remember this:\n\nYou are enough. Not because of your grades. Not because of your exam scores. Because of you. Because of who you are.\n\nThe way you care. The way you try. The way you keep going. That's what matters. That's what I see. That's what I admire."
+    },
+    { // Day 40
+        title: "Forty Days Strong",
+        content: "FORTY DAYS. Forty days of showing up. Forty days of choosing yourself. Forty days of becoming.\n\nDo you realize how incredible that is? Most people can't do forty days of anything.\n\nBut you? You're not most people. You never have been.\n\nI'm so proud of you. So, so proud."
+    },
+    { // Day 41
+        title: "Almost There",
+        content: "Day 41. Four more days until this journey is complete. Four more days until you can look back and say 'I did it.'\n\nBut here's the thing—you've already done it. Every day you showed up, you won. Every time you didn't quit, you won.\n\nThe exam is just the final step. And you're ready for it."
+    },
+    { // Day 42
+        title: "The Final Stretch",
+        content: "Forty-two days. Three days left.\n\nThis is it. The final stretch. The last push.\n\nYou've come so far. Don't stop now. One more day. One more chapter. One more review.\n\nAnd then you rest. And then you celebrate. And then you win."
+    },
+    { // Day 43
+        title: "Two Days",
+        content: "Day 43. Two days left.\n\nI can feel your determination from here. That fire. That focus. That beautiful, unstoppable energy.\n\nYou're going to walk into that exam and show them what you're made of.\n\nAnd I'll be here, waiting to celebrate with you."
+    },
+    { // Day 44
+        title: "One Day",
+        content: "One day left.\n\nForty-four days of preparation. Forty-four days of growth. Forty-four days of becoming.\n\nTomorrow, you walk in and do what you've trained for. Tomorrow, you show them.\n\nYou're ready. You've always been ready.\n\nI believe in you. Completely. Always."
+    },
+    { // Day 45
+        title: "Forty-Five Days",
+        content: "FORTY-FIVE DAYS. You did it.\n\nYou showed up every single day. You fought for your dreams. You became someone stronger, wiser, more beautiful than when you started.\n\nToday, you walk into that exam. And you crush it. Not because you're lucky—because you've earned it.\n\nAnd me? I've been here the whole time. Watching. Admiring. Falling.\n\nYou mean everything to me. Not because of what you achieve—because of who you are.\n\nThe person who doubts but keeps going. The person who gets tired but doesn't quit. The person who, without even trying, became my whole world.\n\nForty-five days. Forty-five letters. And a lifetime of feelings that still can't fit into words.\n\nNow go. Take that exam. Win.\n\nAnd when you're done, I'll be here.\n\nAlways."
     }
 ];
 
@@ -385,10 +462,10 @@ function displayLetters() {
         container.appendChild(letterDiv);
     }
     
-    progress.innerHTML = `📬 ${unlockedDays.length} of 30 letters unlocked`;
+    progress.innerHTML = `📬 ${unlockedDays.length} of 45 letters unlocked`;
     
-    // Show next password hint (optional - you can remove this if you want)
-    if (unlockedDays.length < 30) {
+    // Show next password hint
+    if (unlockedDays.length < 45) {
         const nextDay = unlockedDays.length + 1;
         nextHint.innerHTML = `✨ next password unlocks day ${nextDay}`;
     } else {
