@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>✦ the way to us ✦</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* {
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body {
+background:radial-gradient(ellipse at bottom, #0d0d1a 0%, #000000 100%);
+font-family:'Georgia', 'Times New Roman', serif;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+color:#e6e6fa;
+overflow-x:hidden;
+}
+
+/* Stars background */
+.stars, .twinkling {
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:0;
+}
+
+.stars {
+background:#000 url('') repeat;
+}
+
+.twinkling {
+background:transparent;
+pointer-events:none;
+animation:twinkle 4s infinite;
+}
+
+@keyframes twinkle {
+0% { opacity:0.2; }
+50% { opacity:0.5; }
+100% { opacity:0.2; }
+}
+
+/* Main container */
+.story-container {
+position:relative;
+z-index:10;
+max-width:600px;
+width:100%;
+background:rgba(10,5,20,0.6);
+backdrop-filter:blur(15px);
+-webkit-backdrop-filter:blur(15px);
+border-radius:60px;
+padding:30px;
+border:2px solid rgba(255,215,0,0.2);
+box-shadow:0 20px 50px rgba(0,0,0,0.8), 0 0 0 2px rgba(255,215,0,0.1) inset;
+}
+
+/* Constellation header */
+.constellation-header {
+text-align:center;
+margin-bottom:30px;
+}
+
+h1 {
+font-size:36px;
+font-weight:300;
+letter-spacing:5px;
+color:#ffd700;
+text-shadow:0 0 20px #ffd700, 0 0 40px #ff69b4;
+margin-bottom:10px;
+}
+
+.subtitle {
+color:#ffb6c1;
+font-size:16px;
+font-style:italic;
+letter-spacing:2px;
+}
+
+/* Progress constellation */
+.progress-constellation {
+display:flex;
+justify-content:center;
+align-items:center;
+gap:8px;
+margin:30px 0;
+flex-wrap:wrap;
+}
+
+.star-progress {
+width:20px;
+height:20px;
+border-radius:50%;
+background:rgba(255,255,255,0.1);
+border:1px solid rgba(255,215,0,0.3);
+transition:0.5s;
+}
+
+.star-progress.lit {
+background:#ffd700;
+box-shadow:0 0 20px #ffd700;
+border-color:#ffd700;
+}
+
+/* Story card */
+.story-card {
+background:rgba(255,255,255,0.02);
+border-radius:40px;
+padding:30px;
+margin:20px 0;
+border:1px solid rgba(255,215,0,0.2);
+position:relative;
+overflow:hidden;
+}
+
+.story-card::before {
+content:'';
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:2px;
+background:linear-gradient(90deg, transparent, #ffd700, #ff69b4, #ffd700, transparent);
+}
+
+.chapter {
+color:#ffd700;
+font-size:14px;
+letter-spacing:3px;
+margin-bottom:20px;
+text-transform:uppercase;
+text-align:center;
+}
+
+.star-icon {
+font-size:60px;
+text-align:center;
+margin-bottom:20px;
+animation:twinkleStar 2s infinite;
+}
+
+@keyframes twinkleStar {
+0% { opacity:0.7; transform:scale(1); }
+50% { opacity:1; transform:scale(1.1); text-shadow:0 0 30px gold; }
+100% { opacity:0.7; transform:scale(1); }
+}
+
+.scene {
+font-size:18px;
+line-height:1.9;
+margin-bottom:30px;
+white-space:pre-line;
+color:#fff0f5;
+text-align:left;
+}
+
+/* Choices */
+.choices {
+display:flex;
+flex-direction:column;
+gap:12px;
+margin:30px 0;
+}
+
+.choice-btn {
+background:rgba(255,215,0,0.05);
+border:1px solid #ffd700;
+border-radius:50px;
+padding:18px 20px;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:all 0.3s;
+text-align:left;
+display:flex;
+align-items:center;
+gap:15px;
+backdrop-filter:blur(5px);
+}
+
+.choice-btn:hover {
+background:rgba(255,215,0,0.15);
+transform:translateX(8px);
+border-color:#ff69b4;
+box-shadow:0 0 20px rgba(255,105,180,0.3);
+}
+
+.choice-emoji {
+font-size:24px;
+width:40px;
+text-align:center;
+}
+
+/* Ending */
+.ending-badge {
+text-align:center;
+margin:30px 0;
+padding:30px;
+background:rgba(255,215,0,0.05);
+border-radius:30px;
+border:2px solid #ffd700;
+}
+
+.ending-badge h3 {
+color:#ffd700;
+font-size:28px;
+margin-bottom:20px;
+text-shadow:0 0 20px gold;
+}
+
+.ending-badge p {
+color:white;
+font-size:18px;
+line-height:1.8;
+margin-bottom:20px;
+}
+
+.ending-emoji {
+font-size:50px;
+margin:20px 0;
+}
+
+.restart-btn {
+background:transparent;
+border:1px solid #ffd700;
+color:#ffd700;
+padding:15px 30px;
+border-radius:50px;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+margin:20px auto 0;
+display:block;
+width:fit-content;
+}
+
+.restart-btn:hover {
+background:#ffd700;
+color:#0d0d1a;
+}
+
+/* Page indicator */
+.page-indicator {
+text-align:center;
+color:rgba(255,255,255,0.4);
+font-size:14px;
+margin-top:20px;
+letter-spacing:2px;
+}
+
+/* Flynn Rider Easter Egg (hidden until unlocked) */
+.flynn-ribbon {
+position:fixed;
+top:10px;
+left:10px;
+font-size:12px;
+color:rgba(255,215,0,0.2);
+cursor:pointer;
+z-index:100;
+transition:0.3s;
+}
+
+.flynn-ribbon:hover {
+color:#ffd700;
+}
+
+/* Mobile */
+@media (max-width:480px) {
+.story-container { padding:20px; }
+h1 { font-size:28px; }
+.scene { font-size:16px; }
+.choice-btn { padding:15px; font-size:14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div class="twinkling"></div>
+
+<!-- Flynn Rider Easter Egg (hidden) -->
+<div class="flynn-ribbon" id="flynnEasterEgg" onclick="unlockFlynn()">✦</div>
+
+<div class="story-container">
+    <div class="constellation-header">
+        <h1>✦ THE WAY TO US ✦</h1>
+        <div class="subtitle">a story written in stars</div>
+    </div>
+    
+    <!-- Progress constellation -->
+    <div class="progress-constellation" id="progressConstellation"></div>
+    
+    <div class="story-card">
+        <div class="star-icon" id="currentStarEmoji">✨</div>
+        <div class="chapter" id="chapterDisplay">Chapter 1: Two Souls Born</div>
+        <div class="scene" id="sceneDisplay"></div>
+        
+        <div class="choices" id="choicesContainer"></div>
+        
+        <div class="ending-badge" id="endingBadge" style="display:none;"></div>
+        
+        <button class="restart-btn" id="restartBtn" onclick="restartStory()" style="display:none;">⟲ begin again</button>
+    </div>
+    
+    <div class="page-indicator" id="pageIndicator">✦ 1 of 50 stars ✦</div>
+</div>
+
+<script>
+// =============================================
+// THE COMPLETE STORY - All 16 Chapters
+// Salman & Manahil - The Way to Us
+// =============================================
+
+const story = {
+    // CHAPTER 1: 2005 - TWO SOULS BORN
+    start: {
+        chapter: "Chapter 1: Two Souls Born",
+        star: "🌟",
+        scene: "April 25, 2005. A boy is born. They name him Salman.\n\nMay 10, 2005. Fifteen days later, a girl is born. They name her Manahil.\n\nTwo souls, born into the same world, the same city, breathing the same air. They don't know it yet, but their stories are already beginning to intertwine.\n\nThe universe has a way of preparing for things. Of aligning stars. Of making sure that when the time is right, two people will find each other.\n\nThis is that story.",
+        choices: [
+            { text: "Watch the stars align", next: "age3", emoji: "✨" },
+            { text: "Skip to when they meet", next: "age3", emoji: "⏩" },
+            { text: "Feel the distance between them", next: "age3", emoji: "💫" }
+        ]
+    },
+    
+    // CHAPTER 2: AGE 3 - FIRST FRIENDS
+    age3: {
+        chapter: "Chapter 2: First Friends",
+        star: "⭐",
+        scene: "Age 3. Too young to understand love, but old enough to feel something. Old enough to want to be near someone.\n\nThey meet. They play. They laugh. They become friends without even trying.\n\nNo photos exist of these moments. But the memories live somewhere. In the way she laughs. In the way he remembers feeling happy.\n\nTwo children, playing together, not knowing that this is just the first page of a very long story.",
+        choices: [
+            { text: "Remember the playground", next: "breaks", emoji: "🏃" },
+            { text: "Remember her laugh", next: "breaks", emoji: "😊" },
+            { text: "Remember feeling happy", next: "breaks", emoji: "💛" }
+        ]
+    },
+    
+    // CHAPTER 3: THE BREAKS & RETURNS
+    breaks: {
+        chapter: "Chapter 3: Always Finding Our Way Back",
+        star: "🪐",
+        scene: "Life happens. They drift apart. Then find each other again. Drift apart. Find each other again.\n\nIt becomes a pattern. A rhythm. A quiet promise that no matter how much time passes, they'll always return.\n\nEach reunion feels like coming home. Like no time has passed. Like they were always meant to be in each other's lives.\n\nThe universe keeps pulling them back together. Again and again.",
+        choices: [
+            { text: "Why do we always return?", next: "crush2018", emoji: "💭" },
+            { text: "What keeps pulling us back?", next: "crush2018", emoji: "🪢" },
+            { text: "Skip to 2018", next: "crush2018", emoji: "⏩" }
+        ]
+    },
+    
+    // CHAPTER 4: 2018-2019 - THE FIRST CRUSH
+    crush2018: {
+        chapter: "Chapter 4: The First Crush",
+        star: "💫",
+        scene: "2018. She's 13. He's 13. Something shifts.\n\nHe notices her differently now. Not just as a friend. Something more. Something he can't name yet.\n\nA crush. Small at first. Then growing.\n\nHe doesn't tell anyone. Keeps it hidden. But it's there. A quiet feeling that will one day become everything.",
+        choices: [
+            { text: "What did it feel like?", next: "crushFeelings", emoji: "💗" },
+            { text: "Did you know then?", next: "crushFeelings", emoji: "🤔" },
+            { text: "Skip to 2024", next: "numbers2024", emoji: "⏩" }
+        ]
+    },
+    
+    crushFeelings: {
+        chapter: "Chapter 4: The Feeling",
+        star: "💕",
+        scene: "It felt like excitement when she walked into the room. Like wanting to be near her. Like noticing the little things - her smile, her laugh, the way she said his name.\n\nHe didn't call it love. He was too young to understand. But looking back now? It was always her.\n\nSome loves start small. Then grow. Then consume everything.",
+        choices: [
+            { text: "That's beautiful", next: "numbers2024", emoji: "😢" },
+            { text: "I feel the same", next: "numbers2024", emoji: "💗" },
+            { text: "What happened next?", next: "numbers2024", emoji: "➡️" }
+        ]
+    },
+    
+    // CHAPTER 5: 2024 - NUMBERS EXCHANGED
+    numbers2024: {
+        chapter: "Chapter 5: Finally Connected",
+        star: "📞",
+        scene: "2024. The year everything changes.\n\nThey finally exchange phone numbers. Finally have a way to talk. Really talk.\n\nMessages turn into conversations. Conversations turn into hours. Hours turn into something neither of them expected.\n\nFor the first time, they're not just friends who find each other by accident. They're choosing to be in each other's lives. Every day.",
+        choices: [
+            { text: "What did those first texts feel like?", next: "firstTexts", emoji: "📱" },
+            { text: "When did it feel different?", next: "firstTexts", emoji: "💫" },
+            { text: "Skip to July 2024", next: "feelings2024", emoji: "⏩" }
+        ]
+    },
+    
+    firstTexts: {
+        chapter: "Chapter 5: The First Words",
+        star: "💬",
+        scene: "Every notification made his heart skip. Every reply felt like a gift. They talked about everything - dreams, fears, the future, the past.\n\nIt was like they'd been waiting their whole lives to have these conversations. Like all those years of finding each other, losing each other, finding each other again - it was all leading here.\n\nTo this. To them. To now.",
+        choices: [
+            { text: "This is us", next: "feelings2024", emoji: "💕" },
+            { text: "I remember this", next: "feelings2024", emoji: "🥹" },
+            { text: "Keep going", next: "feelings2024", emoji: "➡️" }
+        ]
+    },
+    
+    // CHAPTER 6: JULY/AUGUST 2024 - FEELINGS DEVELOP
+    feelings2024: {
+        chapter: "Chapter 6: Falling",
+        star: "💘",
+        scene: "July 2024. He realizes it's not just a crush anymore. It's not just friendship. It's something deeper. Something that scares him.\n\nHe loves her.\n\nNot the way you love a friend. The way you love someone you can't imagine living without.\n\nHe tells her uncle, hoping for guidance. The answer is difficult. 'It will be hard because of family history.'\n\nBut love doesn't care about hard. Love keeps going.",
+        choices: [
+            { text: "What did you feel after hearing that?", next: "afterUncle", emoji: "😔" },
+            { text: "Did you give up?", next: "afterUncle", emoji: "🤨" },
+            { text: "Skip to September", next: "distance2024", emoji: "⏩" }
+        ]
+    },
+    
+    afterUncle: {
+        chapter: "Chapter 6: Despite Everything",
+        star: "❤️‍🔥",
+        scene: "Heartbroken? Yes. Discouraged? Yes. But did he stop loving her? Never.\n\nSome loves are worth fighting for. Some loves are worth the pain. Some loves make every difficulty feel small.\n\nShe was that love. She is that love. She will always be that love.",
+        choices: [
+            { text: "I never stopped", next: "distance2024", emoji: "🤍" },
+            { text: "She's worth everything", next: "distance2024", emoji: "💎" },
+            { text: "Keep going", next: "distance2024", emoji: "➡️" }
+        ]
+    },
+    
+    // CHAPTER 7: SEPTEMBER 2024 - THE DISTANCE
+    distance2024: {
+        chapter: "Chapter 7: Oceans Apart",
+        star: "🌊",
+        scene: "September 2024. He moves to USA and Canada. She stays in Pakistan.\n\n10,000+ kilometers between them. Different time zones. Different worlds.\n\nBut love doesn't care about distance. They talk through Instagram. Every message a lifeline. Every notification a reminder that she's still there.\n\nDistance means nothing when someone lives in your heart.",
+        choices: [
+            { text: "What kept you going?", next: "distanceKeep", emoji: "📱" },
+            { text: "Did it get easier?", next: "distanceKeep", emoji: "💭" },
+            { text: "Skip to June 2025", next: "mistake2025", emoji: "⏩" }
+        ]
+    },
+    
+    distanceKeep: {
+        chapter: "Chapter 7: Connected",
+        star: "📡",
+        scene: "Every message felt like a hug. Every conversation made the distance smaller. Knowing she was waiting on the other side of the world, thinking of him, talking to him - it made everything bearable.\n\nLove doesn't need physical presence. Love needs connection. And they had that. Always.",
+        choices: [
+            { text: "She was my everything", next: "mistake2025", emoji: "💗" },
+            { text: "The distance made us stronger", next: "mistake2025", emoji: "💪" },
+            { text: "Continue", next: "mistake2025", emoji: "➡️" }
+        ]
+    },
+    
+    // CHAPTER 8: JUNE 8, 2025 - THE MISTAKE
+    mistake2025: {
+        chapter: "Chapter 8: The Mistake",
+        star: "💔",
+        scene: "June 8, 2025. A single moment that changed everything.\n\nHe comments on her post. A romantic message. Meant for her eyes only. But her family sees it.\n\nHer cousins scold her. Tell her to block him. To never contact him again.\n\nAnd she does. She blocks him. And he loses her.",
+        choices: [
+            { text: "What did you feel?", next: "mistakeFeel", emoji: "😭" },
+            { text: "What happened next?", next: "darknessJuly", emoji: "🌑" }
+        ]
+    },
+    
+    mistakeFeel: {
+        chapter: "Chapter 8: The Fallout",
+        star: "🌑",
+        scene: "He wanted to disappear. To cease to exist. The person he loved most in the world was gone. Because of him. Because of one mistake.\n\nHe hated himself. Blamed himself. Wished he could undo it all.\n\nBut you can't undo the past. You can only survive it. Or not.",
+        choices: [
+            { text: "I couldn't survive", next: "darknessJuly", emoji: "😔" },
+            { text: "I had to survive", next: "darknessJuly", emoji: "🤍" }
+        ]
+    },
+    
+    // CHAPTER 9: JULY 2025 - THE DARKNESS
+    darknessJuly: {
+        chapter: "Chapter 9: The Darkest Month",
+        star: "🖤",
+        scene: "July 2025. Depression. Suicidal thoughts. Not eating. Not drinking. Not living.\n\nHe couldn't function. Couldn't breathe. Couldn't imagine a world without her.\n\nDays blurred into nights. Nights into days. Time lost meaning. Only the pain remained.\n\nThis is what love can do when it's taken away. Destroy you. Break you. Leave you empty.",
+        choices: [
+            { text: "What kept you alive?", next: "keptAlive", emoji: "🕯️" },
+            { text: "How did you survive?", next: "keptAlive", emoji: "🤍" }
+        ]
+    },
+    
+    keptAlive: {
+        chapter: "Chapter 9: The Light",
+        star: "🕯️",
+        scene: "One thing kept him going. One thought. One hope.\n\nMaybe she would forgive him. Maybe he could fix this. Maybe there was still a chance.\n\nIt was a tiny light in complete darkness. But it was enough. Barely. But enough.\n\nHe held onto it. Clung to it. Let it guide him.",
+        choices: [
+            { text: "I had to try", next: "decisionJuly", emoji: "✈️" },
+            { text: "She was worth living for", next: "decisionJuly", emoji: "💗" }
+        ]
+    },
+    
+    // CHAPTER 10: JULY 2025 - THE DECISION
+    decisionJuly: {
+        chapter: "Chapter 10: The Decision",
+        star: "✈️",
+        scene: "He made a choice. A risky, terrifying, beautiful choice.\n\nHe would go to Pakistan. He would face her family. He would ask for forgiveness.\n\nHe booked a flight. Packed his bags. Said a prayer.\n\nLove makes you do crazy things. Like fly across the world to beg for a second chance.",
+        choices: [
+            { text: "What were you feeling?", next: "decisionFeel", emoji: "😰" },
+            { text: "Was it worth it?", next: "forgiveness2025", emoji: "🤍" }
+        ]
+    },
+    
+    decisionFeel: {
+        chapter: "Chapter 10: The Fear",
+        star: "😰",
+        scene: "Terrified. Hopeful. Desperate. Brave.\n\nAll of it at once. He didn't know if they'd listen. Didn't know if she'd want to see him. Didn't know if this would make things worse or better.\n\nBut he had to try. Had to do something. Couldn't just let her go.\n\nSometimes love means being brave even when you're terrified.",
+        choices: [
+            { text: "I had to try", next: "forgiveness2025", emoji: "🤍" },
+            { text: "She was worth the risk", next: "forgiveness2025", emoji: "💗" }
+        ]
+    },
+    
+    // CHAPTER 11: AUGUST 2025 - ASKING FOR FORGIVENESS
+    forgiveness2025: {
+        chapter: "Chapter 11: Forgiveness",
+        star: "🤍",
+        scene: "August 2025. He stands before her family. His heart pounding. His voice shaking.\n\nHe says he's sorry. He says he loves her. He says he'll do anything.\n\nThey listen. They consider. They... forgive.\n\nNot completely. Not immediately. But the door opens. Just a crack.",
+        choices: [
+            { text: "What happened next?", next: "sheAdded", emoji: "👀" },
+            { text: "Did she forgive you?", next: "sheAdded", emoji: "💭" }
+        ]
+    },
+    
+    // CHAPTER 12: AUGUST 2025 - SHE ADDS HIM BACK
+    sheAdded: {
+        chapter: "Chapter 12: She Came Back",
+        star: "✨",
+        scene: "August 2025. A notification. A name he thought he'd never see again.\n\nManahil added you on Snapchat.\n\nHe couldn't breathe. Couldn't believe it. She came back. She chose to come back.\n\nHope, which had been a tiny flame, became a bonfire.",
+        choices: [
+            { text: "What did you feel?", next: "addedFeel", emoji: "😭" },
+            { text: "What did you say?", next: "addedSay", emoji: "💬" }
+        ]
+    },
+    
+    addedFeel: {
+        chapter: "Chapter 12: The Joy",
+        star: "❤️‍🔥",
+        scene: "Relief. Joy. Tears. Gratitude. Love.\n\nEvery emotion at once. He wanted to scream, to cry, to laugh, to thank God.\n\nShe came back. After everything, she came back.\n\nSome miracles look like notifications on your phone.",
+        choices: [
+            { text: "I'll never forget that moment", next: "snapchatMonths", emoji: "📱" }
+        ]
+    },
+    
+    addedSay: {
+        chapter: "Chapter 12: The First Words",
+        star: "💬",
+        scene: "'I'm sorry.' 'Thank you.' 'I missed you.' 'I love you.'\n\nHe probably said all of it. None of it. He doesn't remember. Only remembers feeling whole again.\n\nShe was back. That's all that mattered.",
+        choices: [
+            { text: "She was back", next: "snapchatMonths", emoji: "💕" }
+        ]
+    },
+    
+    // CHAPTER 13: AUGUST 2025 - FEBRUARY 2026
+    snapchatMonths: {
+        chapter: "Chapter 13: Rebuilding",
+        star: "🏗️",
+        scene: "August 2025 to February 2026. Six months of talking. Six months of healing. Six months of falling deeper.\n\nThey talk on Snapchat every day. Every moment they can. Making up for lost time. Building something new.\n\nThe trust returns. The love grows. The connection deepens.\n\nDay by day. Message by message. Heartbeat by heartbeat.",
+        choices: [
+            { text: "What was your favorite part?", next: "favoritePart", emoji: "💭" },
+            { text: "Skip to January 2026", next: "jan2026", emoji: "⏩" }
+        ]
+    },
+    
+    favoritePart: {
+        chapter: "Chapter 13: Every Moment",
+        star: "📸",
+        scene: "Every message. Every good morning. Every good night. Every laugh. Every inside joke. Every 'I miss you.' Every 'I'm here.'\n\nThousands of moments. Hundreds of conversations. Dozens of late nights.\n\nEach one a thread in the tapestry of us.",
+        choices: [
+            { text: "I remember them all", next: "jan2026", emoji: "💗" }
+        ]
+    },
+    
+    // CHAPTER 14: JANUARY 2026 - SHE'S CONFUSED
+    jan2026: {
+        chapter: "Chapter 14: The Confusion",
+        star: "🤔",
+        scene: "January 2026. Something changes. She's different. Quieter. More thoughtful.\n\nShe doesn't understand what she's feeling. It's new. Confusing. Scary.\n\nShe has feelings for him. Real feelings. Romantic feelings. But she doesn't know what to call them yet.\n\nHe waits. Patiently. Hoping.",
+        choices: [
+            { text: "How did you wait?", next: "waitHow", emoji: "⏳" },
+            { text: "What were you feeling?", next: "waitFeel", emoji: "💗" }
+        ]
+    },
+    
+    waitHow: {
+        chapter: "Chapter 14: The Waiting",
+        star: "⏳",
+        scene: "He waited with all the patience love could give. He didn't push. Didn't pressure. Just stayed. Just loved her. Just hoped.\n\nEvery day, he wondered. Every night, he prayed. Every moment, he loved.\n\nWaiting is hard when you're not sure what you're waiting for. But he'd wait forever for her.",
+        choices: [
+            { text: "I'd wait forever", next: "feb2026", emoji: "🤍" }
+        ]
+    },
+    
+    waitFeel: {
+        chapter: "Chapter 14: The Hope",
+        star: "🕯️",
+        scene: "Hopeful. Terrified. Excited. Nervous.\n\nAll of it. Because maybe - just maybe - she felt it too. Maybe all these years, all this love, all this waiting was leading somewhere.\n\nMaybe she was about to realize what he'd known all along.",
+        choices: [
+            { text: "She was about to know", next: "feb2026", emoji: "💫" }
+        ]
+    },
+    
+    // CHAPTER 15: FEBRUARY 2026 - SHE KNOWS
+    feb2026: {
+        chapter: "Chapter 15: She Knows",
+        star: "💖",
+        scene: "February 2026. The moment everything changes.\n\nShe tells him. Or maybe she doesn't need to. Maybe he just knows. Maybe the way she looks at him, talks to him, loves him - it's different now.\n\nShe loves him. After all this time. After everything. She loves him too.\n\nYears of waiting. Years of loving. Years of hoping. Finally, finally, finally.",
+        choices: [
+            { text: "What did you feel?", next: "sheKnowsFeel", emoji: "😭" },
+            { text: "What happened next?", next: "flynnSecret", emoji: "🦸" }
+        ]
+    },
+    
+    sheKnowsFeel: {
+        chapter: "Chapter 15: Everything",
+        star: "🌈",
+        scene: "He can't describe it. Can't put it into words. Joy doesn't cover it. Relief doesn't cover it. Love doesn't cover it.\n\nIt's everything. All at once. Every prayer answered. Every tear worth it. Every moment of waiting justified.\n\nShe loves him. She loves him. SHE LOVES HIM.",
+        choices: [
+            { text: "I waited so long", next: "flynnSecret", emoji: "⏳" },
+            { text: "She's mine", next: "flynnSecret", emoji: "💕" }
+        ]
+    },
+    
+    // SECRET CHAPTER: THE FLYNN RIDER MOMENT
+    flynnSecret: {
+        chapter: "✦ SECRET CHAPTER ✦",
+        star: "🦸",
+        scene: "January 27, 2026. A day she'll never forget. A day he'll never forget.\n\n'You're my Flynn Rider.'\n\nShe said it. Just like that. A joke? Maybe. A confession? Probably. A moment that meant everything? Definitely.\n\nIn that moment, she wasn't just his friend. She was his Rapunzel. His person. His everything.\n\nA single sentence that changed everything.",
+        choices: [
+            { text: "That was the moment", next: "ending1", emoji: "💕" },
+            { text: "I knew then", next: "ending1", emoji: "🥹" },
+            { text: "She was always mine", next: "ending1", emoji: "💗" }
+        ]
+    },
+    
+    // ENDING 1: THE BEGINNING
+    ending1: {
+        chapter: "✦ ENDING: THE BEGINNING ✦",
+        star: "🌅",
+        scene: "This isn't the end. It's the beginning.\n\nAfter years of finding each other, losing each other, loving each other from afar - they're finally here. Together. In love. Ready for what comes next.\n\nThere will be more chapters. More moments. More thousands of memories.\n\nBecause some stories don't end. They just keep going. Forever.\n\nSalman and Manahil. This is your story. And it's only just beginning.",
+        isEnding: true,
+        endingType: "beginning"
+    }
+};
+
+// =============================================
+// GAME STATE
+// =============================================
+let currentNode = 'start';
+let visitedNodes = [];
+let flynnUnlocked = false;
+
+// =============================================
+// DISPLAY FUNCTIONS
+// =============================================
+function displayNode(nodeId) {
+    const node = story[nodeId];
+    if (!node) return;
+    
+    currentNode = nodeId;
+    visitedNodes.push(nodeId);
+    
+    // Update display
+    document.getElementById('chapterDisplay').innerText = node.chapter;
+    document.getElementById('sceneDisplay').innerText = node.scene;
+    document.getElementById('currentStarEmoji').innerText = node.star || '✨';
+    
+    // Update progress constellation
+    updateProgress();
+    
+    // Clear choices
+    const choicesContainer = document.getElementById('choicesContainer');
+    choicesContainer.innerHTML = '';
+    
+    // Hide ending badge and restart button initially
+    document.getElementById('endingBadge').style.display = 'none';
+    document.getElementById('restartBtn').style.display = 'none';
+    
+    if (node.isEnding) {
+        // Show ending
+        const endingBadge = document.getElementById('endingBadge');
+        endingBadge.style.display = 'block';
+        
+        endingBadge.innerHTML = `
+            <div class="ending-emoji">🌟💕🌟</div>
+            <h3>${node.chapter}</h3>
+            <p>${node.scene}</p>
+            <div style="color:#ffd700; margin-top:20px;">✧˖°✧˖°✧˖°✧˖°✧˖°✧˖°✧</div>
+        `;
+        
+        // Hide scene and show restart
+        document.getElementById('sceneDisplay').style.display = 'none';
+        document.getElementById('choicesContainer').style.display = 'none';
+        document.getElementById('restartBtn').style.display = 'block';
+        document.getElementById('pageIndicator').innerText = '✦ the end... or is it? ✦';
+    } else {
+        // Show choices
+        document.getElementById('sceneDisplay').style.display = 'block';
+        document.getElementById('choicesContainer').style.display = 'flex';
+        
+        node.choices.forEach(choice => {
+            const btn = document.createElement('div');
+            btn.className = 'choice-btn';
+            btn.onclick = () => displayNode(choice.next);
+            btn.innerHTML = `
+                <span class="choice-emoji">${choice.emoji || '✨'}</span>
+                <span>${choice.text}</span>
+            `;
+            choicesContainer.appendChild(btn);
+        });
+        
+        document.getElementById('pageIndicator').innerText = `✦ ${visitedNodes.length} of 25 stars ✦`;
+    }
+}
+
+// Update progress constellation
+function updateProgress() {
+    const container = document.getElementById('progressConstellation');
+    container.innerHTML = '';
+    
+    const totalStars = 25;
+    const litStars = visitedNodes.length;
+    
+    for (let i = 0; i < totalStars; i++) {
+        const star = document.createElement('div');
+        star.className = `star-progress ${i < litStars ? 'lit' : ''}`;
+        container.appendChild(star);
+    }
+}
+
+// =============================================
+// FLYNN RIDER EASTER EGG
+// =============================================
+function unlockFlynn() {
+    if (!flynnUnlocked) {
+        flynnUnlocked = true;
+        displayNode('flynnSecret');
+        
+        // Show a little message
+        const ribbon = document.getElementById('flynnEasterEgg');
+        ribbon.style.color = '#ffd700';
+        ribbon.style.fontSize = '16px';
+        ribbon.innerText = '✦ Flynn Rider found ✦';
+    }
+}
+
+// =============================================
+// RESTART FUNCTION
+// =============================================
+function restartStory() {
+    visitedNodes = [];
+    flynnUnlocked = false;
+    displayNode('start');
+    document.getElementById('sceneDisplay').style.display = 'block';
+    document.getElementById('choicesContainer').style.display = 'flex';
+    document.getElementById('pageIndicator').innerText = '✦ 1 of 25 stars ✦';
+    
+    // Reset Flynn ribbon
+    const ribbon = document.getElementById('flynnEasterEgg');
+    ribbon.style.color = 'rgba(255,215,0,0.2)';
+    ribbon.style.fontSize = '12px';
+    ribbon.innerText = '✦';
+}
+
+// =============================================
+// INITIALIZE
+// =============================================
+displayNode('start');
+
+// Create twinkling stars dynamically
+function createTwinkling() {
+    const twinkling = document.querySelector('.twinkling');
+    for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.style.position = 'absolute';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.width = '2px';
+        star.style.height = '2px';
+        star.style.background = 'white';
+        star.style.borderRadius = '50%';
+        star.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite`;
+        twinkling.appendChild(star);
+    }
+}
+createTwinkling();
+</script>
+</body>
+</html>
