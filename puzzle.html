@@ -132,19 +132,24 @@ z-index:1000;
 display:none;
 justify-content:center;
 align-items:center;
-padding:20px;
+padding:10px; /* Reduced padding */
+overflow:hidden; /* Keeps scroll inside letter only */
 }
 
 .letter {
 max-width:500px;
 width:100%;
+max-height:80vh; /* Limits height to 80% of viewport */
 background:#fff0f5;
 border-radius:40px;
-padding:40px;
+padding:30px;
 color:#4a2c2c;
 border:3px solid #ffb6c1;
 box-shadow:0 0 100px #ff69b4;
 animation:fadeIn 0.5s;
+overflow-y:auto; /* Enables scrolling inside the letter */
+-webkit-overflow-scrolling:touch; /* Smooth scrolling on iOS */
+margin:20px;
 }
 
 @keyframes fadeIn {
@@ -163,6 +168,7 @@ line-height:1.8;
 margin-bottom:20px;
 white-space:pre-line;
 color:#4a2c2c;
+overflow-y:visible;
 }
 
 .letter button {
@@ -424,4 +430,5 @@ display();
 </body>
 
 </html>
+
 
