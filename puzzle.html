@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>🧩 the story of us</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* {
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body {
+background:linear-gradient(135deg, #0b0b2b, #1a1a3a, #2d1b3a);
+font-family:'Georgia', serif;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+color:#fce4ec;
+}
+
+.container {
+max-width:600px;
+width:100%;
+background:rgba(255,220,240,0.1);
+backdrop-filter:blur(15px);
+-webkit-backdrop-filter:blur(15px);
+border-radius:50px;
+padding:30px;
+text-align:center;
+border:2px solid #ffb6c1;
+box-shadow:0 10px 30px rgba(255,105,180,0.2);
+}
+
+h1 {
+font-size:36px;
+color:#ffb6c1;
+letter-spacing:2px;
+margin-bottom:10px;
+text-shadow:0 0 15px #ff69b4;
+}
+
+.subtitle {
+color:#f8bbd0;
+font-size:16px;
+font-style:italic;
+margin-bottom:30px;
+}
+
+.grid {
+display:grid;
+grid-template-columns:repeat(3, 1fr);
+gap:12px;
+margin:30px 0;
+}
+
+.piece {
+aspect-ratio:1/1;
+background:rgba(255,182,193,0.1);
+border:2px solid #ffb6c1;
+border-radius:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+transition:0.3s;
+font-size:14px;
+padding:10px;
+text-align:center;
+color:#fce4ec;
+box-shadow:0 5px 15px rgba(255,105,180,0.1);
+}
+
+.piece:hover {
+background:rgba(255,182,193,0.2);
+transform:scale(1.02);
+border-color:#ff69b4;
+box-shadow:0 0 20px #ff69b4;
+}
+
+.piece.unlocked {
+background:rgba(255,182,193,0.15);
+cursor:default;
+color:#fce4ec;
+font-size:14px;
+line-height:1.5;
+border-color:#ff69b4;
+}
+
+.piece.unlocked:hover {
+transform:scale(1);
+box-shadow:0 5px 15px rgba(255,105,180,0.2);
+}
+
+.progress {
+margin:20px 0;
+color:#ffb6c1;
+font-size:18px;
+text-shadow:0 0 10px #ff69b4;
+}
+
+.progress-bar {
+width:100%;
+height:8px;
+background:rgba(255,255,255,0.1);
+border-radius:10px;
+overflow:hidden;
+margin:10px 0;
+}
+
+.fill {
+height:100%;
+background:linear-gradient(90deg, #ffb6c1, #ff69b4, #ffb6c1);
+width:0%;
+transition:width 0.3s;
+box-shadow:0 0 15px #ff69b4;
+}
+
+/* Letter overlay */
+.letter-overlay {
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(10,5,20,0.95);
+backdrop-filter:blur(10px);
+-webkit-backdrop-filter:blur(10px);
+z-index:1000;
+display:none;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.letter {
+max-width:500px;
+width:100%;
+background:#fff0f5;
+border-radius:40px;
+padding:40px;
+color:#4a2c2c;
+border:3px solid #ffb6c1;
+box-shadow:0 0 100px #ff69b4;
+animation:fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+0% { opacity:0; transform:scale(0.9); }
+100% { opacity:1; transform:scale(1); }
+}
+
+.letter h2 {
+color:#ff69b4;
+margin-bottom:20px;
+font-size:28px;
+}
+
+.letter p {
+line-height:1.8;
+margin-bottom:20px;
+white-space:pre-line;
+color:#4a2c2c;
+}
+
+.letter button {
+background:#ffb6c1;
+border:none;
+padding:10px 25px;
+border-radius:50px;
+color:#2c1810;
+font-weight:bold;
+cursor:pointer;
+margin-top:20px;
+transition:0.3s;
+border:1px solid #ff69b4;
+}
+
+.letter button:hover {
+background:#ff69b4;
+color:white;
+box-shadow:0 0 20px #ff69b4;
+}
+
+/* Button container */
+.button-container {
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-top:20px;
+}
+
+.reset, .surprise-btn {
+background:transparent;
+border:1px solid #ffb6c1;
+color:#ffb6c1;
+padding:10px 20px;
+border-radius:50px;
+font-size:14px;
+cursor:pointer;
+transition:0.3s;
+width:fit-content;
+margin-left:auto;
+margin-right:auto;
+}
+
+.reset:hover, .surprise-btn:hover {
+background:#ffb6c1;
+color:#0b0b2b;
+border-color:#ff69b4;
+box-shadow:0 0 15px #ff69b4;
+}
+
+.surprise-btn {
+display:none;
+background:rgba(255,182,193,0.2);
+border:2px solid #ff69b4;
+color:#ffb6c1;
+font-weight:bold;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse {
+0% { transform:scale(1); }
+50% { transform:scale(1.05); box-shadow:0 0 20px #ff69b4; }
+100% { transform:scale(1); }
+}
+
+/* Floating message */
+.floating-message {
+position:fixed;
+top:30%;
+left:50%;
+transform:translate(-50%, -50%);
+background:#ffb6c1;
+color:#0b0b2b;
+padding:15px 30px;
+border-radius:50px;
+font-size:24px;
+font-weight:bold;
+z-index:2000;
+box-shadow:0 0 50px #ff69b4;
+animation:floatUp 2s forwards;
+pointer-events:none;
+}
+
+@keyframes floatUp {
+0% { opacity:0; transform:translate(-50%, 0); }
+20% { opacity:1; transform:translate(-50%, -10px); }
+80% { opacity:1; transform:translate(-50%, -30px); }
+100% { opacity:0; transform:translate(-50%, -50px); }
+}
+
+.photo-piece {
+width:100%;
+height:100%;
+}
+
+.photo-piece img {
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:15px;
+border:2px solid #ff69b4;
+}
+
+/* Emoji styling */
+.piece:not(.unlocked) {
+font-size:30px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🧩 THE STORY OF US</h1>
+    <div class="subtitle">every piece leads to you</div>
+    
+    <div class="progress">
+        <span id="count">0</span>/12 pieces
+    </div>
+    <div class="progress-bar">
+        <div class="fill" id="fill" style="width:0%"></div>
+    </div>
+    
+    <div class="grid" id="grid"></div>
+    
+    <div class="button-container">
+        <button class="surprise-btn" id="surpriseBtn" onclick="showAhaaa()">Hmm? What next?</button>
+        <button class="reset" onclick="resetPuzzle()">start over</button>
+    </div>
+</div>
+
+<div class="letter-overlay" id="letterOverlay">
+    <div class="letter">
+        <h2>💌 for you</h2>
+        <p id="letterText"></p>
+        <button onclick="closeLetter()">close</button>
+    </div>
+</div>
+
+<script>
+// =============================================
+// YOUR WORDS
+// =============================================
+const pieces = [
+    "And who am I if not with you, if not yours.",
+    "You're a different level of hot when you focus, either on me or on your studies.",
+    "Tried using Flynn Rider as a new username. Said it's already taken by Manahil 🤭",
+    "One of the greatest childhood memories, our times together playing cricket and badminton and so many random games with everyone ❤️",
+    "I don't know what you'll get in your exam, but I know for sure you're going to ace it, you're doing fabulous love ❤️",
+    "You haven't done much, yet you're my most important soul, now imagine when you start getting romantic... 😮‍💨",
+    "The mind that's reading this right now, I am a fan of how you think and work.",
+    "June 2024. The month we exchanged numbers, the month our lives changed...",
+    "I want to make vegetable and chicken noodles for you when you ask for coffee everytime",
+    "Every hour, every minute, every second of effort you put, I see all of it, and I love every bit of it.",
+    "Now that I focus and think about it, it was always you. Always has been, always is, always will be.",
+    "📸 YOU" // Replace with actual photo
+];
+
+const finalLetter = `Hey 🤭
+
+Here's an ACTUAL love letter from me to you my love.
+
+I know we have had our ups and downs, moments when we fought, moments when we weren't perfect, even moments where we almost ended our friendship. I remember them all, and I think I speak for both of us when I say that i hate every single one of those moments. But, they all led to how we are now, so I'm thankful, thankful that I got to spend them all with you. Thankful that you stayed by my side throughout thick and thin, through every fight, through every bitter day. Thank you. Even though you did try to push me away and forcefully hurt me several hundred times so that i eventually walk away myself, i'm still thankful, I haven't met a more beautiful soul like yours, and I will forever cherish this soul till the day I part from this earth, and then in the hereafter later on as well. I want no one else but you.
+
+Your Love,
+Your Flynn Rider.
+`;
+
+// =============================================
+// GAME
+// =============================================
+let unlocked = JSON.parse(localStorage.getItem('storyPieces')) || [];
+
+function display() {
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    
+    pieces.forEach((text, i) => {
+        const div = document.createElement('div');
+        div.className = 'piece' + (unlocked.includes(i) ? ' unlocked' : '');
+        
+        if (unlocked.includes(i)) {
+            if (i === 11) { // Photo piece
+                div.innerHTML = `<div class="photo-piece"><img src="https://i.imgur.com/k8sceKh.jpeg" alt="her"></div>`;
+            } else {
+                div.innerText = text;
+            }
+        } else {
+            div.innerText = '🧩';
+        }
+        
+        div.onclick = () => {
+            if (unlocked.includes(i)) return;
+            unlocked.push(i);
+            localStorage.setItem('storyPieces', JSON.stringify(unlocked));
+            display();
+            
+            // Show surprise button when all pieces are unlocked
+            if (unlocked.length === pieces.length) {
+                document.getElementById('surpriseBtn').style.display = 'block';
+            }
+        };
+        
+        grid.appendChild(div);
+    });
+    
+    document.getElementById('count').innerText = unlocked.length;
+    document.getElementById('fill').style.width = (unlocked.length / pieces.length * 100) + '%';
+    
+    // Keep surprise button visible if already completed
+    if (unlocked.length === pieces.length) {
+        document.getElementById('surpriseBtn').style.display = 'block';
+    } else {
+        document.getElementById('surpriseBtn').style.display = 'none';
+    }
+}
+
+function showAhaaa() {
+    // Create floating "Ahaaa!" message
+    const msg = document.createElement('div');
+    msg.className = 'floating-message';
+    msg.innerText = 'Ahaaa! ✨';
+    document.body.appendChild(msg);
+    
+    // Remove after animation
+    setTimeout(() => {
+        msg.remove();
+        // Show the letter
+        document.getElementById('letterText').innerText = finalLetter;
+        document.getElementById('letterOverlay').style.display = 'flex';
+    }, 1000); // Wait 1 second then show letter
+}
+
+function resetPuzzle() {
+    if (confirm('Start over?')) {
+        unlocked = [];
+        localStorage.removeItem('storyPieces');
+        display();
+        document.getElementById('letterOverlay').style.display = 'none';
+        document.getElementById('surpriseBtn').style.display = 'none';
+    }
+}
+
+function closeLetter() {
+    document.getElementById('letterOverlay').style.display = 'none';
+}
+
+display();
+</script>
+</body>
+</html>
