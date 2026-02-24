@@ -150,6 +150,8 @@ animation:fadeIn 0.5s;
 overflow-y:auto; /* Enables scrolling inside the letter */
 -webkit-overflow-scrolling:touch; /* Smooth scrolling on iOS */
 margin:20px;
+position:relative;
+z-index:1;
 }
 
 @keyframes fadeIn {
@@ -284,6 +286,39 @@ box-shadow:0 0 15px rgba(255,105,180,0.3);
 .piece:not(.unlocked) {
 font-size:30px;
 }
+    /* Floating hearts background */
+.hearts-bg {
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+overflow:hidden;
+z-index:0;
+pointer-events:none;
+border-radius:40px;
+}
+
+.heart-bg {
+position:absolute;
+bottom:0;
+color:#ffb6c1;
+font-size:20px;
+animation:floatHeart 6s linear infinite;
+opacity:0.6;
+}
+
+@keyframes floatHeart {
+0% {
+transform:translateY(0) rotate(0deg);
+opacity:0.8;
+}
+100% {
+transform:translateY(-600px) rotate(360deg);
+opacity:0;
+}
+}
+    
 </style>
 </head>
 <body>
@@ -308,13 +343,16 @@ font-size:30px;
 </div>
 
 <div class="letter-overlay" id="letterOverlay">
-    <div class="letter">
-        <h2>💌 for you</h2>
-        <p id="letterText"></p>
-        <button onclick="closeLetter()">close</button>
+    <div class="letter" id="letter">
+        <div class="hearts-bg" id="heartsContainer"></div>
+        <div class="letter-content">
+            <h2>💌 for you</h2>
+            <p id="letterText"></p>
+            <button onclick="closeLetter()">close</button>
+        </div>
     </div>
 </div>
-
+    
 <script>
 // =============================================
 // YOUR WORDS
@@ -408,9 +446,11 @@ function showAhaaa() {
         // Show the letter
         document.getElementById('letterText').innerText = finalLetter;
         document.getElementById('letterOverlay').style.display = 'flex';
-    }, 1000); // Wait 1 second then show letter
+        
+        // Start floating hearts
+        startFloatingHearts();
+    }, 1000);
 }
-
 function resetPuzzle() {
     if (confirm('Start over?')) {
         unlocked = [];
@@ -423,6 +463,10 @@ function resetPuzzle() {
 
 function closeLetter() {
     document.getElementById('letterOverlay').style.display = 'none';
+    // Stop hearts when letter closes
+    if (window.heartInterval) {
+        clearInterval(window.heartInterval);
+    }
 }
 // =============================================
 // ENLARGE PHOTO ON CLICK
@@ -463,11 +507,63 @@ function enlargePhoto() {
     // Add to body
     document.body.appendChild(overlay);
 }
+    // =============================================
+// FLOATING HEARTS ANIMATION
+// =============================================
+function startFloatingHearts() {
+    const container = document.getElementById('heartsContainer');
+    if (!container) return;
+    
+    // Clear any existing hearts
+    container.innerHTML = '';
+    
+    // Create 20 hearts
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.className = 'heart-bg';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            heart.style.opacity = Math.random() * 0.4 + 0.3;
+            heart.innerText = ['❤️', '💕', '💗', '💓', '💖', '💘'][Math.floor(Math.random() * 6)];
+            container.appendChild(heart);
+            
+            // Remove heart after animation
+            setTimeout(() => {
+                if (heart.parentNode) heart.remove();
+            }, 6000);
+        }, i * 200);
+    }
+    
+    // Keep creating hearts every 3 seconds
+    if (window.heartInterval) clearInterval(window.heartInterval);
+    window.heartInterval = setInterval(() => {
+        if (document.getElementById('letterOverlay').style.display !== 'flex') {
+            clearInterval(window.heartInterval);
+            return;
+        }
+        
+        const heart = document.createElement('div');
+        heart.className = 'heart-bg';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDelay = '0s';
+        heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+        heart.style.opacity = Math.random() * 0.4 + 0.3;
+        heart.innerText = ['❤️', '💕', '💗', '💓', '💖', '💘'][Math.floor(Math.random() * 6)];
+        container.appendChild(heart);
+        
+        setTimeout(() => {
+            if (heart.parentNode) heart.remove();
+        }, 6000);
+    }, 800);
+}
 display();
 </script>
 </body>
 
 </html>
+
 
 
 
