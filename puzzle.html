@@ -289,7 +289,7 @@ font-size:30px;
     /* Floating hearts background */
 .hearts-bg {
 position:absolute;
-top:0;
+bottom:0;
 left:0;
 width:100%;
 height:100%;
@@ -306,6 +306,7 @@ color:#ffb6c1;
 font-size:20px;
 animation:floatHeart 6s linear infinite;
 opacity:0.6;
+transform:translateY(0);
 }
 
 @keyframes floatHeart {
@@ -517,52 +518,55 @@ function startFloatingHearts() {
     // Clear any existing hearts
     container.innerHTML = '';
     
-    // Create 20 hearts
-    for (let i = 0; i < 20; i++) {
-        setTimeout(() => {
-            const heart = document.createElement('div');
-            heart.className = 'heart-bg';
-            heart.style.left = Math.random() * 100 + '%';
-            heart.style.animationDelay = Math.random() * 5 + 's';
-            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-            heart.style.opacity = Math.random() * 0.4 + 0.3;
-            heart.innerText = ['❤️', '💕', '💗', '💓', '💖', '💘'][Math.floor(Math.random() * 6)];
-            container.appendChild(heart);
-            
-            // Remove heart after animation
-            setTimeout(() => {
-                if (heart.parentNode) heart.remove();
-            }, 6000);
-        }, i * 200);
-    }
-    
-    // Keep creating hearts every 3 seconds
-    if (window.heartInterval) clearInterval(window.heartInterval);
-    window.heartInterval = setInterval(() => {
-        if (document.getElementById('letterOverlay').style.display !== 'flex') {
-            clearInterval(window.heartInterval);
-            return;
-        }
-        
+// Create 20 hearts
+for (let i = 0; i < 20; i++) {
+    setTimeout(() => {
         const heart = document.createElement('div');
         heart.className = 'heart-bg';
         heart.style.left = Math.random() * 100 + '%';
-        heart.style.animationDelay = '0s';
+        heart.style.bottom = '0px'; // Start from bottom of container
+        heart.style.animationDelay = Math.random() * 5 + 's';
         heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
         heart.style.opacity = Math.random() * 0.4 + 0.3;
         heart.innerText = ['❤️', '💕', '💗', '💓', '💖', '💘'][Math.floor(Math.random() * 6)];
         container.appendChild(heart);
         
+        // Remove heart after animation
         setTimeout(() => {
             if (heart.parentNode) heart.remove();
         }, 6000);
-    }, 800);
+    }, i * 200);
+}
+
+// Keep creating hearts every 800ms
+if (window.heartInterval) clearInterval(window.heartInterval);
+window.heartInterval = setInterval(() => {
+    if (document.getElementById('letterOverlay').style.display !== 'flex') {
+        clearInterval(window.heartInterval);
+        return;
+    }
+    
+    const heart = document.createElement('div');
+    heart.className = 'heart-bg';
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.bottom = '0px'; // Start from bottom of container
+    heart.style.animationDelay = '0s';
+    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+    heart.style.opacity = Math.random() * 0.4 + 0.3;
+    heart.innerText = ['❤️', '💕', '💗', '💓', '💖', '💘'][Math.floor(Math.random() * 6)];
+    container.appendChild(heart);
+    
+    setTimeout(() => {
+        if (heart.parentNode) heart.remove();
+    }, 6000);
+}, 800);
 }
 display();
 </script>
 </body>
 
 </html>
+
 
 
 
