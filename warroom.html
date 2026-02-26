@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FMA War Room – Archive Edition</title>
+
+<style>
+body{
+margin:0;
+font-family: 'Segoe UI', sans-serif;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+text-align:center;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+h1{
+margin-top:20px;
+letter-spacing:2px;
+}
+
+.card{
+background:rgba(255,255,255,0.07);
+padding:20px;
+margin:20px 0;
+border-radius:20px;
+backdrop-filter:blur(10px);
+box-shadow:0 0 20px rgba(0,0,0,0.4);
+}
+
+.progress-container{
+background:rgba(255,255,255,0.1);
+border-radius:50px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.progress-bar{
+height:20px;
+width:0%;
+background:linear-gradient(90deg,#ff416c,#ff4b2b);
+transition:1s;
+}
+
+button{
+padding:10px 18px;
+margin:8px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+background:linear-gradient(90deg,#ff416c,#ff4b2b);
+color:white;
+font-size:14px;
+}
+
+.diary-entry{
+margin:15px 0;
+padding:15px;
+background:rgba(255,255,255,0.05);
+border-radius:15px;
+text-align:left;
+}
+
+.locked{
+opacity:0.3;
+filter:blur(3px);
+}
+
+.unlock-anim{
+animation:fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>FMA WAR ROOM</h1>
+
+<!-- PERFORMANCE SECTION -->
+
+<div class="card">
+<h2>Performance Tracker</h2>
+<div id="scoreDisplay">0 / 100</div>
+
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div>Streak: <span id="streakDisplay">0</span> days</div>
+
+<button onclick="addHours(5)">+5 Hours</button>
+<button onclick="addHours(7)">+7 Hours</button>
+</div>
+
+<!-- DIARY SECTION -->
+
+<div class="card">
+<h2>Diary Vault</h2>
+<div id="diaryContainer"></div>
+</div>
+
+</div>
+
+<script>
+
+let score = localStorage.getItem("score") ? parseInt(localStorage.getItem("score")) : 0;
+let streak = localStorage.getItem("streak") ? parseInt(localStorage.getItem("streak")) : 0;
+let unlockedParagraphs = localStorage.getItem("unlocked") ? JSON.parse(localStorage.getItem("unlocked")) : {};
+
+
+// =========================
+// ✍️ WRITE YOUR DIARIES HERE
+// =========================
+
+const diaries = {
+
+1: `First day. Damn girl, you're really making my creativity run so fucking free to be making all these ideas.😭 Today was strange in a quiet way. The kind of day where the sky looks normal but something inside feels slightly off. I think I carried a little storm from my world into ours… and I didn’t even realise it at first. 🌫️
+
+You kept asking what was wrong, and instead of just saying “I’m annoyed about something else,” I started overthinking us. Classic me. I questioned things that never even needed questioning. Whether I talk too much. Whether my “meri jaan” and “love” and “jaan” might one day annoy you. Meanwhile you were just… being you. Calm. Patient. Steady. 🤍
+
+The funny part? You didn’t get tired of my yapping. You didn’t roll your eyes at the nicknames. You didn’t say I was too much. You just said you enjoy it. And that your expressiveness has grown — and honestly, it has. I’ve seen it. Even if sometimes I pretend I don’t. 😌
+
+I hate that my mood spilled over and touched yours. That wasn’t fair. You didn’t deserve the cold version of me this morning. But even in that, you stayed. You listened. And that says more than dramatic goodnight paragraphs ever could.
+
+If anything, today reminded me of something important — we’re not perfect, but we’re real. And even on slightly messy mornings… I still choose you. Even when I’m grumpy. Even when I overthink. Even when I forget to add emojis. ❤️`,
+
+2: `FULL DAY 2 DIARY HERE.
+
+Second paragraph example.
+
+Third paragraph example.`,
+
+3: ``,
+4: ``,
+5: ``,
+6: ``,
+7: ``,
+8: ``,
+9: ``,
+10: ``,
+11: ``,
+12: ``,
+13: ``,
+14: ``,
+15: ``,
+16: ``,
+17: ``,
+18: ``,
+19: ``,
+20: ``,
+21: ``,
+22: ``,
+23: ``,
+24: ``,
+25: ``,
+26: ``,
+27: ``,
+28: ``,
+29: ``,
+30: ``
+
+};
+
+
+// =========================
+
+function save(){
+localStorage.setItem("score",score);
+localStorage.setItem("streak",streak);
+localStorage.setItem("unlocked",JSON.stringify(unlockedParagraphs));
+}
+
+function updateUI(){
+document.getElementById("scoreDisplay").innerText = score+" / 100";
+document.getElementById("streakDisplay").innerText = streak;
+document.getElementById("progressBar").style.width = score+"%";
+renderDiary();
+}
+
+function addHours(hours){
+let points = hours === 7 ? 5 : 3;
+score += points;
+if(score>100) score=100;
+
+streak++;
+
+unlockRandomParagraph();
+
+save();
+updateUI();
+}
+
+function unlockRandomParagraph(){
+
+for(let day=1; day<=30; day++){
+
+if(!diaries[day]) continue;
+
+let paragraphs = diaries[day].split(/\n\s*\n/).filter(p=>p.trim()!="");
+
+if(!unlockedParagraphs[day]){
+unlockedParagraphs[day]=[];
+}
+
+if(unlockedParagraphs[day].length < paragraphs.length){
+
+let lockedIndexes = [];
+
+for(let i=0;i<paragraphs.length;i++){
+if(!unlockedParagraphs[day].includes(i)){
+lockedIndexes.push(i);
+}
+}
+
+let randomIndex = lockedIndexes[Math.floor(Math.random()*lockedIndexes.length)];
+unlockedParagraphs[day].push(randomIndex);
+return;
+}
+}
+
+}
+
+function renderDiary(){
+
+let container = document.getElementById("diaryContainer");
+container.innerHTML="";
+
+for(let day=1; day<=30; day++){
+
+if(!diaries[day]) continue;
+
+let entryDiv = document.createElement("div");
+entryDiv.className="diary-entry";
+
+let title = "<strong>Day "+day+"</strong><br><br>";
+
+let paragraphs = diaries[day].split(/\n\s*\n/).filter(p=>p.trim()!="");
+
+if(score>=100){
+entryDiv.innerHTML = title + paragraphs.join("<br><br>");
+entryDiv.classList.add("unlock-anim");
+}else{
+
+let content="";
+
+for(let i=0;i<paragraphs.length;i++){
+if(unlockedParagraphs[day] && unlockedParagraphs[day].includes(i)){
+content+=paragraphs[i]+"<br><br>";
+}else{
+content+="<span class='locked'>Locked paragraph</span><br><br>";
+}
+}
+
+entryDiv.innerHTML = title + content;
+}
+
+container.appendChild(entryDiv);
+}
+
+}
+
+updateUI();
+
+</script>
+</body>
+</html>
