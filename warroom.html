@@ -23,6 +23,13 @@ padding:20px;
 h1{
 margin-top:20px;
 letter-spacing:2px;
+text-shadow:0 0 10px rgba(255,255,255,0.3);
+}
+
+.subtitle{
+color:#a8dadc;
+font-style:italic;
+margin-bottom:30px;
 }
 
 .card{
@@ -32,6 +39,13 @@ margin:20px 0;
 border-radius:20px;
 backdrop-filter:blur(10px);
 box-shadow:0 0 20px rgba(0,0,0,0.4);
+border-left:4px solid #ff416c;
+}
+
+.section-title{
+color:#ffb6c1;
+letter-spacing:1px;
+margin-bottom:15px;
 }
 
 .progress-container{
@@ -46,10 +60,11 @@ height:20px;
 width:0%;
 background:linear-gradient(90deg,#ff416c,#ff4b2b);
 transition:1s;
+box-shadow:0 0 20px #ff416c;
 }
 
 button{
-padding:10px 18px;
+padding:12px 20px;
 margin:8px;
 border:none;
 border-radius:30px;
@@ -57,19 +72,35 @@ cursor:pointer;
 background:linear-gradient(90deg,#ff416c,#ff4b2b);
 color:white;
 font-size:14px;
+font-weight:bold;
+transition:0.3s;
+-webkit-tap-highlight-color:transparent;
+}
+
+button:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px #ff416c;
+}
+
+button:active{
+transform:scale(0.95);
 }
 
 .diary-entry{
 margin:15px 0;
-padding:15px;
+padding:20px;
 background:rgba(255,255,255,0.05);
 border-radius:15px;
 text-align:left;
+border-left:3px solid #ffb6c1;
+word-wrap:break-word;
 }
 
 .locked{
 opacity:0.3;
 filter:blur(3px);
+font-style:italic;
+color:#a8dadc;
 }
 
 .unlock-anim{
@@ -80,6 +111,74 @@ animation:fadeIn 1s ease forwards;
 from{opacity:0; transform:translateY(20px);}
 to{opacity:1; transform:translateY(0);}
 }
+
+.achievement-badge{
+display:inline-block;
+padding:8px 15px;
+margin:5px;
+background:rgba(255,215,0,0.2);
+border:1px solid gold;
+border-radius:30px;
+font-size:12px;
+}
+
+.secret-message{
+background:rgba(255,105,180,0.2);
+border:2px solid #ff69b4;
+padding:20px;
+border-radius:20px;
+margin:20px 0;
+font-size:18px;
+line-height:1.8;
+text-align:center;
+animation:glow 2s infinite;
+}
+
+@keyframes glow{
+0%{box-shadow:0 0 10px #ff69b4;}
+50%{box-shadow:0 0 30px #ff69b4;}
+100%{box-shadow:0 0 10px #ff69b4;}
+}
+
+.streak-badge{
+background:#ff416c;
+color:white;
+padding:5px 15px;
+border-radius:30px;
+display:inline-block;
+margin:10px 0;
+}
+
+.secret-badge{
+background:gold;
+color:black;
+padding:5px 10px;
+border-radius:30px;
+font-size:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.achievements-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:10px;
+margin:15px 0;
+}
+
+/* Mobile optimizations */
+@media (max-width:480px){
+button{
+padding:15px 25px;
+font-size:16px;
+width:100%;
+margin:5px 0;
+}
+.diary-entry{
+padding:15px;
+font-size:14px;
+}
+}
 </style>
 </head>
 
@@ -87,46 +186,64 @@ to{opacity:1; transform:translateY(0);}
 <div class="container">
 
 <h1>FMA WAR ROOM</h1>
+<div class="subtitle">every hour brings you closer to the story</div>
 
-<!-- PERFORMANCE SECTION -->
-
+<!-- SECTION 1: PERFORMANCE TRACKER -->
 <div class="card">
-<h2>Performance Tracker</h2>
-<div id="scoreDisplay">0 / 100</div>
+<h2 class="section-title">⏳ study tracker</h2>
+<div id="scoreDisplay" style="font-size:32px; font-weight:bold;">0 / 100</div>
 
 <div class="progress-container">
 <div class="progress-bar" id="progressBar"></div>
 </div>
 
-<div>Streak: <span id="streakDisplay">0</span> days</div>
-
-<button onclick="addHours(5)">+5 Hours</button>
-<button onclick="addHours(7)">+7 Hours</button>
+<div style="margin:15px 0;">
+<span class="streak-badge" id="streakDisplay">streak: 0 days</span>
 </div>
 
-<!-- DIARY SECTION -->
+<div>
+<button onclick="addHours(5)">📚 +5 hours (3 pts)</button>
+<button onclick="addHours(7)">🔥 +7 hours (5 pts)</button>
+</div>
 
+<div style="margin-top:15px; font-size:14px; color:#a8dadc;">
+✨ reach 100 points to unlock full diary ✨
+</div>
+</div>
+
+<!-- SECTION 2: DIARY VAULT -->
 <div class="card">
-<h2>Diary Vault</h2>
+<h2 class="section-title">📖 diary vault</h2>
 <div id="diaryContainer"></div>
+</div>
+
+<!-- SECTION 3: ACHIEVEMENTS + SECRET MESSAGES -->
+<div class="card">
+<h2 class="section-title">🏆 achievements & secrets</h2>
+<div id="achievementsContainer" class="achievements-grid"></div>
+<div id="secretMessageContainer"></div>
 </div>
 
 </div>
 
 <script>
 
+// =========================
+// INITIALIZE STORAGE
+// =========================
 let score = localStorage.getItem("score") ? parseInt(localStorage.getItem("score")) : 0;
 let streak = localStorage.getItem("streak") ? parseInt(localStorage.getItem("streak")) : 0;
+let lastUpdate = localStorage.getItem("lastUpdate") ? localStorage.getItem("lastUpdate") : null;
 let unlockedParagraphs = localStorage.getItem("unlocked") ? JSON.parse(localStorage.getItem("unlocked")) : {};
-
+let achievements = localStorage.getItem("achievements") ? JSON.parse(localStorage.getItem("achievements")) : [];
+let secretUnlocked = localStorage.getItem("secretUnlocked") ? parseInt(localStorage.getItem("secretUnlocked")) : 0;
+let lastUnlockedDay = localStorage.getItem("lastUnlockedDay") ? parseInt(localStorage.getItem("lastUnlockedDay")) : 1;
 
 // =========================
-// ✍️ WRITE YOUR DIARIES HERE
+// ✍️ YOUR DIARIES (DAYS 1-30) - ONLY DAYS 1-2 FILLED, REST EMPTY FOR YOU
 // =========================
-
 const diaries = {
-
-1: `First day. Damn girl, you're really making my creativity run so fucking free to be making all these ideas.😭 Today was strange in a quiet way. The kind of day where the sky looks normal but something inside feels slightly off. I think I carried a little storm from my world into ours… and I didn’t even realise it at first. 🌫️
+    1: `First day. Damn girl, you're really making my creativity run so fucking free to be making all these ideas.😭 Today was strange in a quiet way. The kind of day where the sky looks normal but something inside feels slightly off. I think I carried a little storm from my world into ours… and I didn’t even realise it at first. 🌫️
 
 You kept asking what was wrong, and instead of just saying “I’m annoyed about something else,” I started overthinking us. Classic me. I questioned things that never even needed questioning. Whether I talk too much. Whether my “meri jaan” and “love” and “jaan” might one day annoy you. Meanwhile you were just… being you. Calm. Patient. Steady. 🤍
 
@@ -136,143 +253,310 @@ I hate that my mood spilled over and touched yours. That wasn’t fair. You didn
 
 If anything, today reminded me of something important — we’re not perfect, but we’re real. And even on slightly messy mornings… I still choose you. Even when I’m grumpy. Even when I overthink. Even when I forget to add emojis. ❤️`,
 
-2: `FULL DAY 2 DIARY HERE.
+    2: `Some days love is loud. Some days it’s just two people trying not to misunderstand each other. Today felt like that — like we were both holding delicate glass but scared to drop it. 🤍
 
-Second paragraph example.
+I think sometimes I love so loudly that it sounds like pressure. And you love so softly that I mistake it for silence. But the truth? Neither of us is wrong. We’re just different shades of the same feeling.
 
-Third paragraph example.`,
+When you said you try, I realized something — I never wanted you to change. I just wanted to feel close. I just wanted to feel important, and that I mattered too other than just the words "You matter." But the truth is, you were close the whole time. I was just overthinking the distance.
 
-3: ``,
-4: ``,
-5: ``,
-6: ``,
-7: ``,
-8: ``,
-9: ``,
-10: ``,
-11: ``,
-12: ``,
-13: ``,
-14: ``,
-15: ``,
-16: ``,
-17: ``,
-18: ``,
-19: ``,
-20: ``,
-21: ``,
-22: ``,
-23: ``,
-24: ``,
-25: ``,
-26: ``,
-27: ``,
-28: ``,
-29: ``,
-30: ``
+The best part? We fixed it. Not dramatically. Not perfectly. Just honestly. And somehow that felt more real than any perfect day ever could. 🌙`,
 
+    3: ``, // Empty - you'll fill
+    4: ``, // Empty - you'll fill
+    5: ``, // Empty - you'll fill
+    6: ``, // Empty - you'll fill
+    7: ``, // Empty - you'll fill
+    8: ``, // Empty - you'll fill
+    9: ``, // Empty - you'll fill
+    10: ``, // Empty - you'll fill
+    11: ``, // Empty - you'll fill
+    12: ``, // Empty - you'll fill
+    13: ``, // Empty - you'll fill
+    14: ``, // Empty - you'll fill
+    15: ``, // Empty - you'll fill
+    16: ``, // Empty - you'll fill
+    17: ``, // Empty - you'll fill
+    18: ``, // Empty - you'll fill
+    19: ``, // Empty - you'll fill
+    20: ``, // Empty - you'll fill
+    21: ``, // Empty - you'll fill
+    22: ``, // Empty - you'll fill
+    23: ``, // Empty - you'll fill
+    24: ``, // Empty - you'll fill
+    25: ``, // Empty - you'll fill
+    26: ``, // Empty - you'll fill
+    27: ``, // Empty - you'll fill
+    28: ``, // Empty - you'll fill
+    29: ``, // Empty - you'll fill
+    30: ``, // Empty - you'll fill
 };
 
+// =========================
+// 🤫 SECRET MESSAGES (English text, romantic Urdu meaning)
+// =========================
+const secretMessages = [
+    "Meri zindagi ho tum jaan.",
+    "Tumhare bina mera dil hai veeran.",
+    "Meri aakhon ka noor ho tum.",
+    "Dil me basi ho tum mere.",
+    "Tum meri zindagi ka woh na-mukammal hissa ho.",
+    "Tum mere khwabo ki malka ho.",
+    "Mere har din ki shuruwat sirf tumse hai.",
+    "Mere sukoon ki nishani ho tum.",
+    "Tum se mere dil ko milta hai sukoon.",
+    "Meri zindagi ka bohot ehm hissa ho tum."
+];
 
 // =========================
+// ACHIEVEMENTS
+// =========================
+const achievementList = [
+    { id: 1, name: "First Step", desc: "Unlocked first diary", emoji: "🌱", threshold: 10 },
+    { id: 2, name: "Getting There", desc: "25 points reached", emoji: "🌿", threshold: 25 },
+    { id: 3, name: "Halfway", desc: "50 points reached", emoji: "🌲", threshold: 50 },
+    { id: 4, name: "Dedicated", desc: "75 points reached", emoji: "🔥", threshold: 75 },
+    { id: 5, name: "Full Access", desc: "Unlocked all diaries", emoji: "👑", threshold: 100 },
+    { id: 6, name: "Secret Finder", desc: "Found a hidden message", emoji: "✨", threshold: "secret" }
+];
 
+// =========================
+// FUNCTIONS
+// =========================
 function save(){
-localStorage.setItem("score",score);
-localStorage.setItem("streak",streak);
-localStorage.setItem("unlocked",JSON.stringify(unlockedParagraphs));
+    localStorage.setItem("score", score);
+    localStorage.setItem("streak", streak);
+    localStorage.setItem("lastUpdate", new Date().toDateString());
+    localStorage.setItem("unlocked", JSON.stringify(unlockedParagraphs));
+    localStorage.setItem("achievements", JSON.stringify(achievements));
+    localStorage.setItem("secretUnlocked", secretUnlocked);
+    localStorage.setItem("lastUnlockedDay", lastUnlockedDay);
+}
+
+function checkStreak(){
+    let today = new Date().toDateString();
+    if(lastUpdate && lastUpdate !== today){
+        let yesterday = new Date();
+        yesterday.setDate(yesterday.getDate()-1);
+        if(lastUpdate === yesterday.toDateString()){
+            // streak continues
+        } else {
+            streak = 0;
+            lastUnlockedDay = 1; // Reset to day 1 if streak broken
+        }
+    }
+    lastUpdate = today;
 }
 
 function updateUI(){
-document.getElementById("scoreDisplay").innerText = score+" / 100";
-document.getElementById("streakDisplay").innerText = streak;
-document.getElementById("progressBar").style.width = score+"%";
-renderDiary();
+    checkStreak();
+    document.getElementById("scoreDisplay").innerText = score + " / 100";
+    document.getElementById("streakDisplay").innerText = "streak: " + streak + " days";
+    document.getElementById("progressBar").style.width = score + "%";
+    
+    checkAchievements();
+    renderDiary();
+    renderAchievements();
+    renderSecretMessages();
 }
 
 function addHours(hours){
-let points = hours === 7 ? 5 : 3;
-score += points;
-if(score>100) score=100;
-
-streak++;
-
-unlockRandomParagraph();
-
-save();
-updateUI();
+    let points = hours === 7 ? 5 : 3;
+    score += points;
+    if(score > 100) score = 100;
+    
+    streak++;
+    
+    unlockNextParagraph(); // Changed to unlock in order
+    
+    save();
+    updateUI();
 }
 
-function unlockRandomParagraph(){
-
-for(let day=1; day<=30; day++){
-
-if(!diaries[day]) continue;
-
-let paragraphs = diaries[day].split(/\n\s*\n/).filter(p=>p.trim()!="");
-
-if(!unlockedParagraphs[day]){
-unlockedParagraphs[day]=[];
+// NEW FUNCTION: Unlocks paragraphs in order day by day
+function unlockNextParagraph(){
+    // Find the current day we're working on
+    let currentDay = 1;
+    
+    // Loop through days to find which day we're on
+    for(let day = 1; day <= 30; day++){
+        if(!diaries[day] || diaries[day].trim() === "") continue; // Skip empty days
+        
+        let paragraphs = diaries[day].split(/\n\s*\n/).filter(p => p.trim() != "");
+        if(paragraphs.length === 0) continue;
+        
+        if(!unlockedParagraphs[day]){
+            unlockedParagraphs[day] = [];
+        }
+        
+        // If this day still has locked paragraphs, this is our current day
+        if(unlockedParagraphs[day].length < paragraphs.length){
+            currentDay = day;
+            break;
+        }
+    }
+    
+    // Now unlock a random paragraph from currentDay
+    let day = currentDay;
+    let paragraphs = diaries[day].split(/\n\s*\n/).filter(p => p.trim() != "");
+    
+    if(!unlockedParagraphs[day]){
+        unlockedParagraphs[day] = [];
+    }
+    
+    // If all paragraphs for this day are already unlocked, move to next day
+    if(unlockedParagraphs[day].length >= paragraphs.length){
+        // Find next day with content
+        for(let nextDay = day + 1; nextDay <= 30; nextDay++){
+            if(!diaries[nextDay] || diaries[nextDay].trim() === "") continue;
+            let nextParagraphs = diaries[nextDay].split(/\n\s*\n/).filter(p => p.trim() != "");
+            if(nextParagraphs.length > 0){
+                day = nextDay;
+                paragraphs = nextParagraphs;
+                if(!unlockedParagraphs[day]){
+                    unlockedParagraphs[day] = [];
+                }
+                break;
+            }
+        }
+    }
+    
+    // Get locked paragraph indexes for this day
+    let lockedIndexes = [];
+    for(let i = 0; i < paragraphs.length; i++){
+        if(!unlockedParagraphs[day].includes(i)){
+            lockedIndexes.push(i);
+        }
+    }
+    
+    // If there are locked paragraphs, unlock a random one
+    if(lockedIndexes.length > 0){
+        let randomIndex = lockedIndexes[Math.floor(Math.random() * lockedIndexes.length)];
+        unlockedParagraphs[day].push(randomIndex);
+        
+        // Sort to keep them organized
+        unlockedParagraphs[day].sort((a,b) => a - b);
+    }
 }
 
-if(unlockedParagraphs[day].length < paragraphs.length){
-
-let lockedIndexes = [];
-
-for(let i=0;i<paragraphs.length;i++){
-if(!unlockedParagraphs[day].includes(i)){
-lockedIndexes.push(i);
-}
-}
-
-let randomIndex = lockedIndexes[Math.floor(Math.random()*lockedIndexes.length)];
-unlockedParagraphs[day].push(randomIndex);
-return;
-}
-}
-
+function checkAchievements(){
+    let newAchievements = [];
+    
+    achievementList.forEach(ach => {
+        if(ach.id === 6) return; // Handle secret separately
+        
+        if(score >= ach.threshold && !achievements.includes(ach.id)){
+            newAchievements.push(ach.id);
+            achievements.push(ach.id);
+        }
+    });
+    
+    // Check for secret achievement (streak 7+)
+    if(streak >= 7 && !achievements.includes(6)){
+        achievements.push(6);
+        newAchievements.push(6);
+        secretUnlocked = Math.min(secretUnlocked + 1, secretMessages.length);
+    }
+    
+    if(newAchievements.length > 0){
+        alert("🏆 New achievement unlocked!");
+    }
 }
 
 function renderDiary(){
-
-let container = document.getElementById("diaryContainer");
-container.innerHTML="";
-
-for(let day=1; day<=30; day++){
-
-if(!diaries[day]) continue;
-
-let entryDiv = document.createElement("div");
-entryDiv.className="diary-entry";
-
-let title = "<strong>Day "+day+"</strong><br><br>";
-
-let paragraphs = diaries[day].split(/\n\s*\n/).filter(p=>p.trim()!="");
-
-if(score>=100){
-entryDiv.innerHTML = title + paragraphs.join("<br><br>");
-entryDiv.classList.add("unlock-anim");
-}else{
-
-let content="";
-
-for(let i=0;i<paragraphs.length;i++){
-if(unlockedParagraphs[day] && unlockedParagraphs[day].includes(i)){
-content+=paragraphs[i]+"<br><br>";
-}else{
-content+="<span class='locked'>Locked paragraph</span><br><br>";
-}
-}
-
-entryDiv.innerHTML = title + content;
-}
-
-container.appendChild(entryDiv);
-}
-
+    let container = document.getElementById("diaryContainer");
+    container.innerHTML = "";
+    
+    for(let day = 1; day <= 30; day++){
+        if(!diaries[day] || diaries[day].trim() === "") continue; // Skip empty days
+        
+        let entryDiv = document.createElement("div");
+        entryDiv.className = "diary-entry";
+        
+        let title = "<strong>📅 Day " + day + "</strong><br><br>";
+        
+        let paragraphs = diaries[day].split(/\n\s*\n/).filter(p => p.trim() != "");
+        
+        if(score >= 100){
+            // Full access mode
+            entryDiv.innerHTML = title + paragraphs.join("<br><br>");
+            entryDiv.classList.add("unlock-anim");
+        } else {
+            // Locked mode - show in order
+            let content = "";
+            
+            for(let i = 0; i < paragraphs.length; i++){
+                if(unlockedParagraphs[day] && unlockedParagraphs[day].includes(i)){
+                    content += paragraphs[i] + "<br><br>";
+                } else {
+                    content += "<span class='locked'>🔒 locked paragraph</span><br><br>";
+                }
+            }
+            
+            entryDiv.innerHTML = title + content;
+        }
+        
+        container.appendChild(entryDiv);
+    }
 }
 
+function renderAchievements(){
+    let container = document.getElementById("achievementsContainer");
+    container.innerHTML = "";
+    
+    achievementList.forEach(ach => {
+        if(ach.id === 6) return; // Handle separately
+        
+        let achieved = achievements.includes(ach.id);
+        
+        let badge = document.createElement("div");
+        badge.className = "achievement-badge";
+        badge.style.background = achieved ? "rgba(255,215,0,0.3)" : "rgba(255,255,255,0.05)";
+        badge.style.borderColor = achieved ? "gold" : "#666";
+        badge.style.opacity = achieved ? "1" : "0.5";
+        
+        badge.innerHTML = `${ach.emoji} ${ach.name}`;
+        
+        if(!achieved){
+            badge.innerHTML += `<br><span style="font-size:10px;">${ach.threshold} pts</span>`;
+        }
+        
+        container.appendChild(badge);
+    });
+}
+
+function renderSecretMessages(){
+    let container = document.getElementById("secretMessageContainer");
+    container.innerHTML = "";
+    
+    if(achievements.includes(6)){
+        for(let i = 0; i < secretUnlocked; i++){
+            let msgDiv = document.createElement("div");
+            msgDiv.className = "secret-message";
+            msgDiv.innerHTML = `✨ ${secretMessages[i]} ✨`;
+            container.appendChild(msgDiv);
+        }
+        
+        if(secretUnlocked < secretMessages.length){
+            let hint = document.createElement("div");
+            hint.style.marginTop = "10px";
+            hint.style.fontSize = "12px";
+            hint.style.color = "#ffb6c1";
+            hint.innerText = "✨ keep studying to unlock more secrets ✨";
+            container.appendChild(hint);
+        }
+    } else {
+        let secretBadge = document.createElement("div");
+        secretBadge.className = "secret-badge";
+        secretBadge.onclick = function(){
+            alert("🤫 Keep your streak alive to unlock hidden messages...");
+        };
+        secretBadge.innerText = "🤫 secret locked";
+        container.appendChild(secretBadge);
+    }
+}
+
+// Initialize
 updateUI();
-
 </script>
 </body>
 </html>
