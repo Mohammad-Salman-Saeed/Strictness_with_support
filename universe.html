@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>In Every Universe</title>
+
+<style>
+body{
+    margin:0;
+    padding:0;
+    background:black;
+    color:white;
+    font-family: 'Georgia', serif;
+    overflow-x:hidden;
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+.section{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:60px 25px;
+    opacity:0;
+    transform:translateY(60px);
+    transition:all 1.8s ease;
+}
+
+.section.visible{
+    opacity:1;
+    transform:translateY(0);
+}
+
+h1{
+    font-size:2.3rem;
+    margin-bottom:30px;
+    letter-spacing:1px;
+}
+
+p{
+    max-width:750px;
+    line-height:2;
+    font-size:1.15rem;
+}
+
+.highlight{
+    color:#ff8dfc;
+    animation:glowPulse 3s infinite alternate;
+}
+
+@keyframes glowPulse{
+    from{text-shadow:0 0 10px rgba(255,141,252,0.6);}
+    to{text-shadow:0 0 25px rgba(255,141,252,1);}
+}
+
+.final{
+    font-size:1.25rem;
+}
+
+.typewriter{
+    border-right:2px solid white;
+    white-space:pre-wrap;
+    overflow:hidden;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="section">
+<div>
+<h1>In some universes…</h1>
+<p>
+There are timelines where fate almost happened.  
+Where two souls came dangerously close…  
+but missed by inches.  
+And inches are enough to change everything.
+</p>
+</div>
+</div>
+
+<div class="section">
+<div>
+<h1>Universe One</h1>
+<p>
+Two houses. 46 and 48.  
+One narrow street. One shared sky.  
+
+Afternoons filled with dust, cricket bats, scraped knees,  
+and the kind of laughter only three-year-olds understand.  
+
+In this universe…  
+they never become each other’s first friend.  
+
+They grow up seeing each other from balconies.  
+Nodding politely.  
+Smiling occasionally.  
+
+But never knowing  
+that the person living one house away  
+was meant to become their entire world.
+</p>
+</div>
+</div>
+
+<div class="section">
+<div>
+<h1>Universe Two</h1>
+<p>
+2015.  
+
+The street comes alive again.  
+Society kids shouting.  
+Gully cricket arguments.  
+Evening breeze carrying familiar voices.  
+
+They play on the same team.  
+Stand a few feet apart.  
+
+But in this universe…  
+his heart never pauses when she laughs.  
+He never searches for her in the crowd.  
+She never becomes the one face that feels different.  
+
+She’s just someone he knows.  
+
+Not someone he feels.
+</p>
+</div>
+</div>
+
+<div class="section">
+<div>
+<h1>Universe Three</h1>
+<p>
+2019 fades quietly.  
+
+A gap forms.  
+Long. Heavy. Silent.  
+
+In this universe…  
+he lets the silence stay.  
+He never wonders why she still lives in his thoughts.  
+He never admits that maybe this isn’t just a crush.  
+
+And slowly…  
+the version of him who could have loved her  
+learns to live without ever trying.
+</p>
+</div>
+</div>
+
+<div class="section">
+<div>
+<h1>Universe Four</h1>
+<p>
+July 19th, 2024.  
+
+A conversation.  
+A warning.  
+A request to step away.  
+
+In this universe…  
+he doesn’t cry that night.  
+He doesn’t feel that sharp ache in his chest.  
+He tells himself it’s fine.  
+
+Just friendship.  
+Just timing.  
+Just life.  
+
+And because he never cries…  
+he never realizes  
+that losing her would break him.
+</p>
+</div>
+</div>
+
+<div class="section">
+<div>
+<h1>Universe Five</h1>
+<p>
+Airports.  
+
+Karachi.  
+America.  
+Toronto.  
+
+Screens instead of sidewalks.  
+Time zones instead of tea-time walks.  
+
+In this universe…  
+distance grows louder than love.  
+Calls become shorter.  
+Replies become slower.  
+
+And eventually…  
+they stop trying  
+because being strong alone  
+feels easier than missing someone every night.
+</p>
+</div>
+</div>
+
+<div class="section">
+<div>
+<h1>Universe Six</h1>
+<p>
+In this one…  
+
+He overthinks.  
+She feels like she isn’t expressive enough.  
+He feels like he loves too loudly.  
+
+They both start doubting themselves  
+instead of choosing each other.  
+
+Pride replaces patience.  
+Silence replaces reassurance.  
+
+And love…  
+that was growing beautifully…  
+ends not because it wasn’t real —  
+but because fear was stronger.
+</p>
+</div>
+</div>
+
+<div class="section">
+<div>
+<h1 class="highlight">But not this universe.</h1>
+<p class="final typewriter" id="finalText"></p>
+</div>
+</div>
+
+<script>
+// Fade in sections
+const sections=document.querySelectorAll('.section');
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add('visible');
+}
+});
+},{threshold:0.2});
+sections.forEach(section=>observer.observe(section));
+
+// Stars
+const canvas=document.getElementById("stars");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let stars=[];
+for(let i=0;i<180;i++){
+stars.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+radius:Math.random()*1.2,
+speed:Math.random()*0.6
+});
+}
+
+function drawStars(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="white";
+stars.forEach(star=>{
+ctx.beginPath();
+ctx.arc(star.x,star.y,star.radius,0,Math.PI*2);
+ctx.fill();
+star.y+=star.speed;
+if(star.y>canvas.height){
+star.y=0;
+star.x=Math.random()*canvas.width;
+}
+});
+requestAnimationFrame(drawStars);
+}
+drawStars();
+
+window.addEventListener("resize",()=>{
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+});
+
+// Typewriter Final Text
+const finalContent=`In this universe…
+
+two three-year-olds became each other’s first friend.
+
+In this universe…
+even silence couldn’t erase what was written.
+
+In this universe…
+a boy cried for the first time
+because losing her felt impossible.
+
+In this universe…
+Karachi and Toronto are just coordinates —
+not barriers.
+
+In this universe…
+she tries, even when she thinks she isn’t enough.
+And he loves loudly,
+even when he thinks he’s too much.
+
+Aur is universe mein…
+tumhe kuch prove karne ki zaroorat nahi hai.
+Tum jaisi ho… waisi hi perfect ho.
+
+Out of infinite realities,
+we ended up in the one
+where you smile at your phone…
+and I feel like the luckiest man alive.
+
+And in this universe…
+you say —
+
+“I adore you salmannnnn ✨”
+
+And I stay.
+Every time.
+In every universe.
+
+I would still find you.`;
+
+let i=0;
+function typeWriter(){
+if(i<finalContent.length){
+document.getElementById("finalText").innerHTML+=finalContent.charAt(i);
+i++;
+setTimeout(typeWriter,30);
+}
+}
+
+const finalSection=document.querySelector("#finalText").parentElement.parentElement;
+const finalObserver=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+typeWriter();
+finalObserver.disconnect();
+}
+});
+},{threshold:0.5});
+finalObserver.observe(finalSection);
+
+</script>
+
+</body>
+</html>
