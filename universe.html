@@ -11,7 +11,7 @@ body{
     padding:0;
     background:black;
     color:white;
-    font-family: 'Georgia', serif;
+    font-family:'Georgia', serif;
     overflow-x:hidden;
 }
 
@@ -28,7 +28,7 @@ canvas{
     align-items:center;
     justify-content:center;
     text-align:center;
-    padding:60px 25px;
+    padding:70px 25px;
     opacity:0;
     transform:translateY(60px);
     transition:all 1.8s ease;
@@ -39,6 +39,20 @@ canvas{
     transform:translateY(0);
 }
 
+.herName{
+    color:#ff9efc;
+    animation:nameGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes nameGlow{
+    from{
+        text-shadow:0 0 5px rgba(255,158,252,0.6);
+    }
+    to{
+        text-shadow:0 0 25px rgba(255,158,252,1);
+    }
+}
+
 h1{
     font-size:2.3rem;
     margin-bottom:30px;
@@ -47,7 +61,7 @@ h1{
 
 p{
     max-width:750px;
-    line-height:2;
+    line-height:2.1;
     font-size:1.15rem;
 }
 
@@ -58,7 +72,7 @@ p{
 
 @keyframes glowPulse{
     from{text-shadow:0 0 10px rgba(255,141,252,0.6);}
-    to{text-shadow:0 0 25px rgba(255,141,252,1);}
+    to{text-shadow:0 0 30px rgba(255,141,252,1);}
 }
 
 .final{
@@ -68,7 +82,17 @@ p{
 .typewriter{
     border-right:2px solid white;
     white-space:pre-wrap;
-    overflow:hidden;
+}
+
+.secret{
+    opacity:0;
+    transition:opacity 2s ease;
+    font-size:1rem;
+    margin-top:40px;
+    color:#ffb3ff;
+}
+.secret.visible{
+    opacity:1;
 }
 </style>
 </head>
@@ -77,169 +101,204 @@ p{
 
 <canvas id="stars"></canvas>
 
+<!-- INTRO -->
 <div class="section">
 <div>
 <h1>In some universes…</h1>
 <p>
 There are timelines where fate almost happened.  
-Where two souls came dangerously close…  
-but missed by inches.  
-And inches are enough to change everything.
+Where two souls stood dangerously close to something infinite…  
+but missed it by seconds.  
+
+And sometimes, seconds are enough  
+to rewrite entire lifetimes.
 </p>
 </div>
 </div>
 
+<!-- UNIVERSE 1 -->
 <div class="section">
 <div>
 <h1>Universe One</h1>
 <p>
-Two houses. 46 and 48.  
-One narrow street. One shared sky.  
+Two houses.  
+46 kokan and 48 kokan.  
+Separated by mere walls… but never meant to be separated by destiny.  
 
-Afternoons filled with dust, cricket bats, scraped knees,  
-and the kind of laughter only three-year-olds understand.  
+In this universe,  
+two three-year-olds play outside under the same fading sun.  
+They laugh. They run. They fall.  
 
-In this universe…  
-they never become each other’s first friend.  
+But they never become each other’s first friend.  
 
-They grow up seeing each other from balconies.  
-Nodding politely.  
-Smiling occasionally.  
+They grow up as background characters in each other’s lives.  
+A wave from the balcony.  
+A polite smile in passing.  
 
-But never knowing  
-that the person living one house away  
-was meant to become their entire world.
+They never know  
+that the person who lived one house away  
+was the one their heart would someday search for in every crowd.  
+
+And life moves on…  
+quietly missing something it never realized it lost.
 </p>
 </div>
 </div>
 
+<!-- UNIVERSE 2 -->
 <div class="section">
 <div>
 <h1>Universe Two</h1>
 <p>
-2015.  
+2016-2018
+The street feels alive again.  
 
-The street comes alive again.  
-Society kids shouting.  
-Gully cricket arguments.  
-Evening breeze carrying familiar voices.  
+Cricket arguments.  
+Evening breeze.  
+The kind of chaos only childhood neighborhoods understand.  
 
-They play on the same team.  
-Stand a few feet apart.  
+They stand on the same street.  
+On the same team.  
+Laugh at the same jokes.  
 
 But in this universe…  
-his heart never pauses when she laughs.  
-He never searches for her in the crowd.  
-She never becomes the one face that feels different.  
+his eyes don’t look for her first.  
+Her presence doesn’t feel different.  
 
-She’s just someone he knows.  
+She becomes just another memory from growing up.  
 
-Not someone he feels.
+And that subtle pull…  
+that invisible thread that tied them even in silence…  
+
+never tightens.
 </p>
 </div>
 </div>
 
+<!-- UNIVERSE 3 -->
 <div class="section">
 <div>
 <h1>Universe Three</h1>
 <p>
-2019 fades quietly.  
+2019 arrives quietly…  
+and leaves quietly too.  
 
-A gap forms.  
-Long. Heavy. Silent.  
+A long silence grows between them.  
+Days turn into months.  
+Months into years.  
 
-In this universe…  
-he lets the silence stay.  
-He never wonders why she still lives in his thoughts.  
-He never admits that maybe this isn’t just a crush.  
+In this universe,  
+he never admits she stayed on his mind.  
+He never replays her laugh when he can’t sleep.  
+He convinces himself it was just a phase.  
 
-And slowly…  
-the version of him who could have loved her  
-learns to live without ever trying.
+And slowly,  
+the version of him who would have loved her fiercely  
+learns how to live without ever trying.
 </p>
 </div>
 </div>
 
+<!-- UNIVERSE 4 -->
 <div class="section">
 <div>
 <h1>Universe Four</h1>
 <p>
 July 19th, 2024.  
 
-A conversation.  
-A warning.  
-A request to step away.  
+A conversation that feels heavier than it should.  
+A warning disguised as concern.  
+A request to step back.  
 
 In this universe…  
 he doesn’t cry that night.  
-He doesn’t feel that sharp ache in his chest.  
-He tells himself it’s fine.  
+He doesn’t feel that crack in his chest.  
+He doesn’t realize what she means to him.  
 
-Just friendship.  
-Just timing.  
-Just life.  
+He lets logic win.  
+He lets distance grow.  
 
-And because he never cries…  
-he never realizes  
-that losing her would break him.
+And because he never breaks that night…  
+he never understands  
+that some people aren’t meant to be “optional.”
 </p>
 </div>
 </div>
 
+<!-- UNIVERSE 5 -->
 <div class="section">
 <div>
 <h1>Universe Five</h1>
 <p>
 Airports.  
+Goodbyes.  
+Karachi fading behind airplane windows.  
 
-Karachi.  
 America.  
-Toronto.  
+Then Canada.  
 
-Screens instead of sidewalks.  
-Time zones instead of tea-time walks.  
+Screens replace sidewalks.  
+Notifications replace presence.  
 
 In this universe…  
-distance grows louder than love.  
-Calls become shorter.  
-Replies become slower.  
+distance becomes too loud.  
+Time zones become excuses.  
+Overthinking becomes routine.  
 
-And eventually…  
-they stop trying  
-because being strong alone  
-feels easier than missing someone every night.
+They slowly start choosing convenience over courage.  
+
+And love —  
+beautiful, fragile, growing love —  
+loses to geography.
 </p>
 </div>
 </div>
 
+<!-- UNIVERSE 6 -->
 <div class="section">
 <div>
 <h1>Universe Six</h1>
 <p>
 In this one…  
 
-He overthinks.  
+He feels like he loves too much.  
 She feels like she isn’t expressive enough.  
-He feels like he loves too loudly.  
 
-They both start doubting themselves  
-instead of choosing each other.  
+He overthinks small pauses.  
+She overthinks small silences.  
 
-Pride replaces patience.  
-Silence replaces reassurance.  
+Instead of reassurance…  
+they choose doubt.  
 
-And love…  
-that was growing beautifully…  
-ends not because it wasn’t real —  
-but because fear was stronger.
+Instead of patience…  
+they choose pride.  
+
+And something that could have lasted forever  
+ends  
+because two people who loved each other  
+were too afraid of not being enough.
 </p>
 </div>
 </div>
 
+<!-- FINAL -->
 <div class="section">
 <div>
 <h1 class="highlight">But not this universe.</h1>
 <p class="final typewriter" id="finalText"></p>
+<p class="secret" id="secretLine">
+And if every universe collapsed…  
+if every timeline erased our memories…  
+if 46 was never next to 48…  
+
+I would still search through infinity  
+until I found you again, <span class="herName">Manahil</span>.  
+
+Because you are not an accident in my life.  
+You are destiny that survived distance, silence, fear —  
+
+and even fate itself.
+</p>
 </div>
 </div>
 
@@ -262,7 +321,7 @@ canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
 let stars=[];
-for(let i=0;i<180;i++){
+for(let i=0;i<200;i++){
 stars.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
@@ -288,12 +347,7 @@ requestAnimationFrame(drawStars);
 }
 drawStars();
 
-window.addEventListener("resize",()=>{
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-});
-
-// Typewriter Final Text
+// Typewriter
 const finalContent=`In this universe…
 
 two three-year-olds became each other’s first friend.
@@ -317,6 +371,8 @@ even when he thinks he’s too much.
 Aur is universe mein…
 tumhe kuch prove karne ki zaroorat nahi hai.
 Tum jaisi ho… waisi hi perfect ho.
+Tum jaisi ho… mujhe pasand ho.
+Tum jaisi ho… meri ho.
 
 Out of infinite realities,
 we ended up in the one
@@ -339,7 +395,7 @@ function typeWriter(){
 if(i<finalContent.length){
 document.getElementById("finalText").innerHTML+=finalContent.charAt(i);
 i++;
-setTimeout(typeWriter,30);
+setTimeout(typeWriter,28);
 }
 }
 
@@ -354,6 +410,12 @@ finalObserver.disconnect();
 },{threshold:0.5});
 finalObserver.observe(finalSection);
 
+// Secret reveal when scrolling up after finishing
+window.addEventListener("scroll",()=>{
+if(window.scrollY < 200){
+document.getElementById("secretLine").classList.add("visible");
+}
+});
 </script>
 
 </body>
