@@ -4,36 +4,196 @@
 <title>💌 love letters</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body { background: #2c1810; font-family: Georgia; color: #f5e6d3; text-align: center; padding: 20px; }
-.container { max-width: 600px; margin: 0 auto; background: rgba(255,255,240,0.1); padding: 30px; border: 2px solid #d4af37; }
-.letter { background: rgba(255,255,240,0.15); padding: 20px; margin: 20px 0; text-align: left; }
-input, button { padding: 15px; font-size: 18px; }
+body {
+background:linear-gradient(135deg, #2c1810, #4a2c1a);
+font-family:'Georgia', serif;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+margin:0;
+padding:20px;
+color:#f5e6d3;
+}
+.container {
+max-width:600px;
+width:100%;
+background:rgba(255,255,240,0.1);
+backdrop-filter:blur(10px);
+border-radius:40px;
+padding:30px;
+text-align:center;
+border:2px solid #d4af37;
+}
+h1 {
+font-size:32px;
+letter-spacing:3px;
+color:#d4af37;
+}
+.password-area {
+margin:30px 0;
+}
+input {
+padding:15px;
+font-size:18px;
+border-radius:50px;
+border:none;
+text-align:center;
+width:70%;
+background:rgba(255,255,255,0.9);
+}
+button {
+padding:15px 30px;
+font-size:18px;
+border-radius:50px;
+border:none;
+background:#d4af37;
+color:#2c1810;
+font-weight:bold;
+margin-left:10px;
+cursor:pointer;
+transition:0.3s;
+}
+button:hover {
+transform:scale(1.05);
+box-shadow:0 0 30px gold;
+}
+.letters-container {
+margin-top:30px;
+max-height:500px;
+overflow-y:auto;
+padding-right:10px;
+}
+.letter {
+background:rgba(255,255,240,0.15);
+border-left:5px solid #d4af37;
+border-radius:20px;
+padding:20px;
+margin:20px 0;
+text-align:left;
+opacity:0.3;
+filter:blur(2px);
+transition:0.5s;
+}
+.letter.unlocked {
+opacity:1;
+filter:blur(0);
+}
+.letter-day {
+color:#d4af37;
+font-size:14px;
+margin-bottom:10px;
+}
+.letter-title {
+font-size:20px;
+font-weight:bold;
+margin-bottom:15px;
+color:white;
+}
+.letter-content {
+font-size:16px;
+line-height:1.8;
+white-space:pre-line;
+}
+.locked-message {
+color:rgba(255,255,255,0.3);
+font-style:italic;
+}
+.progress {
+margin-top:20px;
+color:#d4af37;
+font-size:18px;
+}
+.next-hint {
+color:rgba(255,255,255,0.5);
+font-size:14px;
+margin-top:10px;
+font-style:italic;
+}
+.error-message {
+color:#ff6b6b;
+margin-top:10px;
+min-height:20px;
+font-size:14px;
+}
 </style>
 </head>
 <body>
+
 <div class="container">
     <h1>💌 LOVE LETTERS</h1>
     <p>a new letter unlocks each day</p>
-    <input id="password" placeholder="enter today's code">
-    <button onclick="unlock()">unlock</button>
-    <div id="error"></div>
-    <div id="progress">📬 0 of 45 letters unlocked</div>
-    <div id="nextHint"></div>
-    <div id="lettersContainer"></div>
+    
+    <div class="password-area">
+        <input id="password" placeholder="enter today's code" type="password">
+        <button onclick="unlock()">unlock</button>
+    </div>
+    
+    <div id="error" class="error-message"></div>
+    <div id="progress" class="progress">📬 0 of 45 letters unlocked</div>
+    <div id="nextHint" class="next-hint"></div>
+    
+    <div class="letters-container" id="lettersContainer"></div>
 </div>
 
 <script>
 // =============================================
-// DAY PASSWORDS
+// FORCE RESET - REMOVE THIS AFTER FIRST LOAD
+// =============================================
+// Uncomment the line below ONCE to reset your progress
+// localStorage.removeItem('unlockedLetters');
+
+// =============================================
+// DAY PASSWORDS - 45 days (forms one complete sentence)
 // =============================================
 const dayPasswords = [
-    "you", "exist", "in", "my", "thoughts", "every", "single", "day", "and", "night",
-    "without", "trying", "you", "became", "my", "favourite", "habit", "the", "one", "i",
-    "think", "of", "when", "i", "wake", "and", "the", "last", "before", "i",
-    "sleep", "you're", "my", "calm", "my", "storm", "my", "reason", "to", "feel",
-    "this", "way", "manahil", "always", "you"
+    "you",              // Day 1
+    "exist",            // Day 2
+    "in",               // Day 3
+    "my",               // Day 4
+    "thoughts",         // Day 5
+    "every",            // Day 6
+    "single",           // Day 7
+    "day",              // Day 8
+    "and",              // Day 9
+    "night",            // Day 10
+    "without",          // Day 11
+    "trying",           // Day 12
+    "you",              // Day 13
+    "became",           // Day 14
+    "my",               // Day 15
+    "favourite",        // Day 16
+    "habit",            // Day 17
+    "the",              // Day 18
+    "one",              // Day 19
+    "i",                // Day 20
+    "think",            // Day 21
+    "of",               // Day 22
+    "when",             // Day 23
+    "i",                // Day 24
+    "wake",             // Day 25
+    "and",              // Day 26
+    "the",              // Day 27
+    "last",             // Day 28
+    "before",           // Day 29
+    "i",                // Day 30
+    "sleep",            // Day 31
+    "you're",           // Day 32
+    "my",               // Day 33
+    "calm",             // Day 34
+    "my",               // Day 35
+    "storm",            // Day 36
+    "my",               // Day 37
+    "reason",           // Day 38
+    "to",               // Day 39
+    "feel",             // Day 40
+    "this",             // Day 41
+    "way",              // Day 42
+    "manahil",          // Day 43
+    "always",           // Day 44
+    "you"               // Day 45
 ];
-
+    
 // =============================================
 // LOVE LETTERS - 45 Days
 // =============================================
@@ -100,13 +260,13 @@ const letters = [
     },
     { // Day 16
         title: "Sixteen & A Movie",
-        content: "Day 16. Yesterday was universe.html. And your reaction? Worth every second I spent building it. The shock, the awe, the way you kept saying how crazy it was — like a movie with possibilities that could've happened but didn't. You know what I loved most? That you saw it. Really saw it. All those alternate paths, all those almosts. And then we talked. And talked. And talked some more. Until 8am. When you should've been sleeping. But we were playing games over text instead. I wouldn't trade a single minute of it.\n\nThen today happened. 11 hours without light. No replies. And me? I got worried. Extremely. Probably too much. But that's what love does, I guess. Makes you check your phone 8 out of 10 times just to see if someone's okay. And when you finally replied, you didn't get annoyed. You consoled me. You understood. That meant more than you know.\n\nAnd then that good night message. The one I'll probably keep forever. 'Good night my love ... Much more love to u ... Sweet dreammmm .. I hope when u wake up u feel better.'Itni khushhhhhiiiiiiiiiiiiiii. You really know how to make someone feel loved, Manahil, you know how to make MEE feel loved.\n\nThrough all of this, you still studied. 4-5 hours today. Even with no light, even with everything going on. That's not just discipline — that's dedication. That's you showing up for yourself, always.\n\nI don't say this enough, but I'm so proud of you. For the student you are. For the partner you are. For the way you love. You did it, AGAIN. 💕"
+        content: "Day 16. Yesterday was universe.html. And your reaction? Worth every second I spent building it. The shock, the awe, the way you kept saying how crazy it was — like a movie with possibilities that could've happened but didn't. You know what I loved most? That you saw it. Really saw it. All those alternate paths, all those almosts. And then we talked. And talked. And talked some more. Until 8am. When you should've been sleeping. But we were playing games over text instead. I wouldn't trade a single minute of it.\n\nThen today happened. 11 hours without light. No replies. And me? I got worried. Extremely. Probably too much. But that's what love does, I guess. Makes you check your phone 8 out of 10 times just to see if someone's okay. And when you finally replied, you didn't get annoyed. You consoled me. You understood. That meant more than you know.\n\nAnd then that good night message. The one I'll probably keep forever. 'Good night my love ... Much more love to u ... Sweet dreammmm .. I hope when u wake up u feel better.' Itni khushhhhhiiiiiiiiiiiiiii. You really know how to make someone feel loved, Manahil, you know how to make MEE feel loved.\n\nThrough all of this, you still studied. 4-5 hours today. Even with no light, even with everything going on. That's not just discipline — that's dedication. That's you showing up for yourself, always.\n\nI don't say this enough, but I'm so proud of you. For the student you are. For the partner you are. For the way you love. You did it, AGAIN. 💕"
     },
     { // Day 17
         title: "Seventeen & Steady",
         content: "Day 17. What a day you've had, meri jaan.\n\n The kind that asks everything of you and still expects more. And you showed up anyway.\n\nSometimes love means being there when someone needs you — and today, you were. Even when you were running on empty, even when your body was begging you to stop, you kept going. Not for yourself. For the people who needed you. That's not something everyone can do. That's something only someone with a heart like yours can.\n\nAnd yeah, maybe today wasn't about books or pages or study hours. But you know what? That's okay. Some days are just about surviving. About getting through. About doing what needs to be done even when every part of you wants to collapse. And you did that. You did that beautifully.\n\nI hope you're resting now. I hope your body is finally getting the break it's been screaming for. And I hope you know — I see you. I see how hard today was. I see how much you gave. And I'm so, so proud of you for it.\n\nNot every day has to be productive to be meaningful. Today proved that. You proved that.\n\nRest well, my love. Tomorrow is a new day. But tonight? Tonight you just rest. You've earned it. 💕"
     },
-    { // Day 18
+    { // Day 18 - FIXED with escaped quotes
         title: "I See All of You",
         content: "I see you(lol that sounds creepy like \"Somebody's waatchinggg meeeeee\" moment😭). Not just the student. Not just the dreamer.\n\nI see the you behind all of it. The one who doubts but keeps going. The one who fears but shows up anyway. The one who gets tired but doesn't quit. The one who doesn't say but misses me loads but doesn't say it🤭(Although please do it feels really nice😭)\n\nI see her. And she means everything to me, YOU, mean everything to me. Not for what you achieves—for who you are.\n\nKeep being you. That's more than enough."
     },
@@ -223,27 +383,25 @@ const letters = [
 // Track unlocked days
 let unlockedDays = JSON.parse(localStorage.getItem('unlockedLetters')) || [];
 
-// ===== TEMPORARY - REMOVE AFTER GIVING TO MANAHIL =====
-// This will set it to day 17 (first 17 letters unlocked)
-if (unlockedDays.length === 0) {
-    unlockedDays = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17];
-    localStorage.setItem('unlockedLetters', JSON.stringify(unlockedDays));
-}
-// ===== REMOVE THIS SECTION AFTER SHE OPENS IT =====
 function unlock() {
     const input = document.getElementById('password').value.trim().toLowerCase();
     const errorDiv = document.getElementById('error');
     
+    // Clear previous error
     errorDiv.innerText = '';
     
+    // Find the NEXT UNLOCKED DAY by scanning from day 1 onward
     let nextDay = unlockedDays.length + 1;
     
+    // Check if the input matches the password for the next day
     if (nextDay <= dayPasswords.length && dayPasswords[nextDay - 1] === input) {
+        // Correct! It's the next day's password
         unlockedDays.push(nextDay);
         localStorage.setItem('unlockedLetters', JSON.stringify(unlockedDays));
         errorDiv.innerText = '✅ Letter unlocked!';
         errorDiv.style.color = '#4CAF50';
     } else {
+        // Wrong password
         errorDiv.innerText = '❌ Wrong password';
         errorDiv.style.color = '#ff6b6b';
     }
@@ -285,14 +443,23 @@ function displayLetters() {
     
     progress.innerHTML = `📬 ${unlockedDays.length} of 45 letters unlocked`;
     
+    // Show next password hint
     if (unlockedDays.length < 45) {
         const nextDay = unlockedDays.length + 1;
         nextHint.innerHTML = `✨ next password unlocks day ${nextDay}`;
     } else {
         nextHint.innerHTML = '✨ all letters unlocked! 💕';
     }
+    
+    // Scroll to newest letter
+    if (unlockedDays.length > 0) {
+        const newest = Math.max(...unlockedDays) - 1;
+        document.querySelectorAll('.letter')[newest]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 }
 
+// Clear password field and display on load
+document.getElementById('password').value = '';
 displayLetters();
 </script>
 </body>
