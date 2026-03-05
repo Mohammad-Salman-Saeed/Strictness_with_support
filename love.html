@@ -383,26 +383,40 @@ const letters = [
 
 // Track unlocked days
 let unlockedDays = JSON.parse(localStorage.getItem('unlockedLetters')) || [];
+    
+// Track unlocked days
+let unlockedDays = JSON.parse(localStorage.getItem('unlockedLetters')) || [];
+console.log('Initial unlockedDays from localStorage:', unlockedDays);
+console.log('Raw localStorage value:', localStorage.getItem('unlockedLetters'));
 
 function unlock() {
     const input = document.getElementById('password').value.trim().toLowerCase();
     const errorDiv = document.getElementById('error');
+    
+    console.log('Password entered:', input);
+    console.log('Current unlockedDays before unlock:', unlockedDays);
     
     // Clear previous error
     errorDiv.innerText = '';
     
     // Find the NEXT UNLOCKED DAY by scanning from day 1 onward
     let nextDay = unlockedDays.length + 1;
+    console.log('Next day to unlock:', nextDay);
+    console.log('Expected password for day', nextDay, ':', dayPasswords[nextDay - 1]);
     
     // Check if the input matches the password for the next day
     if (nextDay <= dayPasswords.length && dayPasswords[nextDay - 1] === input) {
+        console.log('Password correct!');
         // Correct! It's the next day's password
         unlockedDays.push(nextDay);
         localStorage.setItem('unlockedLetters', JSON.stringify(unlockedDays));
+        console.log('New unlockedDays:', unlockedDays);
+        console.log('Saved to localStorage:', localStorage.getItem('unlockedLetters'));
         errorDiv.innerText = '✅ Letter unlocked!';
         errorDiv.style.color = '#4CAF50';
     } else {
         // Wrong password
+        console.log('Password incorrect');
         errorDiv.innerText = '❌ Wrong password';
         errorDiv.style.color = '#ff6b6b';
     }
