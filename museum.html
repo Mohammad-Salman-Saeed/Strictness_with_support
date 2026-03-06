@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Museum of Our Possible Future</title>
+
+<style>
+
+body{
+margin:0;
+background:#0a0a0a;
+color:white;
+font-family:Georgia,serif;
+text-align:center;
+overflow-x:hidden;
+}
+
+h1{
+margin-top:40px;
+font-size:42px;
+letter-spacing:2px;
+}
+
+.subtitle{
+opacity:0.7;
+margin-bottom:40px;
+}
+
+#hall{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:30px;
+padding:40px;
+}
+
+/* DOORS */
+
+.door{
+width:170px;
+height:260px;
+background:linear-gradient(140deg,#3a2c1c,#2b1f14);
+border:4px solid #5a452c;
+border-radius:4px;
+cursor:pointer;
+position:relative;
+perspective:800px;
+}
+
+.doorInner{
+width:100%;
+height:100%;
+background:linear-gradient(140deg,#4a3620,#3a2b19);
+display:flex;
+align-items:center;
+justify-content:center;
+padding:15px;
+box-sizing:border-box;
+transition:transform 1s;
+transform-origin:left;
+}
+
+.door:hover .doorInner{
+background:linear-gradient(140deg,#5a4127,#45311e);
+}
+
+.door.open .doorInner{
+transform:rotateY(-100deg);
+}
+
+.doorLabel{
+font-size:16px;
+}
+
+/* ROOMS */
+
+.room{
+display:none;
+padding:40px;
+max-width:900px;
+margin:auto;
+animation:fadeIn 1s;
+}
+
+.frame{
+margin:30px auto;
+border:8px solid #444;
+padding:6px;
+width:280px;
+background:#111;
+}
+
+.frame img{
+width:100%;
+display:block;
+}
+
+p{
+font-size:18px;
+line-height:1.6;
+max-width:700px;
+margin:auto;
+}
+
+.back{
+margin-top:40px;
+padding:12px 30px;
+background:white;
+color:black;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* SECRET HEART */
+
+#secretHeart{
+position:fixed;
+top:20px;
+right:20px;
+font-size:28px;
+display:none;
+cursor:pointer;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:0.2}
+50%{opacity:1}
+100%{opacity:0.2}
+}
+
+#secretMessage{
+display:none;
+position:fixed;
+top:60px;
+right:20px;
+background:#111;
+padding:15px 20px;
+border:1px solid #555;
+border-radius:6px;
+font-size:14px;
+max-width:220px;
+}
+
+@keyframes fadeIn{
+from{opacity:0}
+to{opacity:1}
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>The Museum of Our Possible Future</h1>
+
+<div class="subtitle">
+Some memories haven't happened yet.<br>
+But somehow… they already feel real.
+</div>
+
+<div id="hall">
+
+<div class="door" onclick="openDoor(this,'room1')">
+<div class="doorInner"><div class="doorLabel">Exhibit I<br>Karachi</div></div>
+</div>
+
+<div class="door" onclick="openDoor(this,'room2')">
+<div class="doorInner"><div class="doorLabel">Exhibit II<br>Our Home</div></div>
+</div>
+
+<div class="door" onclick="openDoor(this,'room3')">
+<div class="doorInner"><div class="doorLabel">Exhibit III<br>Quiet Night</div></div>
+</div>
+
+<div class="door" onclick="openDoor(this,'room4')">
+<div class="doorInner"><div class="doorLabel">Exhibit IV<br>Airport Arrival</div></div>
+</div>
+
+<div class="door" onclick="openDoor(this,'room5')">
+<div class="doorInner"><div class="doorLabel">Exhibit V<br>Study Evenings</div></div>
+</div>
+
+<div class="door" onclick="openDoor(this,'room6')">
+<div class="doorInner"><div class="doorLabel">Exhibit VI<br>Game Night</div></div>
+</div>
+
+<div class="door" onclick="openDoor(this,'room7')">
+<div class="doorInner"><div class="doorLabel">Exhibit VII<br>First Hug</div></div>
+</div>
+
+<div class="door" onclick="openDoor(this,'room8')">
+<div class="doorInner"><div class="doorLabel">Exhibit VIII<br>The Kitchen</div></div>
+</div>
+
+</div>
+
+<!-- ROOMS -->
+
+<div id="room1" class="room">
+<h2>Exhibit I — Karachi</h2>
+<div class="frame"><img src="photo1.jpg"></div>
+<p>
+Two houses apart.  
+46 and 48.  
+
+Children running through the street, cricket bats in hand,
+not knowing that years later someone would call this
+the beginning of something far bigger than childhood friendship.
+</p>
+<button class="back" onclick="goBack()">Return to Museum</button>
+</div>
+
+
+<div id="room2" class="room">
+<h2>Exhibit II — Our Home</h2>
+<div class="frame"><img src="photo2.jpg"></div>
+<p>
+The house is quiet.
+
+Except for the sound of cabinets opening,
+ramen packets being stolen,
+and someone dramatically complaining about the mess.
+
+But the truth is…
+the chaos feels strangely like peace.
+</p>
+<button class="back" onclick="goBack()">Return to Museum</button>
+</div>
+
+
+<div id="room3" class="room">
+<h2>Exhibit III — Quiet Night</h2>
+<div class="frame"><img src="photo3.jpg"></div>
+<p>
+Late night conversations.
+
+The kind where the world sleeps
+but two people continue talking about everything —
+dreams, fears, future plans.
+
+Somewhere in those quiet hours,
+a bond slowly becomes unbreakable.
+</p>
+<button class="back" onclick="goBack()">Return to Museum</button>
+</div>
+
+
+<div id="room4" class="room">
+<h2>Exhibit IV — Airport Arrival</h2>
+<div class="frame"><img src="photo4.jpg"></div>
+<p>
+The airport doors open.
+
+Crowds move.
+
+But one face in the distance
+suddenly makes the entire journey worth it.
+
+After continents and months of waiting,
+distance finally loses.
+</p>
+<button class="back" onclick="goBack()">Return to Museum</button>
+</div>
+
+
+<div id="room5" class="room">
+<h2>Exhibit V — Study Evenings</h2>
+<div class="frame"><img src="photo5.jpg"></div>
+<p>
+Books open.  
+Notes everywhere.
+
+She studies seriously.
+
+He pretends to focus,
+but keeps looking up every few minutes.
+
+Because sometimes
+the most distracting thing in the world
+is simply someone you adore.
+</p>
+<button class="back" onclick="goBack()">Return to Museum</button>
+</div>
+
+
+<div id="room6" class="room">
+<h2>Exhibit VI — Game Night</h2>
+<div class="frame"><img src="photo6.jpg"></div>
+<p>
+Controllers ready.
+
+Competitive tension.
+
+Someone insists they are about to win.
+Someone else refuses to admit defeat.
+
+But the truth is
+the score never mattered.
+
+The laughter did.
+</p>
+<button class="back" onclick="goBack()">Return to Museum</button>
+</div>
+
+
+<div id="room7" class="room">
+<h2>Exhibit VII — The First Real Hug</h2>
+<div class="frame"><img src="photo7.jpg"></div>
+<p>
+Years of distance collapse
+into a single quiet moment.
+
+For the first time
+neither of them steps away.
+
+And suddenly
+every kilometer that once existed
+means nothing at all.
+</p>
+<button class="back" onclick="goBack()">Return to Museum</button>
+</div>
+
+
+<div id="room8" class="room">
+<h2>Exhibit VIII — The Future Kitchen</h2>
+<div class="frame"><img src="photo8.jpg"></div>
+<p>
+The kitchen smells like ramen.
+
+The counter is messy.
+
+Someone complains dramatically about the chaos,
+while secretly smiling the entire time.
+
+Because sometimes
+ordinary evenings become
+the most unforgettable memories.
+</p>
+<button class="back" onclick="goBack()">Return to Museum</button>
+</div>
+
+
+<!-- SECRET HEART -->
+
+<div id="secretHeart">❤</div>
+
+<div id="secretMessage">
+Hah, gotcha! You clicked on my heart..  
+Really love being here hmm hmm?
+</div>
+
+
+<script>
+
+/* DOOR OPEN */
+
+function openDoor(door,id){
+
+door.classList.add("open");
+
+setTimeout(()=>{
+document.getElementById("hall").style.display="none";
+document.getElementById(id).style.display="block";
+},800);
+
+}
+
+function goBack(){
+
+document.querySelectorAll(".room").forEach(r=>r.style.display="none");
+document.getElementById("hall").style.display="flex";
+
+document.querySelectorAll(".door").forEach(d=>d.classList.remove("open"));
+
+}
+
+/* SECRET HEART */
+
+let clicks=0;
+
+document.body.addEventListener("click",()=>{
+
+clicks++;
+
+if(clicks===3){
+document.getElementById("secretHeart").style.display="block";
+}
+
+});
+
+document.getElementById("secretHeart").onclick=function(){
+
+let msg=document.getElementById("secretMessage");
+
+msg.style.display = msg.style.display==="block" ? "none" : "block";
+
+}
+
+</script>
+
+</body>
+</html>
