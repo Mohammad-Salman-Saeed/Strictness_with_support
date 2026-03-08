@@ -41,6 +41,31 @@ margin-bottom:30px;
 letter-spacing:2px;
 }
 
+.corner-note{
+position:absolute;
+bottom:20px;
+right:25px;
+font-size:28px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.corner-note:hover{
+transform:scale(1.15);
+}
+
+.note-message{
+display:none;
+background:white;
+color:#333;
+padding:18px;
+border-radius:8px;
+margin-top:20px;
+font-size:14px;
+line-height:1.5;
+box-shadow:0 6px 20px rgba(0,0,0,0.3);
+}
+
 /* POLAROID GRID */
 
 .wall{
@@ -57,6 +82,26 @@ width:150px;
 height:200px;
 perspective:1200px;
 position:relative;
+filter:drop-shadow(0 8px 6px rgba(0,0,0,0.4));
+animation:swing 6s ease-in-out infinite;
+transform-origin:top center;
+}
+
+.polaroid:nth-child(2){ animation-duration:7s; }
+.polaroid:nth-child(3){ animation-duration:5.5s; }
+.polaroid:nth-child(4){ animation-duration:6.5s; }
+.polaroid:nth-child(5){ animation-duration:7.5s; }
+.polaroid:nth-child(6){ animation-duration:5.8s; }
+.polaroid:nth-child(7){ animation-duration:6.8s; }
+.polaroid:nth-child(8){ animation-duration:7.2s; }
+.polaroid:nth-child(9){ animation-duration:6.1s; }
+
+.caption{
+font-size:11px;
+font-style:italic;
+margin-top:6px;
+color:#444;
+font-family:"Courier New",monospace;
 }
 
 /* random tilt */
@@ -151,6 +196,16 @@ color:white;
 display:none;
 }
 
+@keyframes swing {
+
+0% { transform:rotate(-3deg); }
+
+50% { transform:rotate(3deg); }
+
+100% { transform:rotate(-3deg); }
+
+}
+
 </style>
 </head>
 
@@ -161,6 +216,16 @@ display:none;
 <h1>You 💗📷</h1>
 
 <div class="wall" id="wall"></div>
+<div class="corner-note" onclick="openNote()">📌</div>
+
+<div class="note-message" id="noteMessage">
+Some moments are too small for museums.
+
+So I pinned them here instead.
+
+And somehow, every single one
+still leads back to you.
+</div>
 
 <div class="secret" id="secretMessage">
 You just flipped my favorite one.
@@ -173,62 +238,74 @@ You just flipped my favorite one.
 const photos = [
 
 {
-img:"PHOTO1.jpg",
-text:`I’m pretty sure this smile is responsible
-for about 80% of my daily distractions.`
+img:"https://i.imgur.com/Ruei484.jpeg",
+caption:"she did it again",
+text:`I’m convinced open hair like this should come with a warning.
+It makes looking away almost impossible.`
 },
 
 {
-img:"PHOTO2.jpg",
+img:"https://i.imgur.com/USUTVuc.jpeg",
+caption:"this smile again",
 text:`I’m starting to suspect you secretly practice
 being this cute.`
 },
 
 {
-img:"PHOTO3.jpg",
+img:"https://i.imgur.com/bO6aVs8.jpeg",
+caption:"caught being effortlessly beautiful",
 text:`You probably took this photo casually.
 Meanwhile I’m here studying it
 like it’s an art masterpiece.`
 },
 
 {
-img:"PHOTO4.jpg",
+img:"https://i.imgur.com/lt3RH3Z.jpeg",
+caption:"how is this even fair",
 text:`How do you manage to look like this
 while doing absolutely nothing special?`
 },
 
 {
-img:"PHOTO5.jpg",
+img:"https://i.imgur.com/apbhKWN.jpeg",
+caption:"a moment I kept",  
 text:`Some photos capture moments.
 This one captures why you matter to me.`
 },
 
 {
-img:"PHOTO6.jpg",
+img:"https://i.imgur.com/7BKKS3I.jpeg",
+caption:"this one makes me pause",
 text:`Every time I see this picture
 I feel the same quiet happiness.`
 },
 
 {
-img:"PHOTO7.jpg",
+img:"https://i.imgur.com/Zywv0Qs.jpeg",
+caption:"one of my favorites",
 text:`The world feels a little calmer
 whenever I see your face.`
 },
 
 {
-img:"PHOTO8.jpg",
+img:"https://i.imgur.com/Y0kwWNw.jpeg",
+caption:"the day things felt different",
 text:`Out of every picture I have,
 this one always makes me pause the longest.`
 },
 
 {
-img:"PHOTO9.jpg",
+img:"https://i.imgur.com/ULUWdML.jpeg",
+caption:`if you look closely,
+there’s a piece of me
+in this moment too`,
 text:`This photo reminds me of something simple:
 meeting you changed more than you know.`
 },
 
 {
-img:"PHOTO10.jpg",
+img:"https://i.imgur.com/TvFM07e.jpeg",
+caption:"my favorite view",
 text:`If someone asked me what my favorite view is,
 I’d probably just show them this.`,
 secret:true
@@ -248,7 +325,8 @@ polaroid.innerHTML=`
 <div class="front">
 <div class="pin"></div>
 <img src="${p.img}">
-</div>
+<div class="caption">${p.caption}</div>
+</div>>
 
 <div class="back">
 ${p.text}
@@ -270,7 +348,12 @@ wall.appendChild(polaroid);
 
 });
 
+function openNote(){
+document.getElementById("noteMessage").style.display="block";
+}
+
 </script>
 
 </body>
+
 </html>
