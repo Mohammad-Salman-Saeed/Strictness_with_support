@@ -14,19 +14,19 @@ box-sizing:border-box;
 }
 
 body{
+background:#0f3d2e;
 font-family:Georgia,serif;
 min-height:100vh;
 display:flex;
 justify-content:center;
 padding:20px;
-background:#7c5634;
 }
 
 /* CORKBOARD */
 
 .board{
 background:url("https://www.transparenttextures.com/patterns/cork-board.png");
-background-color:#a77747;
+background-color:#1b5e46;
 padding:30px;
 border-radius:15px;
 max-width:900px;
@@ -85,8 +85,21 @@ position:relative;
 filter:drop-shadow(0 8px 6px rgba(0,0,0,0.4));
 animation:swing 6s ease-in-out infinite;
 transform-origin:top center;
+opacity:0;
+animation:dropPhoto 0.8s ease forwards;
 }
 
+.polaroid:nth-child(1){animation-delay:0.2s;}
+.polaroid:nth-child(2){animation-delay:0.4s;}
+.polaroid:nth-child(3){animation-delay:0.6s;}
+.polaroid:nth-child(4){animation-delay:0.8s;}
+.polaroid:nth-child(5){animation-delay:1s;}
+.polaroid:nth-child(6){animation-delay:1.2s;}
+.polaroid:nth-child(7){animation-delay:1.4s;}
+.polaroid:nth-child(8){animation-delay:1.6s;}
+.polaroid:nth-child(9){animation-delay:1.8s;}
+.polaroid:nth-child(10){animation-delay:2s;}
+  
 .polaroid:nth-child(2){ animation-duration:7s; }
 .polaroid:nth-child(3){ animation-duration:5.5s; }
 .polaroid:nth-child(4){ animation-duration:6.5s; }
@@ -182,8 +195,8 @@ box-shadow:0 2px 4px rgba(0,0,0,0.5);
 /* lift effect */
 
 .polaroid:hover{
-transform:scale(1.05);
-transition:0.25s;
+transform:rotate(2deg) scale(1.05);
+transition:0.3s;
 }
 
 /* SECRET MESSAGE */
@@ -203,6 +216,24 @@ display:none;
 50% { transform:rotate(3deg); }
 
 100% { transform:rotate(-3deg); }
+
+}
+
+@keyframes dropPhoto{
+
+0%{
+opacity:0;
+transform:translateY(-80px) rotate(-10deg);
+}
+
+70%{
+transform:translateY(10px) rotate(-3deg);
+}
+
+100%{
+opacity:1;
+transform:translateY(0) rotate(0deg);
+}
 
 }
 
@@ -357,3 +388,4 @@ document.getElementById("noteMessage").style.display="block";
 </body>
 
 </html>
+
