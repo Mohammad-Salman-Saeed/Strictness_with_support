@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>📷 My Favourite Wall</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Georgia,serif;
+min-height:100vh;
+display:flex;
+justify-content:center;
+padding:20px;
+background:#7c5634;
+}
+
+/* CORKBOARD */
+
+.board{
+background:url("https://www.transparenttextures.com/patterns/cork-board.png");
+background-color:#a77747;
+padding:30px;
+border-radius:15px;
+max-width:900px;
+width:100%;
+box-shadow:0 15px 40px rgba(0,0,0,0.5);
+}
+
+.board h1{
+text-align:center;
+color:white;
+margin-bottom:30px;
+letter-spacing:2px;
+}
+
+/* POLAROID GRID */
+
+.wall{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+gap:35px;
+justify-items:center;
+}
+
+/* POLAROID */
+
+.polaroid{
+width:150px;
+height:200px;
+perspective:1200px;
+position:relative;
+}
+
+/* random tilt */
+
+.polaroid:nth-child(odd){
+transform:rotate(-3deg);
+}
+
+.polaroid:nth-child(even){
+transform:rotate(3deg);
+}
+
+/* flip container */
+
+.card{
+width:100%;
+height:100%;
+position:relative;
+transform-style:preserve-3d;
+transition:transform 1.1s cubic-bezier(.22,.61,.36,1);
+cursor:pointer;
+}
+
+/* flip animation */
+
+.polaroid.flip .card{
+transform:rotateY(180deg);
+}
+
+/* front/back */
+
+.front,
+.back{
+position:absolute;
+width:100%;
+height:100%;
+background:white;
+border-radius:6px;
+backface-visibility:hidden;
+box-shadow:0 8px 20px rgba(0,0,0,0.4);
+display:flex;
+flex-direction:column;
+align-items:center;
+padding:10px;
+}
+
+.front img{
+width:100%;
+height:130px;
+object-fit:cover;
+border-radius:4px;
+margin-bottom:6px;
+}
+
+.back{
+transform:rotateY(180deg);
+font-size:13px;
+line-height:1.45;
+text-align:center;
+justify-content:center;
+padding:12px;
+}
+
+/* push pin */
+
+.pin{
+position:absolute;
+top:-6px;
+left:50%;
+transform:translateX(-50%);
+width:12px;
+height:12px;
+background:red;
+border-radius:50%;
+box-shadow:0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* lift effect */
+
+.polaroid:hover{
+transform:scale(1.05);
+transition:0.25s;
+}
+
+/* SECRET MESSAGE */
+
+.secret{
+margin-top:30px;
+text-align:center;
+font-size:17px;
+color:white;
+display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="board">
+
+<h1>You 💗📷</h1>
+
+<div class="wall" id="wall"></div>
+
+<div class="secret" id="secretMessage">
+You just flipped my favorite one.
+</div>
+
+</div>
+
+<script>
+
+const photos = [
+
+{
+img:"PHOTO1.jpg",
+text:`I’m pretty sure this smile is responsible
+for about 80% of my daily distractions.`
+},
+
+{
+img:"PHOTO2.jpg",
+text:`I’m starting to suspect you secretly practice
+being this cute.`
+},
+
+{
+img:"PHOTO3.jpg",
+text:`You probably took this photo casually.
+Meanwhile I’m here studying it
+like it’s an art masterpiece.`
+},
+
+{
+img:"PHOTO4.jpg",
+text:`How do you manage to look like this
+while doing absolutely nothing special?`
+},
+
+{
+img:"PHOTO5.jpg",
+text:`Some photos capture moments.
+This one captures why you matter to me.`
+},
+
+{
+img:"PHOTO6.jpg",
+text:`Every time I see this picture
+I feel the same quiet happiness.`
+},
+
+{
+img:"PHOTO7.jpg",
+text:`The world feels a little calmer
+whenever I see your face.`
+},
+
+{
+img:"PHOTO8.jpg",
+text:`Out of every picture I have,
+this one always makes me pause the longest.`
+},
+
+{
+img:"PHOTO9.jpg",
+text:`This photo reminds me of something simple:
+meeting you changed more than you know.`
+},
+
+{
+img:"PHOTO10.jpg",
+text:`If someone asked me what my favorite view is,
+I’d probably just show them this.`,
+secret:true
+}
+
+];
+
+const wall=document.getElementById("wall");
+
+photos.forEach(p=>{
+
+const polaroid=document.createElement("div");
+polaroid.className="polaroid";
+
+polaroid.innerHTML=`
+<div class="card">
+<div class="front">
+<div class="pin"></div>
+<img src="${p.img}">
+</div>
+
+<div class="back">
+${p.text}
+</div>
+</div>
+`;
+
+polaroid.onclick=()=>{
+
+polaroid.classList.toggle("flip");
+
+if(p.secret){
+document.getElementById("secretMessage").style.display="block";
+}
+
+};
+
+wall.appendChild(polaroid);
+
+});
+
+</script>
+
+</body>
+</html>
