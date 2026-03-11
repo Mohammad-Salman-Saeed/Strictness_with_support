@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Terms & Conditions of Being With Salman</title>
+
+<style>
+
+body{
+background:linear-gradient(120deg,#0a0a0a,#1a1a1a,#000000);
+color:white;
+font-family:Georgia,serif;
+text-align:center;
+padding:40px;
+overflow-x:hidden;
+}
+
+h1{
+font-size:48px;
+letter-spacing:2px;
+margin-bottom:10px;
+animation:fadeIn 2s;
+}
+
+.subtitle{
+opacity:0.7;
+margin-bottom:50px;
+font-size:18px;
+animation:fadeIn 3s;
+}
+
+.clause{
+max-width:800px;
+margin:18px auto;
+font-size:20px;
+opacity:0;
+transform:translateY(20px);
+transition:all 1s;
+}
+
+.show{
+opacity:1;
+transform:translateY(0);
+}
+
+button{
+margin-top:40px;
+padding:15px 40px;
+font-size:18px;
+background:#ffffff;
+color:black;
+border:none;
+border-radius:8px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#dddddd;
+}
+
+#final{
+display:none;
+margin-top:60px;
+font-size:28px;
+animation:fadeIn 2s;
+}
+
+.hidden{
+opacity:0.08;
+font-size:14px;
+margin-top:100px;
+}
+
+@keyframes fadeIn{
+from{opacity:0}
+to{opacity:1}
+}
+
+.heart{
+position:fixed;
+bottom:-20px;
+font-size:20px;
+animation:float 8s linear infinite;
+opacity:0.4;
+pointer-events:none;
+}
+
+@keyframes float{
+0%{
+transform:translateY(0) scale(1);
+opacity:0;
+}
+20%{opacity:0.5;}
+100%{
+transform:translateY(-110vh) scale(1.5);
+opacity:0;
+}
+}
+.star{
+position:fixed;
+width:3px;
+height:3px;
+background:white;
+border-radius:50%;
+opacity:0.8;
+animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+from{opacity:0.2;}
+to{opacity:1;}
+}
+
+#constellation{
+position:fixed;
+top:40%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:32px;
+opacity:0;
+transition:2s;
+letter-spacing:3px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Terms & Conditions of Being With Salman</h1>
+
+<div class="subtitle">
+Please read carefully before proceeding.<br>
+By continuing, you acknowledge a future containing emotional safety,
+ridiculous affection, ramen stockpiles, and a man who refuses to give up on you.
+</div>
+
+<div id="clauses">
+
+<div class="clause">1. You accept that your name, <b>Manahil</b>, will appear in my duas more often than my own.</div>
+
+<div class="clause">2. You agree that whatever we build will be built with sincerity, patience, and the intention of pleasing Allah.</div>
+
+<div class="clause">3. You accept that my responsibility will always be to protect your heart before anything else.</div>
+
+<div class="clause">4. You agree that difficult days will be faced together, never alone.</div>
+
+<div class="clause">5. You acknowledge that distance, time zones, and continents will never be stronger than intention.</div>
+
+<div class="clause">6. You accept that our home will always contain a packet of our favourite Doritos and at least one packet of every flavour of ramen.</div>
+
+<div class="clause">7. You agree to playing games together — board games, PC games, controller games, or ridiculous physical games.</div>
+
+<div class="clause">8. You acknowledge that this is not about temporary dating — it is about intention, loyalty, and building something meaningful.</div>
+
+<div class="clause">9. You accept that random moments of appreciation may occur at any time without warning.</div>
+
+<div class="clause">10. You agree that I will spend a lifetime trying to deserve you.</div>
+
+<div class="clause">11. You accept getting affectionate kisses and warmth from me forever and ever.</div>
+
+<div class="clause">12. You accept that physical closeness and comfort are a natural part of my love for you.</div>
+
+<div class="clause">13. You agree that if you ever feel unsure of yourself, I will remind you of your worth.</div>
+
+<div class="clause">14. You accept that I will always try to make you laugh, even when the world feels heavy.</div>
+
+<div class="clause">15. You agree to building peaceful mornings, chaotic evenings, and beautiful memories together.</div>
+
+<div class="clause">16. You accept that your smile has the ability to completely ruin my ability to think logically.</div>
+
+<div class="clause">17. You agree that we will celebrate the smallest victories as if they were massive achievements.</div>
+
+<div class="clause">18. You accept that you will never have to cry alone ever again.</div>
+
+<div class="clause">19. You agree to keep the gussay wali laraku Manahil under control and only release her occasionally with prior notice.</div>
+
+<div class="clause">20. You accept that I will always stand beside you in moments when you feel weak.</div>
+
+<div class="clause">21. You acknowledge that I may randomly remind you that you are special.</div>
+
+<div class="clause">22. You agree that silence together can be just as meaningful as conversation.</div>
+
+<div class="clause">23. You accept that sometimes I will look at you and quietly thank Allah.</div>
+
+<div class="clause">24. You agree that protecting each other's peace will always be more important than winning arguments.</div>
+
+<div class="clause">25. You accept that late night talks about life, dreams, and the future will occur frequently.</div>
+
+<div class="clause">26. You agree that our story will be written with patience, loyalty, and faith.</div>
+
+<div class="clause">27. You accept that you may be adored more than you expect.</div>
+
+<div class="clause">28. You agree that our intentions will always remain pure and respectful.</div>
+
+<div class="clause">29. You acknowledge that once my heart chose you, leaving was never part of the design.</div>
+
+<div class="clause">30. By accepting these terms, you acknowledge that you are someone I intend to protect, cherish, and stand beside for a very long time.</div>
+
+</div>
+
+<button onclick="acceptTerms()">Accept Terms</button>
+
+<div id="final">
+
+<p>Congratulations. You have accepted a lifetime agreement to being annoyed by this pagal larka!</p>
+
+<p>You are now officially under lifelong emotional protection.</p>
+
+<p><b id="signature"></b></p>
+
+<p style="opacity:0.7;">(who chose you long before you realized it)</p>
+
+</div>
+
+<div class="hidden">
+Clause 31 (Unwritten):  
+If Manahil ever forgets how special she is, Salman is legally required to remind her immediately.
+<br><br>
+Some contracts are written in ink.  
+This one was written in dua.
+</div>
+
+<script>
+
+let clauses = document.querySelectorAll(".clause");
+
+clauses.forEach((clause,i)=>{
+setTimeout(()=>{
+clause.classList.add("show");
+}, i*400);
+});
+
+function acceptTerms(){
+
+document.querySelector("button").style.display="none";
+
+setTimeout(()=>{
+document.getElementById("final").style.display="block";
+},500);
+
+}
+
+</script>
+
+<script>
+
+const text = "Signed,\nSalman";
+let index = 0;
+
+function typeSignature(){
+
+if(index < text.length){
+
+document.getElementById("signature").innerHTML += text.charAt(index);
+
+index++;
+
+setTimeout(typeSignature,80);
+
+}
+
+}
+
+function acceptTerms(){
+
+document.querySelector("button").style.display="none";
+
+setTimeout(()=>{
+document.getElementById("final").style.display="block";
+typeSignature();
+},500);
+
+}
+
+</script>
+
+<script>
+
+function createHeart(){
+
+let heart = document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤";
+
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(15+Math.random()*20)+"px";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},8000)
+
+}
+
+setInterval(createHeart,800);
+
+</script>
+
+<div id="constellation">I adore you Manahil</div>
+
+<script>
+
+let clicks=0;
+
+document.body.addEventListener("click",()=>{
+
+clicks++;
+
+if(clicks==5){
+
+for(let i=0;i<80;i++){
+
+let star=document.createElement("div");
+star.className="star";
+
+star.style.left=Math.random()*100+"vw";
+star.style.top=Math.random()*100+"vh";
+
+document.body.appendChild(star);
+
+}
+
+setTimeout(()=>{
+document.getElementById("constellation").style.opacity=1;
+},1000)
+
+}
+
+});
+
+</script>
+</body>
+</html>
