@@ -22,11 +22,11 @@ padding:20px 15px 40px 15px;
 min-height:100vh;
 overflow-x:hidden;
 overflow-y:auto;
--webkit-overflow-scrolling:touch; /* Smooth scrolling on mobile */
+-webkit-overflow-scrolling:touch;
 }
 
 h1{
-font-size:clamp(28px, 8vw, 48px); /* Responsive font size */
+font-size:clamp(28px, 8vw, 48px);
 letter-spacing:2px;
 margin-bottom:15px;
 animation:fadeIn 2s;
@@ -37,7 +37,7 @@ padding:0 5px;
 .subtitle{
 opacity:0.7;
 margin-bottom:30px;
-font-size:clamp(14px, 4vw, 18px); /* Responsive font size */
+font-size:clamp(14px, 4vw, 18px);
 animation:fadeIn 3s;
 line-height:1.5;
 padding:0 10px;
@@ -47,7 +47,6 @@ padding:0 10px;
 max-width:100%;
 margin:0 auto;
 padding:5px;
-/* Performance optimization */
 transform:translateZ(0);
 backface-visibility:hidden;
 }
@@ -56,16 +55,15 @@ backface-visibility:hidden;
 width:100%;
 margin:15px auto;
 padding:8px 12px;
-font-size:clamp(16px, 4.5vw, 22px); /* Larger base size for mobile */
+font-size:clamp(16px, 4.5vw, 22px);
 opacity:0;
 transform:translateY(20px);
-transition:all 0.8s ease-out; /* Smoother transition */
+transition:all 0.8s ease-out;
 line-height:1.6;
-text-align:left; /* Better for reading on mobile */
-background:rgba(255,255,255,0.03); /* Subtle background for readability */
+text-align:left;
+background:rgba(255,255,255,0.03);
 border-radius:12px;
 box-shadow:0 2px 8px rgba(0,0,0,0.2);
-/* Performance optimization */
 will-change:transform, opacity;
 }
 
@@ -82,17 +80,16 @@ button{
 margin-top:30px;
 margin-bottom:20px;
 padding:16px 45px;
-font-size:clamp(18px, 5vw, 22px); /* Larger button for mobile */
+font-size:clamp(18px, 5vw, 22px);
 background:#ffffff;
 color:black;
 border:none;
-border-radius:50px; /* Rounded for mobile */
+border-radius:50px;
 cursor:pointer;
 transition:0.3s;
 font-weight:bold;
 box-shadow:0 4px 15px rgba(255,255,255,0.2);
-/* Performance optimization */
--webkit-tap-highlight-color:transparent; /* Removes tap highlight on mobile */
+-webkit-tap-highlight-color:transparent;
 }
 
 button:hover{
@@ -101,7 +98,7 @@ transform:scale(1.02);
 }
 
 button:active {
-transform:scale(0.98); /* Press effect on mobile */
+transform:scale(0.98);
 }
 
 #final{
@@ -144,7 +141,6 @@ from{opacity:0}
 to{opacity:1}
 }
 
-/* Heart animations - optimized */
 .heart{
 position:fixed;
 bottom:-20px;
@@ -153,7 +149,6 @@ animation:float 8s linear infinite;
 opacity:0.3;
 pointer-events:none;
 z-index:1;
-/* Performance optimization */
 will-change:transform;
 }
 
@@ -169,7 +164,6 @@ opacity:0;
 }
 }
 
-/* Stars - optimized */
 .star{
 position:fixed;
 width:3px;
@@ -180,7 +174,6 @@ opacity:0.6;
 animation:twinkle 2s infinite alternate;
 pointer-events:none;
 z-index:2;
-/* Performance optimization */
 will-change:opacity;
 }
 
@@ -189,12 +182,13 @@ from{opacity:0.2;}
 to{opacity:1;}
 }
 
+/* FIXED: Constellation starts invisible */
 #constellation{
 position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:clamp(32px, 10vw, 70px); /* Responsive size */
+font-size:clamp(32px, 10vw, 70px);
 letter-spacing:2px;
 pointer-events:none;
 z-index:10;
@@ -204,8 +198,9 @@ white-space:nowrap;
 transition:opacity 3s ease-in-out;
 width:100%;
 text-align:center;
-/* Performance optimization */
 will-change:opacity;
+/* CRITICAL: Start invisible */
+opacity:0;
 }
 
 #constellation.show {
@@ -222,7 +217,6 @@ opacity:1;
 animation: gentlePulse 2s infinite;
 }
 
-/* Fix for small screens */
 @media (max-width: 380px) {
 .clause {
 font-size:15px;
@@ -233,17 +227,11 @@ font-size:26px;
 }
 }
 
-/* Reduce animations on low-end devices */
 @media (prefers-reduced-motion) {
 .heart, .star, .clause, #constellation {
 animation: none !important;
 transition: none !important;
 }
-}
-
-/* Limit hearts for performance */
-.heart-limited {
-opacity:0.2;
 }
 
 </style>
@@ -345,21 +333,22 @@ Some contracts are written in ink.
 This one was written in dua.
 </div>
 
+<!-- FIXED: Constellation starts invisible in CSS -->
 <div id="constellation">I adore you Manahil</div>
 
 <script>
-// Performance: Limit animations on mobile
+// Performance: Detect mobile
 let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-// Show clauses with delay - staggered for performance
+// Show clauses with delay
 let clauses = document.querySelectorAll(".clause");
 clauses.forEach((clause,i)=>{
 setTimeout(()=>{
 clause.classList.add("show");
-}, i * 150); // Faster reveal on mobile (150ms instead of 400ms)
+}, i * 150);
 });
 
-// Signature typing effect - optimized
+// Signature typing effect
 const text = "Signed,\nSalman";
 let index = 0;
 let typingTimeout;
@@ -368,11 +357,10 @@ function typeSignature(){
 if(index < text.length){
 document.getElementById("signature").innerHTML += text.charAt(index);
 index++;
-typingTimeout = setTimeout(typeSignature,60); // Slightly faster on mobile
+typingTimeout = setTimeout(typeSignature,60);
 }
 }
 
-// Updated acceptTerms function
 function acceptTerms(){
 document.querySelector("button").style.display="none";
 setTimeout(()=>{
@@ -381,13 +369,11 @@ typeSignature();
 },500);
 }
 
-// Create floating hearts - LIMITED for mobile performance
-let heartInterval;
+// Floating hearts
 let heartCount = 0;
-const MAX_HEARTS = 15; // Limit hearts on screen
+const MAX_HEARTS = 15;
 
 function createHeart(){
-// Remove oldest heart if too many
 if(document.querySelectorAll('.heart').length > MAX_HEARTS) {
 document.querySelector('.heart')?.remove();
 }
@@ -396,31 +382,27 @@ let heart = document.createElement("div");
 heart.className = "heart";
 heart.innerHTML = "❤";
 heart.style.left = Math.random() * 100 + "vw";
-heart.style.fontSize = (15 + Math.random() * 15) + "px"; // Smaller range
-heart.style.animationDuration = (6 + Math.random() * 4) + "s"; // Varied speed
+heart.style.fontSize = (15 + Math.random() * 15) + "px";
+heart.style.animationDuration = (6 + Math.random() * 4) + "s";
 document.body.appendChild(heart);
 
-// Auto remove after animation
 setTimeout(() => {
 if(heart.parentNode) heart.remove();
 }, 8000);
 }
 
-// Start hearts - less frequent on mobile
 setInterval(createHeart, isMobile ? 1000 : 800);
 
-// Click counter for constellation effect - ON 4 CLICKS
+// FIXED: Click counter - NOW WORKING PROPERLY
 let clicks = 0;
 let timeoutActive = false;
-
-// Debounce function to prevent double counting on mobile
 let clickDebounce = false;
 
 document.body.addEventListener("click", (e) => {
 // Don't count clicks on button
 if(e.target.tagName === 'BUTTON') return;
 if(timeoutActive) return;
-if(clickDebounce) return; // Prevent double clicks on mobile
+if(clickDebounce) return;
 
 clickDebounce = true;
 setTimeout(() => { clickDebounce = false; }, 300);
@@ -428,13 +410,14 @@ setTimeout(() => { clickDebounce = false; }, 300);
 clicks++;
 console.log("Clicks: " + clicks);
 
+// FIXED: Trigger on 4 clicks
 if(clicks === 4) {
 timeoutActive = true;
 
-// Remove old stars first (performance)
+// Remove old stars first
 document.querySelectorAll('.star').forEach(star => star.remove());
 
-// Create fewer stars on mobile for performance
+// Create stars
 const starCount = isMobile ? 40 : 80;
 
 for(let i = 0; i < starCount; i++) {
@@ -442,23 +425,22 @@ let star = document.createElement("div");
 star.className = "star";
 star.style.left = Math.random() * 100 + "vw";
 star.style.top = Math.random() * 100 + "vh";
-star.style.animationDelay = Math.random() * 2 + "s"; // Stagger animations
+star.style.animationDelay = Math.random() * 2 + "s";
 document.body.appendChild(star);
 }
 
-// Show constellation
+// FIXED: Show constellation by adding the 'show' class
 const constellation = document.getElementById("constellation");
 constellation.classList.add("show");
 
-// Stay fully visible for 3 seconds
+// Stay visible for 3 seconds
 setTimeout(() => {
-// Start fading out
+// Start fading out by removing 'show' class
 constellation.classList.remove("show");
 
 // Remove stars after fade completes
 setTimeout(() => {
 document.querySelectorAll('.star').forEach(star => {
-// Smooth removal
 star.style.opacity = '0';
 setTimeout(() => star.remove(), 300);
 });
@@ -471,13 +453,10 @@ clicks = 0; // Reset counter
 }
 });
 
-// Clean up on page hide (for mobile performance)
+// Clean up
 window.addEventListener('pagehide', function() {
 if(typingTimeout) clearTimeout(typingTimeout);
 });
-
-// Force garbage collection hint (not actual GC, just helps)
-if(window.gc) window.gc();
 
 </script>
 
