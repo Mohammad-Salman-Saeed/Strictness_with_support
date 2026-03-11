@@ -120,27 +120,27 @@ transform:translate(-50%,-50%);
 font-size:48px;
 opacity:0;
 letter-spacing:3px;
-pointer-events:none; /* Prevents blocking clicks */
+pointer-events:none;
 z-index:999;
 text-shadow:0 0 20px rgba(255,215,0,0.8);
 color:gold;
-transition:opacity 1s;
 white-space:nowrap;
+transition:opacity 3s ease-in-out; /* Smooth fade out over 3 seconds */
 }
 
-#constellation.floatAway {
-animation:floatUp 4s forwards;
+#constellation.show {
+opacity:1;
 }
 
-@keyframes floatUp {
-0% {
-opacity:0.9;
-transform:translate(-50%,-50%) scale(1);
+/* Optional pulsing effect while visible */
+@keyframes gentlePulse {
+0% { text-shadow: 0 0 20px rgba(255,215,0,0.8); }
+50% { text-shadow: 0 0 40px rgba(255,215,0,1); }
+100% { text-shadow: 0 0 20px rgba(255,215,0,0.8); }
 }
-100% {
-opacity:0;
-transform:translate(-50%,-200%) scale(1.5);
-}
+
+#constellation.show {
+animation: gentlePulse 2s infinite;
 }
 
 </style>
@@ -288,17 +288,21 @@ heart.remove();
 }
 setInterval(createHeart,800);
 
-// Click counter for constellation effect
+// Click counter for constellation effect - NOW ON 4 CLICKS
 let clicks = 0;
+let timeoutActive = false; // Prevent multiple triggers
 
 document.body.addEventListener("click", (e) => {
 // Don't count clicks on button
 if(e.target.tagName === 'BUTTON') return;
+if(timeoutActive) return; // Don't count clicks while effect is active
     
 clicks++;
 console.log("Clicks: " + clicks); // For debugging
     
-if(clicks === 5) {
+if(clicks === 4) {
+timeoutActive = true;
+    
 // Create stars
 for(let i = 0; i < 80; i++) {
 let star = document.createElement("div");
@@ -308,17 +312,23 @@ star.style.top = Math.random() * 100 + "vh";
 document.body.appendChild(star);
 }
     
-// Show and animate constellation
+// Show constellation
 const constellation = document.getElementById("constellation");
-constellation.style.opacity = "1";
-constellation.classList.add("floatAway");
+constellation.classList.add("show");
     
-// Remove stars and reset after animation
+// Stay fully visible for 3 seconds
+setTimeout(() => {
+// Start fading out over 3 seconds
+constellation.classList.remove("show");
+// constellation opacity will transition to 0 over 3s via CSS
+    
+// Remove stars after fade completes
 setTimeout(() => {
 document.querySelectorAll('.star').forEach(star => star.remove());
-constellation.style.opacity = "0";
-constellation.classList.remove("floatAway");
-}, 4000);
+timeoutActive = false; // Re-enable click counter
+}, 3000); // Wait for fade to complete
+    
+}, 3000); // Stay visible for 3 seconds
     
 clicks = 0; // Reset counter
 }
