@@ -114,13 +114,33 @@ to{opacity:1;}
 
 #constellation{
 position:fixed;
-top:40%;
+top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-font-size:32px;
+font-size:48px;
 opacity:0;
-transition:2s;
 letter-spacing:3px;
+pointer-events:none; /* Prevents blocking clicks */
+z-index:999;
+text-shadow:0 0 20px rgba(255,215,0,0.8);
+color:gold;
+transition:opacity 1s;
+white-space:nowrap;
+}
+
+#constellation.floatAway {
+animation:floatUp 4s forwards;
+}
+
+@keyframes floatUp {
+0% {
+opacity:0.9;
+transform:translate(-50%,-50%) scale(1);
+}
+100% {
+opacity:0;
+transform:translate(-50%,-200%) scale(1.5);
+}
 }
 
 </style>
@@ -222,116 +242,89 @@ Some contracts are written in ink.
 This one was written in dua.
 </div>
 
+<div id="constellation">I adore you Manahil</div>
+
 <script>
-
+// Show clauses with delay
 let clauses = document.querySelectorAll(".clause");
-
 clauses.forEach((clause,i)=>{
 setTimeout(()=>{
 clause.classList.add("show");
 }, i*400);
 });
 
-function acceptTerms(){
-
-document.querySelector("button").style.display="none";
-
-setTimeout(()=>{
-document.getElementById("final").style.display="block";
-},500);
-
-}
-
-</script>
-
-<script>
-
+// Signature typing effect
 const text = "Signed,\nSalman";
 let index = 0;
 
 function typeSignature(){
-
 if(index < text.length){
-
 document.getElementById("signature").innerHTML += text.charAt(index);
-
 index++;
-
 setTimeout(typeSignature,80);
-
+}
 }
 
-}
-
+// Updated acceptTerms function
 function acceptTerms(){
-
 document.querySelector("button").style.display="none";
-
 setTimeout(()=>{
 document.getElementById("final").style.display="block";
 typeSignature();
 },500);
-
 }
 
-</script>
-
-<script>
-
+// Create floating hearts
 function createHeart(){
-
 let heart = document.createElement("div");
 heart.className="heart";
 heart.innerHTML="❤";
-
 heart.style.left=Math.random()*100+"vw";
 heart.style.fontSize=(15+Math.random()*20)+"px";
-
 document.body.appendChild(heart);
-
 setTimeout(()=>{
 heart.remove();
 },8000)
-
 }
-
 setInterval(createHeart,800);
 
-</script>
+// Click counter for constellation effect
+let clicks = 0;
 
-<div id="constellation">I adore you Manahil</div>
-
-<script>
-
-let clicks=0;
-
-document.body.addEventListener("click",()=>{
-
+document.body.addEventListener("click", (e) => {
+// Don't count clicks on button
+if(e.target.tagName === 'BUTTON') return;
+    
 clicks++;
-
-if(clicks==5){
-
-for(let i=0;i<80;i++){
-
-let star=document.createElement("div");
-star.className="star";
-
-star.style.left=Math.random()*100+"vw";
-star.style.top=Math.random()*100+"vh";
-
+console.log("Clicks: " + clicks); // For debugging
+    
+if(clicks === 5) {
+// Create stars
+for(let i = 0; i < 80; i++) {
+let star = document.createElement("div");
+star.className = "star";
+star.style.left = Math.random() * 100 + "vw";
+star.style.top = Math.random() * 100 + "vh";
 document.body.appendChild(star);
-
 }
-
-setTimeout(()=>{
-document.getElementById("constellation").style.opacity=1;
-},1000)
-
+    
+// Show and animate constellation
+const constellation = document.getElementById("constellation");
+constellation.style.opacity = "1";
+constellation.classList.add("floatAway");
+    
+// Remove stars and reset after animation
+setTimeout(() => {
+document.querySelectorAll('.star').forEach(star => star.remove());
+constellation.style.opacity = "0";
+constellation.classList.remove("floatAway");
+}, 4000);
+    
+clicks = 0; // Reset counter
 }
-
 });
 
 </script>
-</body>
 
+</body>
 </html>
