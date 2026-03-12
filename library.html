@@ -81,6 +81,7 @@ display:none;
 flex-direction:column;
 padding:30px;
 border-radius:6px;
+z-index:1000;
 }
 
 .page{
@@ -88,6 +89,7 @@ flex:1;
 overflow:auto;
 font-size:18px;
 line-height:1.6;
+padding-right:10px;
 }
 
 .controls{
@@ -116,6 +118,7 @@ top:8px;
 right:12px;
 font-size:22px;
 cursor:pointer;
+color:#4a2913;
 }
 
 </style>
@@ -205,59 +208,78 @@ cursor:pointer;
 <script>
 
 let letters=[
-<p>
-            Sometimes I notice small things about you.<br>
-            Like the way you add an extra emoji or a few letters so I don't start overthinking the thought that you're maybe upset. The way you pause before answering. The way you think. The way your eyes move when you're thinking. The way you portray your hands and body while talking. The way you cover your mouth while laughing. The way you eat just enough to fill your stomach but not as much that it makes you look bloated.
-        </p>
-        <p>
-            The way you glance sideways when something makes you shy. The way you say "nothing" when something's clearly on your mind, hoping I'll ask again. The way your voice softens when you're tired, like you're letting me see a version of you you don't show everyone. The way you fidget with whatever's in your hands when you're nervous. The way you remember small details I mentioned once, months ago, and bring them up like they're important.
-        </p>
-        <p>
-            The way you breathe differently when you're concentrating. The way you tilt your head when you're curious. The way you laugh at your own jokes before finishing them. The way you check your phone, put it down, then check it again like you're waiting for something—or someone. The way your mood shifts with the weather, with the time of day, with the song that's playing.
-        </p>
-        <p>
-            The way you exist in a room changes the energy of it. And I notice. I always notice.
-        </p>,
+    `Sometimes I notice small things about you.
+Like the way you add an extra emoji or a few letters so I don't start overthinking the thought that you're maybe upset. The way you pause before answering. The way you think. The way your eyes move when you're thinking. The way you portray your hands and body while talking. The way you cover your mouth while laughing. The way you eat just enough to fill your stomach but not as much that it makes you look bloated.
+
+The way you glance sideways when something makes you shy. The way you say "nothing" when something's clearly on your mind, hoping I'll ask again. The way your voice softens when you're tired, like you're letting me see a version of you you don't show everyone. The way you fidget with whatever's in your hands when you're nervous. The way you remember small details I mentioned once, months ago, and bring them up like they're important.
+
+The way you breathe differently when you're concentrating. The way you tilt your head when you're curious. The way you laugh at your own jokes before finishing them. The way you check your phone, put it down, then check it again like you're waiting for something—or someone. The way your mood shifts with the weather, with the time of day, with the song that's playing.
+
+The way you exist in a room changes the energy of it. And I notice. I always notice.`,
 
 `Small moments have a strange weight.
-They pass quickly, but they linger somewhere in memory. Like you calling me "Jaan" or "Love". Just 4 letter words, but I'm pretty sure I remember every single time you did..
-Maybe that's why they matter. Because they're so small, but they build such a strong feeling that I wouldn't trade for anything ever`,
+They pass quickly, but they linger somewhere in memory. Like you calling me "Jaan" or "Love". Just 4 letter words, but I'm pretty sure I remember every single time you did — the way your voice softens when you say it, like the word itself means something only we understand. The way you text it randomly, not because I did something, but just because. The way it lands differently at night, when everything is quiet and that one word feels like coming home.
+
+Like the way you send me voice notes when you're too tired to type. The crack in your voice when you're about to sleep. The way you say my name like it matters, like it's not just sounds but something you chose to say. The way you remember the little things — my coffee order, the song I hummed once, the way I like my space when I'm overwhelmed.
+
+Maybe that's why they matter. Because they're so small, but they build such a strong feeling that I wouldn't trade for anything ever. Because they're proof that you see me too. That I'm not just noticing alone.`,
 
 `There are words that stay unsaid. They sit in the space between heartbeats. In the seconds before sleep takes over. In the pause after you say something that makes the world stop.
-Not because they aren't there, but because they are quieter than the moment. Like when you study until midnight, and I want to say "you amaze me" — but the word "proud" feels too small, and "in awe" feels too simple, and nothing captures the way my chest actually feels.
-Or when she talks about our future, about annoying me and me annoying her back, and I want to say "I can't wait to live that with you" — but the excitement is too loud and the words get lost in the laughter.
-These unsaid things aren't forgotten. They collect. They build. They become the weight behind every "I adore you" that actually makes it out.`,
+Not because they aren't there, but because they are quieter than the moment. Like when you study until midnight, and I want to say "you amaze me" — but the word "proud" feels too small, and "in awe" feels too simple, and nothing captures the way my chest actually feels when I watch you work so hard for a future that includes me.
+
+Or when we talk about our future, about annoying me and me annoying you back, and we both say to each other "I can't wait to live that with you" — and sometimes the excitement is too loud and the words get lost in the laughter. The way you say "one day In Sha Allah" like it's already happening. The way we plan small things — how we'll live, how we'll fight and make up, the way we'll still look at each other like we're discovering something new.
+
+These unsaid things aren't forgotten. They collect. They build. They become the weight behind every "I adore you" that actually makes it out. They sit in my chest, full and heavy and warm, waiting for the right moment to land.`,
 
 `Words have strange timing. How every night, before sleep, there's this sentence I almost send. Something about how even the quiet days with you mean more than the loudest days without you. But I hold back, thinking it's too much, too soon, too something. So the words wait.
 Sometimes they arrive too early. Sometimes they arrive too late. They waited through the site breaking and fixing. Through the hours you studied and I watched from afar. Through the future conversations where we mapped out a life together like we were drawing stars on a ceiling.
-Sometimes they simply wait. And maybe the best ones ripen like fruit — untouchable until exactly the right season. Maybe when they finally arrive, whenever that is, they'll land softer, hit harder, mean more.`,
+
+They waited through the silences that weren't really silences — the ones where we just existed in the same space without talking, and it still felt full. Through the moments I wanted to say "I miss you" even though you were right there, because missing you isn't about distance, it's about wanting you closer even when you're near.
+
+Sometimes they simply wait. And maybe the best ones ripen like fruit — untouchable until exactly the right season. Maybe when they finally arrive, whenever that is, they'll land softer, hit harder, mean more. Because they've been sitting in my chest long enough to become true in ways that simple words never could.`,
 
 `I don't know what the future looks like — whether it's close or far, easy or hard, full of you or full of waiting.
-But I know that certain moments stay — like the sound of your laugh when something actually hits, like the way you say my name, like the silence between us that never feels empty.
-Maybe that's enough for now — maybe love isn't about knowing the ending, but about collecting moments that refuse to leave, about trusting that whatever comes next, these ones are already ours.
+But I know that certain moments stay — like the sound of your laugh when something actually hits, like the way you say so lovingly my name, like the silence between us that never feels empty. The way you look at me when you think I don't notice. The way you will reach for me in small ways — a hand on my arm, a glance across the room, a message that just says "thinking of you."
 
-`
+The way we fit — not perfectly, but honestly. The way we argue and then find our way back. The way you see parts of me I didn't know were visible. The way loving you has become less like something I do and more like something I am.
+
+Maybe that's enough for now — maybe love isn't about knowing the ending, but about collecting moments that refuse to leave, about trusting that whatever comes next, these ones are already ours. And maybe, someday, I'll stop noticing the small things because they'll just be the way you are. But I don't think so. I think I'll notice them forever.`
 ]
 
 let pages=[]
 let currentPage=0
+let currentBook=0
 
 function openBook(index){
-
+currentBook=index
 let text=letters[index]
-
-pages=text.match(/.{1,800}/g)
-
+pages=splitIntoPages(text)
 currentPage=0
-
 document.getElementById("reader").style.display="flex"
-
 showPage()
+}
 
+function splitIntoPages(text){
+let words=text.split(' ')
+let pages=[]
+let currentPageText=''
+
+for(let word of words){
+if((currentPageText+word).length<800){
+currentPageText+=word+' '
+}else{
+pages.push(currentPageText)
+currentPageText=word+' '
+}
+}
+if(currentPageText){
+pages.push(currentPageText)
+}
+return pages
 }
 
 function showPage(){
-document.getElementById("page").innerText=pages[currentPage]
+document.getElementById("page").innerText=pages[currentPage] || ''
 }
 
 function nextPage(){
@@ -283,4 +305,3 @@ document.getElementById("reader").style.display="none"
 </body>
 
 </html>
-
