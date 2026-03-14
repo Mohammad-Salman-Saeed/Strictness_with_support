@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title> Things I Never Said </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 
 <style>
 
@@ -10,13 +11,18 @@ body{
 margin:0;
 font-family:Georgia,serif;
 background:url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da") center/cover fixed;
+background-size:cover;
+min-height:100vh;
+display:flex;
+align-items:center;
 }
 
 /* library area */
 
 .library{
 width:100%;
-padding-top:60px;
+padding:20px 0;
+transform:scale(1.2);
 }
 
 /* shelves */
@@ -24,31 +30,25 @@ padding-top:60px;
 .shelf{
 display:flex;
 justify-content:center;
-gap:6px;
-margin:60px 0;
-height:150px;
+gap:8px;
+margin:70px 0;
+height:180px;
 }
 
 /* normal books */
 
 .book{
-width:40px;
-height:160px;
-border-radius:4px;
-box-shadow:2px 2px 6px rgba(0,0,0,0.5);
+width:48px;
+height:190px;
+border-radius:6px;
+box-shadow:2px 2px 8px rgba(0,0,0,0.6);
 }
-
-/* color variations */
-
-.red{background:linear-gradient(#7b2d2d,#3d1111);}
-.green{background:linear-gradient(#355e3b,#1d3521);}
-.blue{background:linear-gradient(#4b5d8a,#2d3c63);}
-.brown{background:linear-gradient(#6b4423,#3d2612);}
 
 /* special books */
 
 .special{
-width:45px;
+width:54px;
+height:190px;
 background:linear-gradient(#9b5c2e,#4a2913);
 color:white;
 display:flex;
@@ -56,56 +56,65 @@ align-items:center;
 justify-content:center;
 writing-mode:vertical-rl;
 text-orientation:mixed;
-font-size:14px;
+font-size:16px;
 cursor:pointer;
 transition:0.3s;
+border-radius:6px;
+box-shadow:2px 2px 8px rgba(0,0,0,0.6);
 }
 
 .special:hover{
 transform:scale(1.05);
-box-shadow:0 0 15px rgba(255,220,150,0.7);
+box-shadow:0 0 20px rgba(255,220,150,0.8);
 }
 
-/* book reader */
+/* book reader - bigger for mobile */
 
 .reader{
 position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-width:600px;
-height:400px;
+width:90%;
+max-width:340px;
+height:70vh;
+max-height:500px;
 background:#fdf6e3;
-box-shadow:0 0 25px rgba(0,0,0,0.7);
+box-shadow:0 0 30px rgba(0,0,0,0.8);
 display:none;
 flex-direction:column;
-padding:30px;
-border-radius:6px;
+padding:25px 20px;
+border-radius:12px;
 z-index:1000;
 }
 
 .page{
 flex:1;
 overflow:auto;
-font-size:18px;
+font-size:20px;
 line-height:1.6;
 padding-right:10px;
+-webkit-overflow-scrolling:touch;
 }
 
 .controls{
 display:flex;
 justify-content:space-between;
 margin-top:15px;
+gap:10px;
 }
 
 button{
-padding:8px 14px;
-font-size:14px;
+padding:12px 16px;
+font-size:16px;
 cursor:pointer;
 border:none;
 background:#6b4423;
 color:white;
-border-radius:4px;
+border-radius:8px;
+flex:1;
+font-weight:bold;
+-webkit-tap-highlight-color:transparent;
 }
 
 button:hover{
@@ -114,11 +123,49 @@ background:#8a5a33;
 
 .close{
 position:absolute;
-top:8px;
-right:12px;
-font-size:22px;
+top:10px;
+right:15px;
+font-size:26px;
 cursor:pointer;
 color:#4a2913;
+z-index:1001;
+padding:5px;
+}
+
+/* color variations - keeping these same */
+
+.red{background:linear-gradient(#7b2d2d,#3d1111);}
+.green{background:linear-gradient(#355e3b,#1d3521);}
+.blue{background:linear-gradient(#4b5d8a,#2d3c63);}
+.brown{background:linear-gradient(#6b4423,#3d2612);}
+
+/* snapchat optimization */
+@media (max-width:380px){
+.library{
+transform:scale(1);
+padding:10px 0;
+}
+.shelf{
+gap:5px;
+margin:50px 0;
+height:160px;
+}
+.book{
+width:42px;
+height:170px;
+}
+.special{
+width:48px;
+height:170px;
+font-size:14px;
+}
+.reader{
+width:92%;
+padding:20px 15px;
+}
+.page{
+font-size:18px;
+}
 }
 
 </style>
@@ -227,7 +274,7 @@ Maybe that's why they matter. Because they're so small, but they build such a st
 `There are words that stay unsaid. They sit in the space between heartbeats. In the seconds before sleep takes over. In the pause after you say something that makes the world stop.
 Not because they aren't there, but because they are quieter than the moment. Like when you study until midnight, and I want to say "you amaze me" — but the word "proud" feels too small, and "in awe" feels too simple, and nothing captures the way my chest actually feels when I watch you work so hard for a future that includes me.
 
-Or when we talk about our future, about annoying me and me annoying you back, and we both say to each other "I can't wait to live that with you" — and sometimes the excitement is too loud and the words get lost in the laughter. The way you say "one day In Sha Allah" like it's already happening. The way we plan small things — how we'll live, how we'll fight and make up, the way we'll still look at each other like we're discovering something new.
+Or when she talks about our future, about annoying me and me annoying her back, and I want to say "I can't wait to live that with you" — but the excitement is too loud and the words get lost in the laughter. The way she says "one day" like it's already happening. The way she plans small things — where we'll live, how we'll fight and make up, the way we'll still look at each other like we're discovering something new.
 
 These unsaid things aren't forgotten. They collect. They build. They become the weight behind every "I adore you" that actually makes it out. They sit in my chest, full and heavy and warm, waiting for the right moment to land.`,
 
@@ -239,7 +286,7 @@ They waited through the silences that weren't really silences — the ones where
 Sometimes they simply wait. And maybe the best ones ripen like fruit — untouchable until exactly the right season. Maybe when they finally arrive, whenever that is, they'll land softer, hit harder, mean more. Because they've been sitting in my chest long enough to become true in ways that simple words never could.`,
 
 `I don't know what the future looks like — whether it's close or far, easy or hard, full of you or full of waiting.
-But I know that certain moments stay — like the sound of your laugh when something actually hits, like the way you say so lovingly my name, like the silence between us that never feels empty. The way you look at me when you think I don't notice. The way you will reach for me in small ways — a hand on my arm, a glance across the room, a message that just says "thinking of you."
+But I know that certain moments stay — like the sound of your laugh when something actually hits, like the way you say my name, like the silence between us that never feels empty. The way you look at me when you think I don't notice. The way you reach for me in small ways — a hand on my arm, a glance across the room, a message that just says "thinking of you."
 
 The way we fit — not perfectly, but honestly. The way we argue and then find our way back. The way you see parts of me I didn't know were visible. The way loving you has become less like something I do and more like something I am.
 
@@ -265,7 +312,7 @@ let pages=[]
 let currentPageText=''
 
 for(let word of words){
-if((currentPageText+word).length<800){
+if((currentPageText+word).length<500){ // smaller pages for mobile
 currentPageText+=word+' '
 }else{
 pages.push(currentPageText)
@@ -299,6 +346,13 @@ showPage()
 function closeBook(){
 document.getElementById("reader").style.display="none"
 }
+
+// Prevent zooming on double tap
+document.addEventListener('touchstart', (e) => {
+if (e.touches.length > 1) {
+e.preventDefault()
+}
+}, { passive: false })
 
 </script>
 
