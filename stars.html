@@ -1,961 +1,859 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>🌙 Your Constellation</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-* {
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌙 Your Constellation ✨</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-body {
-background:radial-gradient(ellipse at bottom, #0d0d1a 0%, #000000 100%);
-min-height:100vh;
-font-family:'Segoe UI', 'Arial', sans-serif;
-display:flex;
-flex-direction:column;
-align-items:center;
-padding:20px;
-position:relative;
-overflow-x:hidden;
-}
+    body {
+      background: radial-gradient(ellipse at bottom, #0a0a1a 0%, #000000 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      position: relative;
+      overflow-x: hidden;
+    }
 
-/* Stars background (twinkling) */
-@keyframes twinkle {
-0% { opacity:0.3; }
-50% { opacity:1; }
-100% { opacity:0.3; }
-}
+    /* animated star field + shooting stars */
+    .stars-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
 
-.twinkling {
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-z-index:0;
-}
+    .twinkling {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(2px 2px at 15px 80px, #fff, rgba(0,0,0,0)),
+                  radial-gradient(2px 2px at 72px 430px, #fff, rgba(0,0,0,0)),
+                  radial-gradient(2px 2px at 180px 220px, #ffd700, rgba(0,0,0,0)),
+                  radial-gradient(3px 3px at 630px 120px, #fff, rgba(0,0,0,0)),
+                  radial-gradient(2px 2px at 820px 560px, #ffb6c1, rgba(0,0,0,0)),
+                  radial-gradient(2px 2px at 45% 80%, #fff, rgba(0,0,0,0)),
+                  radial-gradient(3px 3px at 22% 33%, #ffd700, rgba(0,0,0,0)),
+                  radial-gradient(2px 2px at 77% 91%, #ff69b4, rgba(0,0,0,0));
+      background-repeat: repeat;
+      opacity: 0.4;
+      animation: twinkling 4s infinite alternate;
+    }
 
-.twinkling::before {
-content:'';
-position:absolute;
-width:100%;
-height:100%;
-background:radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 80px 190px, #fff, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 160px 250px, #fff, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 280px 150px, #fff, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 350px 420px, #fff, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 90% 40%, #fff, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 70% 80%, #fff, rgba(0,0,0,0)),
-            radial-gradient(3px 3px at 30% 20%, #ffd700, rgba(0,0,0,0));
-background-repeat:repeat;
-opacity:0.3;
-animation:twinkle 4s infinite alternate;
-}
+    @keyframes twinkling {
+      0% { opacity: 0.2; }
+      100% { opacity: 0.8; }
+    }
 
-/* Main container */
-.container {
-position:relative;
-z-index:2;
-width:100%;
-max-width:600px;
-text-align:center;
-}
+    .shooting-star {
+      position: absolute;
+      top: 10%;
+      left: -10%;
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.8), rgba(255,215,0,0.8), rgba(255,255,255,0));
+      transform: rotate(25deg);
+      filter: blur(1px);
+      animation: shoot 8s linear infinite;
+      opacity: 0;
+    }
 
-/* Header */
-.header {
-margin-bottom:30px;
-color:rgba(255,255,255,0.9);
-}
+    .shooting-star:nth-child(2) { top: 30%; animation-delay: 3s; width: 150px; }
+    .shooting-star:nth-child(3) { top: 70%; animation-delay: 6s; width: 100px; }
+    .shooting-star:nth-child(4) { top: 50%; animation-delay: 10s; width: 180px; }
 
-h1 {
-font-size:28px;
-font-weight:300;
-letter-spacing:5px;
-text-shadow:0 0 20px #ffd700, 0 0 40px #ff69b4;
-margin-bottom:10px;
-}
+    @keyframes shoot {
+      0% { left: -10%; opacity: 1; }
+      30% { opacity: 1; }
+      70% { opacity: 0.6; }
+      100% { left: 120%; opacity: 0; }
+    }
 
-.subtitle {
-font-size:16px;
-color:#ffb6c1;
-letter-spacing:2px;
-font-style:italic;
-border-bottom:1px solid rgba(255,215,0,0.3);
-padding-bottom:15px;
-}
+    /* main container */
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 620px;
+      text-align: center;
+    }
 
-/* Moon phase indicator */
-.moon-phase {
-display:flex;
-justify-content:center;
-align-items:center;
-gap:10px;
-margin:20px 0;
-color:#ffd700;
-font-size:20px;
-background:rgba(255,255,255,0.05);
-padding:12px 25px;
-border-radius:50px;
-backdrop-filter:blur(5px);
-border:1px solid rgba(255,215,0,0.2);
-}
+    .header {
+      margin-bottom: 24px;
+      color: rgba(255,255,255,0.9);
+    }
 
-.moon-emoji {
-font-size:32px;
-filter:drop-shadow(0 0 10px gold);
-}
+    h1 {
+      font-size: 30px;
+      font-weight: 300;
+      letter-spacing: 5px;
+      text-shadow: 0 0 15px gold, 0 0 40px #ff99cc;
+      margin-bottom: 8px;
+      animation: glowPulse 4s infinite alternate;
+    }
 
-/* Canvas for constellation */
-.constellation-container {
-position:relative;
-width:100%;
-aspect-ratio:1/1;
-background:rgba(0,0,0,0.3);
-border-radius:40px;
-box-shadow:0 20px 40px rgba(0,0,0,0.8), 0 0 0 2px rgba(255,215,0,0.1) inset;
-backdrop-filter:blur(2px);
-margin-bottom:20px;
-overflow:hidden;
-}
+    @keyframes glowPulse {
+      0% { text-shadow: 0 0 10px gold, 0 0 30px #ff69b4; }
+      100% { text-shadow: 0 0 25px #ffd700, 0 0 60px #ff1493; }
+    }
 
-canvas {
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-display:block;
-touch-action:manipulation;
-}
+    .subtitle {
+      font-size: 16px;
+      color: #ffccdd;
+      letter-spacing: 2px;
+      font-style: italic;
+      border-bottom: 1px dashed rgba(255,215,0,0.5);
+      padding-bottom: 12px;
+    }
 
-/* Star counter */
-.star-counter {
-background:rgba(255,255,255,0.1);
-backdrop-filter:blur(10px);
-padding:15px 25px;
-border-radius:50px;
-display:inline-block;
-margin:20px 0;
-border:1px solid rgba(255,215,0,0.3);
-}
+    /* moon phase card */
+    .moon-phase {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: #ffd966;
+      font-size: 20px;
+      background: rgba(20,10,30,0.5);
+      backdrop-filter: blur(12px);
+      padding: 12px 28px;
+      border-radius: 60px;
+      border: 1px solid rgba(255,215,0,0.4);
+      box-shadow: 0 0 30px rgba(255,105,180,0.2);
+      transition: 0.3s;
+    }
 
-.star-count-number {
-font-size:32px;
-font-weight:bold;
-color:#ffd700;
-text-shadow:0 0 20px gold;
-}
+    .moon-emoji {
+      font-size: 36px;
+      filter: drop-shadow(0 0 12px gold);
+      animation: float 3s infinite alternate;
+    }
 
-.star-count-text {
-color:white;
-font-size:14px;
-letter-spacing:2px;
-}
+    @keyframes float {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-4px); }
+    }
 
-/* Message overlay - STAYS FULLY VISIBLE THEN FADES */
-.message-overlay {
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%, -50%);
-z-index:1000;
-background:rgba(10,5,20,0.95);
-backdrop-filter:blur(15px);
-border:2px solid rgba(255,215,0,0.3);
-border-radius:30px;
-padding:30px 25px;
-max-width:350px;
-width:90%;
-text-align:center;
-box-shadow:0 0 100px rgba(255,105,180,0.3), 0 0 200px rgba(255,215,0,0.2);
-opacity:1;
-transition:opacity 5s ease; /* Fade takes 5 seconds */
-pointer-events:none;
-}
+    /* canvas */
+    .constellation-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1/1;
+      background: rgba(0,0,0,0.4);
+      border-radius: 48px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 0 2px rgba(255,215,0,0.2) inset, 0 0 50px #ff69b480;
+      backdrop-filter: blur(4px);
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: box-shadow 0.5s;
+    }
 
-.message-overlay.fade-out {
-opacity:0;
-}
+    .constellation-container:active {
+      box-shadow: 0 0 0 2px gold inset, 0 0 60px hotpink;
+    }
 
-.message-content {
-color:white;
-}
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: manipulation;
+      cursor: pointer;
+    }
 
-.message-day {
-color:#ffd700;
-font-size:14px;
-letter-spacing:3px;
-margin-bottom:15px;
-text-transform:uppercase;
-}
+    /* star counter */
+    .star-counter {
+      background: rgba(15,10,25,0.7);
+      backdrop-filter: blur(16px);
+      padding: 16px 28px;
+      border-radius: 60px;
+      display: inline-block;
+      margin: 18px 0;
+      border: 1px solid rgba(255,215,0,0.4);
+      box-shadow: 0 0 30px #ffb6c180;
+    }
 
-.message-text {
-font-size:20px;
-line-height:1.6;
-margin-bottom:20px;
-font-weight:300;
-white-space:pre-line;
-}
+    .star-count-number {
+      font-size: 40px;
+      font-weight: 700;
+      color: #ffd966;
+      text-shadow: 0 0 25px gold;
+      transition: 0.2s;
+    }
 
-.message-star {
-font-size:30px;
-margin-bottom:10px;
-animation:twinkleStar 2s infinite;
-}
+    .star-count-text {
+      color: white;
+      font-size: 15px;
+      letter-spacing: 2px;
+    }
 
-@keyframes twinkleStar {
-0% { opacity:0.8; transform:scale(1); }
-50% { opacity:1; transform:scale(1.1); text-shadow:0 0 30px gold; }
-100% { opacity:0.8; transform:scale(1); }
-}
+    /* message overlay — now more dynamic */
+    .message-overlay {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      z-index: 200;
+      background: rgba(8, 3, 18, 0.97);
+      backdrop-filter: blur(24px);
+      border: 2px solid rgba(255,215,0,0.5);
+      border-radius: 40px;
+      padding: 32px 28px;
+      max-width: 380px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 80px #ff69b4, 0 0 150px gold;
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
 
-.message-timing {
-color:rgba(255,255,255,0.5);
-font-size:12px;
-}
+    .message-overlay.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
 
-/* Day legend - WITH CHECKMARKS FOR CLICKED STARS */
-.days-legend {
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:8px;
-margin:20px 0;
-padding:15px;
-background:rgba(255,255,255,0.03);
-border-radius:30px;
-}
+    .message-overlay.fade-out {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.95);
+      transition: opacity 5s ease, transform 5s ease;
+    }
 
-.legend-item {
-width:40px;
-height:40px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-background:rgba(255,255,255,0.1);
-color:white;
-font-size:14px;
-font-weight:bold;
-border:1px solid rgba(255,215,0,0.2);
-transition:all 0.3s;
-}
+    .message-content {
+      color: white;
+    }
 
-.legend-item.filled {
-background:#ffd700;
-color:black;
-font-weight:bold;
-box-shadow:0 0 20px gold;
-}
+    .message-star {
+      font-size: 44px;
+      margin-bottom: 10px;
+      animation: spinGlow 3s infinite alternate;
+    }
 
-.legend-item.visited {
-background:rgba(255,215,0,0.3);
-border:2px solid #ffd700;
-position:relative;
-}
+    @keyframes spinGlow {
+      0% { transform: rotate(0deg) scale(1); text-shadow: 0 0 10px gold; }
+      100% { transform: rotate(10deg) scale(1.2); text-shadow: 0 0 40px hotpink; }
+    }
 
-.legend-item.visited::after {
-content:"✓";
-position:absolute;
-top:-5px;
-right:-5px;
-background:#ffd700;
-color:black;
-width:20px;
-height:20px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:12px;
-font-weight:bold;
-box-shadow:0 0 10px gold;
-}
+    .message-text {
+      font-size: 20px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-weight: 300;
+      white-space: pre-line;
+    }
 
-/* Instructions */
-.instruction {
-color:rgba(255,255,255,0.6);
-font-size:14px;
-margin:15px 0;
-padding:15px;
-background:rgba(255,255,255,0.02);
-border-radius:20px;
-font-style:italic;
-}
+    .message-timing {
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
 
-/* Reset button (hidden but accessible) */
-.reset-area {
-opacity:0.2;
-transition:0.3s;
-cursor:pointer;
-margin-top:30px;
-font-size:12px;
-}
+    /* days legend — now just a star grid (numbers removed) */
+    .stars-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin: 24px 0 16px;
+      padding: 16px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 48px;
+      border: 1px solid rgba(255,215,0,0.1);
+    }
 
-.reset-area:hover {
-opacity:1;
-}
+    .legend-star {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(20,10,30,0.7);
+      color: #ffd966;
+      font-size: 20px;
+      border: 1px solid rgba(255,215,0,0.3);
+      transition: 0.2s;
+      position: relative;
+    }
 
-/* Mobile adjustments */
-@media (max-width:480px) {
-h1 { font-size:24px; }
-.message-text { font-size:18px; }
-.message-overlay { padding:25px 20px; }
-.legend-item { width:35px; height:35px; }
-}
+    .legend-star.filled {
+      background: #ffd966;
+      color: #1a0b2e;
+      box-shadow: 0 0 22px gold;
+      border-color: gold;
+    }
 
-/* Save indicator */
-.save-indicator {
-color:rgba(255,255,255,0.3);
-font-size:10px;
-margin-top:5px;
-}
-</style>
+    .legend-star.visited {
+      border: 2px solid #ffb6c1;
+      box-shadow: 0 0 16px hotpink;
+    }
+
+    .legend-star.visited::after {
+      content: "✓";
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #ff69b4;
+      color: black;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 0 15px hotpink;
+      border: 1px solid gold;
+    }
+
+    /* instructions */
+    .instruction {
+      color: #ffb6c1;
+      font-size: 15px;
+      margin: 20px 0 10px;
+      padding: 16px;
+      background: rgba(255,192,203,0.05);
+      border-radius: 40px;
+      border: 1px dashed rgba(255,215,0,0.3);
+      backdrop-filter: blur(4px);
+      transition: 0.3s;
+    }
+
+    .instruction:hover {
+      border-color: #ff69b4;
+      color: white;
+    }
+
+    .save-indicator {
+      color: rgba(255,255,255,0.3);
+      font-size: 11px;
+      margin-top: 5px;
+      transition: 0.3s;
+    }
+
+    .reset-area {
+      opacity: 0.2;
+      transition: 0.4s;
+      cursor: pointer;
+      margin-top: 40px;
+      font-size: 13px;
+      background: rgba(255,255,255,0.02);
+      padding: 6px 18px;
+      border-radius: 40px;
+      display: inline-block;
+    }
+
+    .reset-area:hover {
+      opacity: 1;
+      background: rgba(255,215,0,0.1);
+      color: gold;
+    }
+
+    @media (max-width:480px) {
+      h1 { font-size: 24px; }
+      .message-text { font-size: 18px; }
+      .legend-star { width: 36px; height: 36px; font-size: 18px; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="twinkling"></div>
-
-<div class="container">
-    <div class="header">
-        <h1>✦ YOUR CONSTELLATION ✦</h1>
-        <div class="subtitle">each star = a day you chose progress</div>
-    </div>
-    
-    <!-- Moon phase showing progress -->
-    <div class="moon-phase" id="moonPhase">
-        <span class="moon-emoji">🌑</span>
-        <span id="phaseText">new moon • 0 stars</span>
-        <span class="moon-emoji">🌑</span>
-    </div>
-    
-    <!-- Constellation Canvas -->
-    <div class="constellation-container">
-        <canvas id="constellationCanvas"></canvas>
-    </div>
-    
-    <!-- Star Counter -->
-    <div class="star-counter">
-        <span class="star-count-number" id="starCount">0</span>
-        <span class="star-count-text"> STARS IN YOUR SKY</span>
-    </div>
-    
-    <!-- Mini calendar of days - WITH CHECKMARKS -->
-    <div class="days-legend" id="daysLegend"></div>
-    
-    <div class="instruction">
-        ✦ tap any star ✦ <br>
-        message stays for 8 seconds, then fades gently
-    </div>
-    
-    <!-- Save indicator (auto-saves which stars she's clicked) -->
-    <div class="save-indicator">✦ memories are saved ✦</div>
-    
-    <!-- Hidden reset (tap 5 times to reset) -->
-    <div class="reset-area" onclick="resetConstellation()">☾ reset all stars ☽</div>
+<div class="stars-container">
+  <div class="twinkling"></div>
+  <div class="shooting-star"></div>
+  <div class="shooting-star"></div>
+  <div class="shooting-star"></div>
+  <div class="shooting-star"></div>
 </div>
 
-<!-- Message overlay -->
-<div id="messageOverlay" class="message-overlay" style="display:none;">
-    <div class="message-content">
-        <div class="message-star" id="messageStar">⭐</div>
-        <div class="message-day" id="messageDay">DAY 1</div>
-        <div class="message-text" id="messageText">You showed up today.</div>
-        <div class="message-timing" id="messageTiming">✦ visible for 8 seconds ✦</div>
-    </div>
+<div class="container">
+  <div class="header">
+    <h1>✦ YOUR SECRET SKY ✦</h1>
+    <div class="subtitle">30 stars · 30 things i want you to know</div>
+  </div>
+
+  <!-- moon phase + dynamic text -->
+  <div class="moon-phase" id="moonPhase">
+    <span class="moon-emoji">🌑</span>
+    <span id="phaseText">new moon · 0 stars</span>
+    <span class="moon-emoji">🌑</span>
+  </div>
+
+  <!-- canvas -->
+  <div class="constellation-container" id="constellationContainer">
+    <canvas id="constellationCanvas"></canvas>
+  </div>
+
+  <!-- star counter -->
+  <div class="star-counter">
+    <span class="star-count-number" id="starCount">30</span>
+    <span class="star-count-text"> STARS IN YOUR SKY</span>
+  </div>
+
+  <!-- star grid (no numbers, just stars) -->
+  <div class="stars-legend" id="starsLegend"></div>
+
+  <div class="instruction">
+    ✦  tap any star — a message appears ✦<br>
+    <span style="opacity:0.7;">each visit leaves a permanent checkmark ✨</span>
+  </div>
+
+  <div class="save-indicator">✧ memories are saved in your browser ✧</div>
+
+  <!-- hidden reset -->
+  <div class="reset-area" onclick="resetConstellation()">☾   reset visited stars   ☽</div>
+</div>
+
+<!-- message overlay -->
+<div id="messageOverlay" class="message-overlay">
+  <div class="message-content">
+    <div class="message-star" id="messageStar">⭐</div>
+    <div class="message-text" id="messageText">you showed up.</div>
+    <div class="message-timing" id="messageTiming">✦ 8s visible · then fades ✦</div>
+  </div>
 </div>
 
 <script>
-// =============================================
-// YOUR STARS - ADD ONE EACH DAY
-// Each star = one day she studied
-// =============================================
-const stars = [
-    // DAY 1 (Romantic opener)
+(function() {
+  // ------------------------------------------------------------
+  // 30 RANDOM SENTIMENTS — romantic, motivating, deep
+  // No more "Day X" — pure feelings
+  // ------------------------------------------------------------
+  const stars = [
+    // romantic (10)
     { 
-        day: 1,
-        x: 200, 
-        y: 150, 
-        message: "The first day is always the hardest.\nYou showed up anyway.\nThat's how I knew you were different.",
-        emoji: "✨",
-        type: "romantic"
+      message: "The way you exist in the world\nmakes it softer, brighter, better.\nI notice. I always notice.", 
+      emoji: "💕", 
+      type: "romantic" 
+    },
+    { 
+      message: "You, in flow state,\nthat focused expression?\nOne of my favorite versions of you.\n(and there are many)", 
+      emoji: "💗", 
+      type: "romantic" 
+    },
+    { 
+      message: "I don't just admire your strength.\nI admire your gentleness.\nThat's the part that got me.", 
+      emoji: "💖", 
+      type: "romantic" 
+    },
+    { 
+      message: "You have a way of making\nordinary moments feel magical.\nIt's just who you are.", 
+      emoji: "✨", 
+      type: "romantic" 
+    },
+    { 
+      message: "I've been watching you for a while.\nAnd I still can't look away.\nSome things are magnetic.", 
+      emoji: "🫀", 
+      type: "romantic" 
+    },
+    { 
+      message: "You're not just beautiful.\nYou're beautiful to the core.\nYour heart glows.", 
+      emoji: "💝", 
+      type: "romantic" 
+    },
+    { 
+      message: "The way you care about things —\nwith such quiet depth —\nit makes me believe in people.", 
+      emoji: "🌹", 
+      type: "romantic" 
+    },
+    { 
+      message: "You have no idea how often\nyou cross my mind.\nIt's a nice place to visit.", 
+      emoji: "💭", 
+      type: "romantic" 
+    },
+    { 
+      message: "If I wrote a list of everything\nI love about you,\nI'd run out of stars.", 
+      emoji: "💫", 
+      type: "romantic" 
+    },
+    { 
+      message: "You're the kind of person\nmy poems try to capture\nbut never quite fully can.", 
+      emoji: "🌸", 
+      type: "romantic" 
     },
     
-    // DAY 2 (Motivating)
+    // motivating (10)
     { 
-        day: 2,
-        x: 350, 
-        y: 220, 
-        message: "Two days in a row.\nConsistency is rare.\nYou're rarer.",
-        emoji: "⭐",
-        type: "motivating"
+      message: "You've made it through\n100% of your hard days so far.\nThat's not luck. That's you.", 
+      emoji: "⚡", 
+      type: "motivating" 
+    },
+    { 
+      message: "Rest if you need to.\nBut don't quit.\nYou're closer than you think.", 
+      emoji: "🔥", 
+      type: "motivating" 
+    },
+    { 
+      message: "The version of you\nthat kept going despite doubt?\nThat's the one I'm proud of.", 
+      emoji: "🌟", 
+      type: "motivating" 
+    },
+    { 
+      message: "You are not your worst moment.\nYou are the one who survived it.", 
+      emoji: "🦋", 
+      type: "motivating" 
+    },
+    { 
+      message: "Some people dream.\nYou actually do.\nThat's rare. Don't stop.", 
+      emoji: "💪", 
+      type: "motivating" 
+    },
+    { 
+      message: "Progress isn't always visible.\nBut every step counts.\nAnd you're walking. It's a marathon not a sprint.", 
+      emoji: "🌱", 
+      type: "motivating" 
+    },
+    { 
+      message: "You've already survived\neverything that was supposed to break you.\nYou're unbreakable.", 
+      emoji: "🛡️", 
+      type: "motivating" 
+    },
+    { 
+      message: "Don't compare your beginning\nto someone else's middle.\nYour pace is perfect.", 
+      emoji: "🐢", 
+      type: "motivating" 
+    },
+    { 
+      message: "You showing up today?\nThat's enough.\nThat's everything.", 
+      emoji: "⭐", 
+      type: "motivating" 
+    },
+    { 
+      message: "Keep going.\nThe world needs what only you can bring.", 
+      emoji: "🌍", 
+      type: "motivating" 
     },
     
-    // DAY 3 (Cute)
+    // deep (10)
     { 
-        day: 3,
-        x: 150, 
-        y: 320, 
-        message: "Day 3.\nYou're building something beautiful.\nAnd I'm here, watching, smiling.",
-        emoji: "🌟",
-        type: "cute"
+      message: "You are more than\nthe things that have happened to you.\nYou are how you rise.", 
+      emoji: "🌊", 
+      type: "deep" 
     },
-    
-    // DAY 4 (Deep)
     { 
-        day: 4,
-        x: 280, 
-        y: 400, 
-        message: "Most people quit by now.\nBut you?\nYou're just getting started.",
-        emoji: "💫",
-        type: "deep"
+      message: "The people who are meant for you\nwill never make you feel like\nyou're too much.\nYou are exactly enough.", 
+      emoji: "🕯️", 
+      type: "deep" 
     },
-    
-    // DAY 5 (Romantic)
     { 
-        day: 5,
-        x: 420, 
-        y: 330, 
-        message: "Five days.\nDo you realize what you're doing?\nYou're becoming the person you dreamed of.",
-        emoji: "💕",
-        type: "romantic"
+      message: "Growth is quiet.\nIt happens in the moments\nyou don't even notice.\nBut it's happening.", 
+      emoji: "🌳", 
+      type: "deep" 
     },
-    
-    // DAY 6 (Motivating)
     { 
-        day: 6,
-        x: 90, 
-        y: 470, 
-        message: "The version of you on Day 1\nwould be so proud of Day 6 you.\nI know I am.",
-        emoji: "⚡",
-        type: "motivating"
+      message: "You are allowed to outgrow\nwho you used to be.\nThat's not betrayal.\nThat's becoming.", 
+      emoji: "🦢", 
+      type: "deep" 
     },
-    
-    // DAY 7 (Cute - One week!)
     { 
-        day: 7,
-        x: 480, 
-        y: 180, 
-        message: "ONE WEEK.\nSeven stars.\nYou're building a galaxy, one day at a time.",
-        emoji: "🌙",
-        type: "cute"
+      message: "Some of the most beautiful people\nI know have the saddest eyes.\nDepth is heavy.\nBut it's also beautiful.", 
+      emoji: "👁️", 
+      type: "deep" 
     },
-    
-    // DAY 8 (Romantic)
     { 
-        day: 8,
-        x: 220, 
-        y: 530, 
-        message: "You in flow state?\nThat focused version of you?\nThat's my favorite character.",
-        emoji: "💗",
-        type: "romantic"
+      message: "You don't need to be fixed, or changed.\nYou need to be seen.\nAnd I see you.", 
+      emoji: "👀", 
+      type: "deep" 
     },
-    
-    // DAY 9 (Motivating)
     { 
-        day: 9,
-        x: 380, 
-        y: 490, 
-        message: "Nine days of choosing yourself.\nThat's not luck.\nThat's discipline. That's you.",
-        emoji: "🔥",
-        type: "motivating"
+      message: "The right person won't run\nfrom your darkness.\nThey'll bring a lantern.", 
+      emoji: "🏮", 
+      type: "deep" 
     },
-    
-    // DAY 10 (Double digits!)
     { 
-        day: 10,
-        x: 120, 
-        y: 590, 
-        message: "🔟 DOUBLE DIGITS!\nTen days of showing up.\nYou're unstoppable now.",
-        emoji: "💫",
-        type: "cute"
+      message: "You carry so much\nand still manage to smile.\nThat's not weakness.\nThat's quiet strength.", 
+      emoji: "🕊️", 
+      type: "deep" 
     },
-    
-    // DAY 11 (Romantic)
     { 
-        day: 11,
-        x: 440, 
-        y: 580, 
-        message: "Eleven days.\nEvery day I notice something new.\nToday? The fire in your eyes.",
-        emoji: "✨",
-        type: "romantic"
+      message: "Healing isn't linear.\nSome days you go backwards.\nThat's still part of the journey.", 
+      emoji: "🌀", 
+      type: "deep" 
     },
-    
-    // DAY 12 (Deep)
     { 
-        day: 12,
-        x: 270, 
-        y: 220, 
-        message: "You're halfway to a habit.\nBut to me?\nYou've already become a necessity.",
-        emoji: "💫",
-        type: "deep"
-    },
-    
-    // DAY 13 (Motivating)
-    { 
-        day: 13,
-        x: 70, 
-        y: 330, 
-        message: "Day 13.\nUnlucky for some.\nBut you? You make your own luck.",
-        emoji: "🍀",
-        type: "motivating"
-    },
-    
-    // DAY 14 (Two weeks!)
-    { 
-        day: 14,
-        x: 520, 
-        y: 420, 
-        message: "TWO WEEKS.\nA constellation is forming.\nAnd you're the brightest star.",
-        emoji: "🌟",
-        type: "cute"
-    },
-    
-    // DAY 15 (Half month - Romantic)
-    { 
-        day: 15,
-        x: 180, 
-        y: 250, 
-        message: "Fifteen days.\nHalf a month of choosing progress.\nYou're not just dreaming anymore.\nYou're becoming.",
-        emoji: "💖",
-        type: "romantic"
-    },
-    
-    // DAY 16 (Cute)
-    { 
-        day: 16,
-        x: 400, 
-        y: 90, 
-        message: "Day 16.\nEvery star you add\nmakes the sky more beautiful.\nJust like you.",
-        emoji: "🥰",
-        type: "cute"
-    },
-    
-    // DAY 17 (Motivating)
-    { 
-        day: 17,
-        x: 320, 
-        y: 620, 
-        message: "Seventeen days.\nMost dreams die by now.\nBut yours?\nIt's just getting brighter.",
-        emoji: "⚡",
-        type: "motivating"
-    },
-    
-    // DAY 18 (Deep)
-    { 
-        day: 18,
-        x: 40, 
-        y: 530, 
-        message: "I've been watching you for 18 days.\nAnd I still can't look away.\nThat means something.",
-        emoji: "👀",
-        type: "deep"
-    },
-    
-    // DAY 19 (Romantic)
-    { 
-        day: 19,
-        x: 460, 
-        y: 270, 
-        message: "Nineteen days.\nYou know what I love most?\nThe way you don't even realize\nhow amazing you are.",
-        emoji: "💕",
-        type: "romantic"
-    },
-    
-    // DAY 20 (Milestone)
-    { 
-        day: 20,
-        x: 230, 
-        y: 450, 
-        message: "TWENTY DAYS!\nTwo-thirds of the way.\nYou're not just consistent.\nYou're extraordinary.",
-        emoji: "🏆",
-        type: "cute"
-    },
-    
-    // DAY 21 (Three weeks)
-    { 
-        day: 21,
-        x: 130, 
-        y: 110, 
-        message: "Three weeks.\n21 days to form a habit.\nYou've formed something else too:\nA place in my thoughts.",
-        emoji: "💭",
-        type: "romantic"
-    },
-    
-    // DAY 22 (Motivating)
-    { 
-        day: 22,
-        x: 360, 
-        y: 550, 
-        message: "Day 22.\nYou're past the hard part.\nNow? Now you fly.",
-        emoji: "🦋",
-        type: "motivating"
-    },
-    
-    // DAY 23 (Cute)
-    { 
-        day: 23,
-        x: 500, 
-        y: 70, 
-        message: "Twenty-three stars.\nThe sky is getting crowded.\nBut you still shine the brightest.",
-        emoji: "✨",
-        type: "cute"
-    },
-    
-    // DAY 24 (Deep)
-    { 
-        day: 24,
-        x: 60, 
-        y: 410, 
-        message: "I don't just admire your effort.\nI admire you.\nThe person behind the discipline.\nThat's who I'm falling for.",
-        emoji: "💗",
-        type: "deep"
-    },
-    
-    // DAY 25 (Almost there!)
-    { 
-        day: 25,
-        x: 290, 
-        y: 350, 
-        message: "25 days.\nFive days from a full month.\nYou're so close.\nAnd I'm so proud.",
-        emoji: "🎯",
-        type: "motivating"
-    },
-    
-    // DAY 26 (Romantic)
-    { 
-        day: 26,
-        x: 410, 
-        y: 480, 
-        message: "Twenty-six days of showing up.\nTwenty-six days of proving yourself.\nBut to me?\nYou had nothing to prove.\nYou were already enough.",
-        emoji: "💝",
-        type: "romantic"
-    },
-    
-    // DAY 27 (Cute)
-    { 
-        day: 27,
-        x: 190, 
-        y: 580, 
-        message: "Three days left.\nThe constellation is almost complete.\nBut us? We're just beginning.",
-        emoji: "🌅",
-        type: "cute"
-    },
-    
-    // DAY 28 (Four weeks)
-    { 
-        day: 28,
-        x: 330, 
-        y: 140, 
-        message: "Four weeks.\nA full lunar cycle.\nThe moon changed.\nYou changed too.\nFor the better.",
-        emoji: "🌕",
-        type: "deep"
-    },
-    
-    // DAY 29 (Anticipation)
-    { 
-        day: 29,
-        x: 100, 
-        y: 210, 
-        message: "One more day.\nOne more star.\nTomorrow, the sky will be complete.\nBut my admiration?\nIt'll never end.",
-        emoji: "⭐",
-        type: "romantic"
-    },
-    
-    // DAY 30 (ONE MONTH - FINAL)
-    { 
-        day: 30,
-        x: 300, 
-        y: 300, 
-        message: "✨✨✨ ONE MONTH ✨✨✨\n\nThirty days.\nThirty stars.\nA full constellation.\n\nYou did it.\nYou showed up every single day.\nYou built something beautiful.\nNot just in the sky.\nIn yourself.\n\nAnd me?\nI got to watch.\nI got to witness.\nI got to fall a little more\nwith every single day.\n\nThis is your sky now.\nBuilt by you.\nStar by star.\nDay by day.\n\nAnd I'll be here.\nFor the next month.\nAnd the one after that.\nAnd the one after that.\n\nBecause some constellations\nare worth watching forever.\n\nI love watching you shine. 💕",
-        emoji: "👑",
-        type: "special"
+      message: "The most important relationship\nis the one you have with yourself.\nMake it beautiful.", 
+      emoji: "🪞", 
+      type: "deep" 
     }
-];
+  ];
 
-// =============================================
-// TRACK CLICKED STARS (saves in browser)
-// =============================================
-let clickedStars = JSON.parse(localStorage.getItem('clickedStars')) || [];
+  // Shuffle stars array so they appear in random positions
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
 
-// =============================================
-// CONFIGURATION
-// =============================================
-let currentStars = stars;
-let messageTimeout;
-let fadeTimeout;
+  // Random positions for each star (but keep them consistent after shuffle)
+  function assignRandomPositions(starsArray) {
+    // Fixed set of positions that look good in a constellation
+    const positions = [
+      {x: 200, y: 150}, {x: 350, y: 220}, {x: 150, y: 320}, {x: 280, y: 400}, {x: 420, y: 330},
+      {x: 90, y: 470}, {x: 480, y: 180}, {x: 220, y: 530}, {x: 380, y: 490}, {x: 120, y: 590},
+      {x: 440, y: 580}, {x: 270, y: 220}, {x: 70, y: 330}, {x: 520, y: 420}, {x: 180, y: 250},
+      {x: 400, y: 90}, {x: 320, y: 620}, {x: 40, y: 530}, {x: 460, y: 270}, {x: 230, y: 450},
+      {x: 130, y: 110}, {x: 360, y: 550}, {x: 500, y: 70}, {x: 60, y: 410}, {x: 290, y: 350},
+      {x: 410, y: 480}, {x: 190, y: 580}, {x: 330, y: 140}, {x: 100, y: 210}, {x: 300, y: 300}
+    ];
+    
+    return starsArray.map((star, index) => ({
+      ...star,
+      x: positions[index].x,
+      y: positions[index].y,
+      // add a unique ID based on original position, but we'll use index for tracking
+      id: index
+    }));
+  }
 
-// Get canvas and context
-const canvas = document.getElementById('constellationCanvas');
-const ctx = canvas.getContext('2d');
+  // Shuffle and assign positions
+  const shuffledStars = shuffleArray([...stars]);
+  const currentStars = assignRandomPositions(shuffledStars);
 
-// Set canvas size
-function resizeCanvas() {
+  // ------------------------------------------------------------
+  // TRACK CLICKED STARS (by their index/id)
+  // ------------------------------------------------------------
+  let clickedStars = JSON.parse(localStorage.getItem('clickedStarsRandom')) || [];
+
+  const canvas = document.getElementById('constellationCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // resize canvas
+  function resizeCanvas() {
     const container = document.querySelector('.constellation-container');
     canvas.width = container.clientWidth;
     canvas.height = container.clientHeight;
     drawConstellation();
-}
+  }
 
-// Draw REALISTIC star - BIGGER with CLEARER NUMBERS
-function drawStar(ctx, cx, cy, spikes, outerR, innerR, color) {
+  // draw a sharp star
+  function drawStar(ctx, cx, cy, spikes, outerR, innerR, color) {
     let rot = Math.PI / 2 * 3;
     let step = Math.PI / spikes;
-    
     ctx.beginPath();
     for (let i = 0; i < spikes; i++) {
-        let x = cx + Math.cos(rot) * outerR;
-        let y = cy + Math.sin(rot) * outerR;
-        ctx.lineTo(x, y);
-        rot += step;
-        
-        x = cx + Math.cos(rot) * innerR;
-        y = cy + Math.sin(rot) * innerR;
-        ctx.lineTo(x, y);
-        rot += step;
+      let x = cx + Math.cos(rot) * outerR;
+      let y = cy + Math.sin(rot) * outerR;
+      ctx.lineTo(x, y);
+      rot += step;
+      x = cx + Math.cos(rot) * innerR;
+      y = cy + Math.sin(rot) * innerR;
+      ctx.lineTo(x, y);
+      rot += step;
     }
     ctx.closePath();
     ctx.fill();
-}
+  }
 
-// Draw constellation with BIGGER stars and CLEARER numbers
-function drawConstellation() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw faint connection lines between consecutive stars
-    if (currentStars.length > 1) {
-        ctx.beginPath();
-        ctx.strokeStyle = 'rgba(255,215,0,0.15)';
-        ctx.lineWidth = 1;
-        
-        for (let i = 0; i < currentStars.length - 1; i++) {
-            ctx.moveTo(currentStars[i].x, currentStars[i].y);
-            ctx.lineTo(currentStars[i + 1].x, currentStars[i + 1].y);
-        }
-        ctx.stroke();
-    }
-    
-    // Draw each star - BIGGER SIZE
-    currentStars.forEach((star, index) => {
-        const x = star.x;
-        const y = star.y;
-        
-        // Star color based on type
-        const starColor = getStarColor(star.type);
-        
-        // BIGGER glow effect
-        ctx.shadowColor = starColor;
-        ctx.shadowBlur = 25;
-        ctx.fillStyle = starColor;
-        
-        // Draw BIGGER realistic star with 5 points
-        // outerR increased from 12 to 16, innerR from 5 to 7
-        drawStar(ctx, x, y, 5, 16, 7, starColor);
-        
-        // Add a BIGGER tiny inner star for sparkle
-        ctx.shadowBlur = 35;
-        ctx.fillStyle = 'white';
-        drawStar(ctx, x, y, 5, 7, 3, 'white');
-        
-        // Day number - MUCH MORE VISIBLE with white background
-        ctx.shadowBlur = 0;
-        
-        // Draw white background circle for number
-        ctx.fillStyle = 'rgba(0,0,0,0.8)';
-        ctx.beginPath();
-        ctx.arc(x, y, 11, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Draw border around number
-        ctx.strokeStyle = starColor;
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.arc(x, y, 11, 0, Math.PI * 2);
-        ctx.stroke();
-        
-        // Draw the day number in BRIGHT WHITE, BOLD, LARGER
-        ctx.fillStyle = 'white';
-        ctx.font = 'bold 14px Arial'; // Bigger font
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(star.day, x, y);
-    });
-    
-    // Reset shadow
-    ctx.shadowBlur = 0;
-    
-    // Update counters
-    updateCounters();
-}
-
-function getStarColor(type) {
+  function getStarColor(type) {
     switch(type) {
-        case 'romantic': return '#ff69b4';
-        case 'motivating': return '#ffd700';
-        case 'cute': return '#ffb6c1';
-        case 'deep': return '#9370db';
-        default: return '#ffd700';
+      case 'romantic': return '#ff69b4';
+      case 'motivating': return '#ffd700';
+      case 'deep': return '#b084cc';
+      default: return '#ffd966';
     }
-}
+  }
 
-// Update star counter and moon phase
-function updateCounters() {
-    const count = currentStars.length;
+  function drawConstellation() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // draw faint lines between consecutive stars
+    if (currentStars.length > 1) {
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(255,215,0,0.2)';
+      ctx.lineWidth = 1.5;
+      for (let i = 0; i < currentStars.length - 1; i++) {
+        ctx.moveTo(currentStars[i].x, currentStars[i].y);
+        ctx.lineTo(currentStars[i + 1].x, currentStars[i + 1].y);
+      }
+      ctx.stroke();
+    }
+
+    currentStars.forEach((star, index) => {
+      const x = star.x;
+      const y = star.y;
+      const color = getStarColor(star.type);
+
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 27;
+      ctx.fillStyle = color;
+      drawStar(ctx, x, y, 5, 17, 7, color);
+
+      ctx.shadowBlur = 35;
+      ctx.fillStyle = 'white';
+      drawStar(ctx, x, y, 5, 7, 3, 'white');
+
+      ctx.shadowBlur = 0;
+      
+      // Small decorative center instead of number
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI*2);
+      ctx.fill();
+      
+      // Add tiny sparkle
+      ctx.shadowBlur = 15;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(x-3, y-3, 2, 0, Math.PI*2);
+      ctx.fill();
+    });
+
+    ctx.shadowBlur = 0;
+    updateCounters();
+  }
+
+  // update moon, star count, legend
+  function updateCounters() {
+    const count = currentStars.length; // 30
     document.getElementById('starCount').innerText = count;
-    
-    // Update moon phase
+
     const moonEmojis = ['🌑', '🌒', '🌓', '🌔', '🌕'];
     const phaseIndex = Math.min(Math.floor(count / 7), 4);
     document.querySelectorAll('.moon-emoji').forEach(el => {
-        el.innerText = moonEmojis[phaseIndex];
+      el.innerText = moonEmojis[phaseIndex];
     });
     document.getElementById('phaseText').innerText = 
-        ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon'][phaseIndex] + 
-        ` • ${count} stars`;
-    
-    // Update days legend with checkmarks for clicked stars
-    updateDaysLegend();
-}
+      ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon'][phaseIndex] + 
+      ` · ${count} stars`;
 
-// Update days legend with checkmarks
-function updateDaysLegend() {
-    const legend = document.getElementById('daysLegend');
+    updateStarsLegend();
+  }
+
+  // legend with stars and checkmarks (no numbers)
+  function updateStarsLegend() {
+    const legend = document.getElementById('starsLegend');
     legend.innerHTML = '';
-    
-    for (let i = 1; i <= 30; i++) {
-        const day = document.createElement('div');
-        day.className = 'legend-item';
-        
-        // Check if this day exists as a star
-        const starExists = currentStars.some(s => s.day === i);
-        
-        if (starExists) {
-            day.classList.add('filled');
-        }
-        
-        // Check if this star has been clicked
-        if (clickedStars.includes(i)) {
-            day.classList.add('visited');
-        }
-        
-        day.innerText = i;
-        legend.appendChild(day);
+    for (let i = 0; i < currentStars.length; i++) {
+      const d = document.createElement('div');
+      d.className = 'legend-star';
+      
+      // All stars are "filled" since they exist
+      d.classList.add('filled');
+      
+      // Check if this star has been clicked
+      if (clickedStars.includes(i)) {
+        d.classList.add('visited');
+      }
+      
+      // Use emoji based on type
+      if (currentStars[i].type === 'romantic') d.innerText = '💕';
+      else if (currentStars[i].type === 'motivating') d.innerText = '⚡';
+      else d.innerText = '💫';
+      
+      legend.appendChild(d);
     }
-}
+  }
 
-// Show message overlay - STAYS 8 SECONDS THEN FADES IN 5 SECONDS
-function showMessage(star) {
-    const overlay = document.getElementById('messageOverlay');
-    const messageDay = document.getElementById('messageDay');
-    const messageText = document.getElementById('messageText');
-    const messageStar = document.getElementById('messageStar');
-    const messageTiming = document.getElementById('messageTiming');
-    
-    // Clear any existing timeouts
+  // message overlay logic
+  const overlay = document.getElementById('messageOverlay');
+  const msgText = document.getElementById('messageText');
+  const msgStar = document.getElementById('messageStar');
+  const msgTiming = document.getElementById('messageTiming');
+
+  let messageTimeout, fadeTimeout;
+
+  function showMessage(star, index) {
+    // clear existing timers
     if (messageTimeout) clearTimeout(messageTimeout);
     if (fadeTimeout) clearTimeout(fadeTimeout);
-    
-    // Remove any existing fade class
-    overlay.classList.remove('fade-out');
-    
-    // Set message content
-    messageDay.innerText = `DAY ${star.day}`;
-    messageText.innerText = star.message;
-    messageStar.innerText = star.emoji || '✨';
-    messageTiming.innerText = '✦ visible for 8 seconds ✦';
-    
-    // Show overlay immediately
+
+    // reset classes
+    overlay.classList.remove('fade-out', 'show');
+
+    // set content
+    msgText.innerText = star.message;
+    msgStar.innerText = star.emoji || '✨';
+    msgTiming.innerText = '✦ 8s visible · then fades ✦';
+
+    // trigger show
     overlay.style.display = 'block';
-    
-    // Force reflow
-    void overlay.offsetWidth;
-    
-    // Mark this star as clicked
-    if (!clickedStars.includes(star.day)) {
-        clickedStars.push(star.day);
-        localStorage.setItem('clickedStars', JSON.stringify(clickedStars));
-        updateDaysLegend();
+    setTimeout(() => {
+      overlay.classList.add('show');
+    }, 10);
+
+    // mark as clicked (if not already)
+    if (!clickedStars.includes(index)) {
+      clickedStars.push(index);
+      localStorage.setItem('clickedStarsRandom', JSON.stringify(clickedStars));
+      updateStarsLegend();
     }
-    
-    // Stay fully visible for 8 seconds
+
+    // after 8 seconds start fade (5s)
     messageTimeout = setTimeout(() => {
-        // Start fading (takes 5 seconds)
-        overlay.classList.add('fade-out');
-        messageTiming.innerText = '✦ fading away... ✦';
-        
-        // Hide completely after fade
-        fadeTimeout = setTimeout(() => {
-            overlay.style.display = 'none';
-            overlay.classList.remove('fade-out');
-        }, 5000); // 5 second fade
-    }, 8000); // 8 seconds fully visible
-}
+      overlay.classList.remove('show');
+      overlay.classList.add('fade-out');
+      msgTiming.innerText = '✦ fading... ✦';
 
-// Handle star clicks
-canvas.addEventListener('click', function(e) {
+      fadeTimeout = setTimeout(() => {
+        overlay.style.display = 'none';
+        overlay.classList.remove('fade-out', 'show');
+      }, 5000);
+    }, 8000);
+  }
+
+  // click handler for canvas
+  function handleCanvasInteraction(clientX, clientY) {
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
-    
-    const clickX = (e.clientX - rect.left) * scaleX;
-    const clickY = (e.clientY - rect.top) * scaleY;
-    
-    // Check each star (from last to first so newer stars are on top)
-    for (let i = currentStars.length - 1; i >= 0; i--) {
-        const star = currentStars[i];
-        const distance = Math.hypot(clickX - star.x, clickY - star.y);
-        if (distance < 25) {
-            showMessage(star);
-            break;
-        }
-    }
-});
+    const clickX = (clientX - rect.left) * scaleX;
+    const clickY = (clientY - rect.top) * scaleY;
 
-// Touch support
-canvas.addEventListener('touchstart', function(e) {
+    for (let i = currentStars.length - 1; i >= 0; i--) {
+      const star = currentStars[i];
+      const dist = Math.hypot(clickX - star.x, clickY - star.y);
+      if (dist < 32) {
+        showMessage(star, i);
+        break;
+      }
+    }
+  }
+
+  canvas.addEventListener('click', (e) => {
+    handleCanvasInteraction(e.clientX, e.clientY);
+  });
+
+  canvas.addEventListener('touchstart', (e) => {
     e.preventDefault();
-    const rect = canvas.getBoundingClientRect();
     const touch = e.touches[0];
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-    
-    const touchX = (touch.clientX - rect.left) * scaleX;
-    const touchY = (touch.clientY - rect.top) * scaleY;
-    
-    for (let i = currentStars.length - 1; i >= 0; i--) {
-        const star = currentStars[i];
-        const distance = Math.hypot(touchX - star.x, touchY - star.y);
-        if (distance < 30) {
-            showMessage(star);
-            break;
-        }
+    handleCanvasInteraction(touch.clientX, touch.clientY);
+  }, { passive: false });
+
+  // reset function
+  window.resetConstellation = function() {
+    if (confirm('Reset visited stars? (messages stay, only checkmarks cleared)')) {
+      clickedStars = [];
+      localStorage.removeItem('clickedStarsRandom');
+      updateStarsLegend();
     }
-}, {passive: false});
+  };
 
-// Reset function (hidden, for your use only)
-function resetConstellation() {
-    if (confirm('Reset all clicked stars?')) {
-        clickedStars = [];
-        localStorage.removeItem('clickedStars');
-        updateDaysLegend();
-    }
-}
-
-// Initialize
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-// Auto-update every time page loads
-window.onload = function() {
+  // init
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+  window.onload = function() {
     resizeCanvas();
     updateCounters();
-};
+  };
+})();
 </script>
 </body>
-
 </html>
