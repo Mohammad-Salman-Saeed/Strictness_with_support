@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Small Story About Two People</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Georgia,serif;
+background:#020617;
+color:white;
+overflow:hidden;
+}
+
+/* STAR BACKGROUND */
+
+#stars{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:0;
+}
+
+/* MAIN CONTENT */
+
+.container{
+position:relative;
+z-index:2;
+max-width:900px;
+margin:auto;
+margin-top:15vh;
+text-align:center;
+padding:40px;
+}
+
+h1{
+font-weight:normal;
+letter-spacing:2px;
+margin-bottom:30px;
+font-size:clamp(20px,6vw,28px);
+}
+
+.story{
+font-size:clamp(18px,4.5vw,22px);
+line-height:1.6;
+min-height:160px;
+margin-bottom:40px;
+}
+
+.choices{
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+button{
+padding:16px;
+font-size:clamp(16px,4vw,18px);
+width:100%;
+border:none;
+border-radius:6px;
+background:#1e293b;
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#334155;
+transform:scale(1.05);
+}
+
+#nightFade{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:black;
+opacity:0;
+pointer-events:none;
+transition:3s;
+z-index:1;
+}
+
+#nightFade.active{
+opacity:0.6;
+}
+
+/* PARTICLES */
+
+.particle{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+opacity:0.3;
+border-radius:50%;
+animation:float linear infinite;
+}
+
+@keyframes float{
+
+0%{transform:translateY(100vh);opacity:0;}
+20%{opacity:0.4;}
+80%{opacity:0.4;}
+100%{transform:translateY(-10vh);opacity:0;}
+
+}
+
+/* SECRET STAR */
+
+#secretStar{
+position:fixed;
+top:12%;
+right:8%;
+font-size:12px;
+opacity:0;
+cursor:pointer;
+transition:1s;
+z-index:3;
+}
+
+#secretStar.visible{
+opacity:0.8;
+}
+
+#secretStar:hover{
+transform:scale(1.6);
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+<div id="nightFade"></div>
+
+<div id="secretStar">★</div>
+
+<div class="container">
+
+<h1>A Small Story About Two People</h1>
+
+<div id="story" class="story"></div>
+
+<div id="choices" class="choices"></div>
+
+</div>
+
+<script>
+
+/* STAR BACKGROUND */
+
+const canvas = document.getElementById("stars")
+const ctx = canvas.getContext("2d")
+
+canvas.width = window.innerWidth
+canvas.height = window.innerHeight
+
+let stars=[]
+
+for(let i=0;i<150;i++){
+stars.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:Math.random()*2
+})
+}
+
+function drawStars(){
+ctx.clearRect(0,0,canvas.width,canvas.height)
+ctx.fillStyle="white"
+stars.forEach(star=>{
+ctx.beginPath()
+ctx.arc(star.x,star.y,star.size,0,Math.PI*2)
+ctx.fill()
+})
+}
+
+setInterval(drawStars,40)
+
+/* FLOATING PARTICLES */
+
+for(let i=0;i<30;i++){
+let p=document.createElement("div")
+p.className="particle"
+p.style.left=Math.random()*100+"vw"
+p.style.animationDuration=(10+Math.random()*20)+"s"
+p.style.animationDelay=Math.random()*20+"s"
+document.body.appendChild(p)
+}
+
+/* TYPEWRITER */
+
+function typeText(text,element){
+element.innerHTML=""
+let i=0
+
+function typing(){
+if(i<text.length){
+element.innerHTML+=text.charAt(i)
+i++
+setTimeout(typing,18)
+}
+}
+
+typing()
+}
+
+/* STORY DATA */
+
+const story={
+
+start:{
+text:`The night is quiet.
+
+The room is dim, lit only by the soft glow of a phone screen.
+
+Another notification appears.
+
+Another message from him.
+
+At first it was just normal conversation.
+
+Just another person.
+
+Just another chat.
+
+Or at least...
+
+that's what I thought in the beginning.`,
+choices:[
+{ text:"Reply to the message", next:"lateNightTalk"},
+{ text:"Talk about life", next:"deepTalk"},
+{ text:"Continue studying", next:"studyScene"}
+]
+},
+
+lateNightTalk:{
+text:`It's late.
+
+Much later than I should still be awake.
+
+But somehow we keep talking.
+
+One message becomes another.
+
+Minutes become hours.
+
+I keep telling myself I'll sleep after the next message.
+
+But the conversation never really ends.`,
+choices:[
+{ text:"Ask what he's thinking about", next:"thoughts"},
+{ text:"Enjoy the quiet moment", next:"quietMoment"},
+{ text:"Tease him for being awake", next:"teaseScene"}
+]
+},
+
+thoughts:{
+text:`I hesitate for a moment before typing.
+
+"Do you ever feel like some people just appear in your life randomly?"
+
+"And suddenly... your normal days start feeling a little different?"
+
+I stare at the screen after sending it.`,
+choices:[
+{ text:"Wait for his reply", next:"connection"},
+{ text:"Change the topic", next:"connection"}
+]
+},
+
+quietMoment:{
+text:`For a moment neither of us sends a message.
+
+But neither of us leaves either.
+
+The typing bubble appears...
+
+then disappears.
+
+Then appears again.
+
+It's strange.
+
+How silence with the right person doesn't feel uncomfortable.`,
+choices:[
+{ text:"Say something", next:"connection"},
+{ text:"Let the silence stay", next:"driftEnding"}
+]
+},
+
+teaseScene:{
+text:`"Why are you still awake?" I type.
+
+His reply comes almost instantly.
+
+"You are literally awake too."
+
+I can't help smiling at the screen.`,
+choices:[
+{ text:"Admit defeat", next:"connection"},
+{ text:"Blame him", next:"connection"}
+]
+},
+
+connection:{
+text:`Days slowly turn into weeks.
+
+Our conversations become part of my routine.
+
+Good morning messages.
+
+Random jokes.
+
+Long conversations that somehow stretch deep into the night.
+
+I didn't notice when it happened...
+
+But somewhere along the way
+
+he stopped feeling like just another person.`,
+choices:[
+{ text:"Focus on studies", next:"studyScene"},
+{ text:"Talk deeper", next:"deepTalk"}
+]
+},
+
+studyScene:{
+text:`Exams are coming.
+
+I should be studying.
+
+And I am.
+
+But every once in a while I check my phone.
+
+Another message from him.
+
+"Still studying?"
+
+I reply.
+
+"Yeah."
+
+A few minutes later he sends another message.
+
+"Keep going. You'll do great."
+
+It's a small message.
+
+But somehow it makes studying feel easier.`,
+choices:[
+{ text:"Thank him", next:"bondScene"},
+{ text:"Keep studying", next:"bondScene"}
+]
+},
+
+deepTalk:{
+text:`Our conversations slowly change.
+
+We stop talking about random things.
+
+Instead we talk about life.
+
+Dreams.
+
+Fears.
+
+The future.
+
+At one point he asks something that makes me pause.
+
+"Do you think two people can slowly become important to each other... without realizing it?"`,
+choices:[
+{ text:"Admit it might be possible", next:"bondScene"},
+{ text:"Avoid the question", next:"driftEnding"}
+]
+},
+
+bondScene:{
+text:`Weeks continue to pass.
+
+Late night talks.
+
+Encouragement during exams.
+
+Small jokes that only we understand.
+
+Quiet moments.
+
+Support.
+
+Somewhere in all of this...
+
+something changes inside my heart.
+
+And I don't fully understand when it happened.`,
+choices:[
+{ text:"Think about what he means to me", next:"criticalMoment"},
+{ text:"Ignore the feeling", next:"giveUpEnding"}
+]
+},
+
+criticalMoment:{
+text:`Tonight feels different.
+
+I look at our chat again.
+
+The typing bubble appears on his side.
+
+Then disappears.
+
+Then appears again.
+
+It's like he's trying to say something.
+
+And suddenly my heart feels nervous for no reason.`,
+choices:[
+{ text:"Wait patiently", next:"threeAMStart"},
+{ text:"Step away", next:"giveUpEnding"}
+]
+},
+
+driftEnding:{
+text:`Life becomes busy.
+
+Messages slowly become less frequent.
+
+Days pass between conversations.
+
+Eventually the silence grows too large.
+
+And what once felt important quietly fades away.
+
+ENDING: Drifted Apart`,
+choices:[{ text:"Restart", next:"start"}]
+},
+
+giveUpEnding:{
+text:`Sometimes feelings take time to appear.
+
+And sometimes people leave before they ever do.
+
+ENDING: The One Who Walked Away`,
+choices:[{ text:"Restart", next:"start"}]
+},
+
+threeAMStart:{
+text:`It is almost 3:00 AM.
+
+The world is quiet.
+
+A message appears.`,
+choices:[{ text:"Read the message", next:"threeAM1"}]
+},
+
+threeAM1:{
+text:`"I don't know why this feels strange..."
+
+"Even after knowing how difficult this could be... I still gave it a chance."`,
+choices:[{ text:"Continue", next:"threeAM2"}]
+},
+
+threeAM2:{
+text:`"Because I trusted you."
+
+"I knew your feelings were real."`,
+choices:[{ text:"Continue", next:"threeAM3"}]
+},
+
+threeAM3:{
+text:`"And honestly... I always felt lucky."
+
+"Lucky that someone could care about me that much."`,
+choices:[{ text:"Continue", next:"threeAM4"}]
+},
+
+threeAM4:{
+text:`"But somewhere along the way..."
+
+"Something changed."`,
+choices:[{ text:"Continue", next:"threeAM5"}]
+},
+
+threeAM5:{
+text:`"Now I feel the same way about you."
+
+"You melted a heart that wasn't supposed to melt."`,
+choices:[{ text:"Continue", next:"threeAM6"}]
+},
+
+threeAM6:{
+text:`"You won my heart with your prayers."
+
+"Now don't stop winning me."
+
+TRUE ENDING`,
+choices:[{ text:"Finish the story", next:"storyComplete"}]
+},
+
+storyComplete:{
+text:`The story seems to end here.
+
+But sometimes...
+
+stories hide secrets in the stars.`,
+choices:[{ text:"Restart", next:"start"}]
+},
+
+secretEnding:{
+text:`It almost feels familiar...
+
+Doesn't it?
+
+Like this story reminds you of something.
+
+But this is just a story.
+
+Stories can be copied.
+
+Stories can be rewritten.
+
+Stories can be told again.
+
+But ours?
+
+Our story could never be repeated.
+
+Because what we have...
+
+is something the universe only wrote once.
+
+And it wrote it just for us.`,
+choices:[{ text:"Return", next:"start"}]
+}
+
+}
+/* ENGINE */
+
+let current="start"
+
+const storyDiv=document.getElementById("story")
+const choicesDiv=document.getElementById("choices")
+const secretStar=document.getElementById("secretStar")
+
+function render(){
+
+const node=story[current]
+
+typeText(node.text,storyDiv)
+
+choicesDiv.innerHTML=""
+
+node.choices.forEach(choice=>{
+
+const btn=document.createElement("button")
+
+btn.innerText=choice.text
+
+btn.onclick=()=>{
+current=choice.next
+render()
+}
+
+choicesDiv.appendChild(btn)
+
+})
+
+if(current==="storyComplete"){
+secretStar.classList.add("visible")
+}
+const nightFade = document.getElementById("nightFade")
+
+if(current === "threeAMStart"){
+nightFade.classList.add("active")
+}
+}
+
+secretStar.onclick=()=>{
+current="secretEnding"
+render()
+}
+
+render()
+
+</script>
+
+</body>
+</html>
