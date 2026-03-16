@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>— Two Slow Hearts —</title>
+  <title>— two slow hearts —</title>
   <style>
     * {
       box-sizing: border-box;
@@ -24,7 +24,6 @@
       position: relative;
     }
 
-    /* ––– DREAMIER STARFIELD ––– */
     #starCanvas {
       position: fixed;
       top: 0;
@@ -36,7 +35,6 @@
       opacity: 0.7;
     }
 
-    /* ––– SOFT VIGNETTE + WARMTH ––– */
     .atmosphere {
       position: fixed;
       top: 0;
@@ -50,7 +48,6 @@
       pointer-events: none;
     }
 
-    /* ––– GENTLE FLOATING ORBS ––– */
     .floating-petal {
       position: absolute;
       width: 5px;
@@ -70,7 +67,6 @@
       100% { transform: translateY(-20vh) rotate(360deg) scale(0.2); opacity: 0; }
     }
 
-    /* ––– DEEP FADE ––– */
     #nightFade {
       position: fixed;
       top: 0;
@@ -89,7 +85,6 @@
       opacity: 0.85;
     }
 
-    /* ––– MAIN CONTAINER ––– */
     .container {
       position: relative;
       z-index: 10;
@@ -119,7 +114,6 @@
       padding-bottom: 1.2rem;
     }
 
-    /* ––– STORY CARD ––– */
     .story {
       font-size: clamp(1.2rem, 5vw, 1.5rem);
       line-height: 1.7;
@@ -133,12 +127,10 @@
       border-left: 2px solid rgba(255, 180, 180, 0.35);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
       text-align: left;
-      white-space: pre-line;
+      white-space: pre-wrap;
       font-family: 'Cormorant Garamond', serif;
-      transition: background 0.6s;
     }
 
-    /* ––– CHOICES ––– */
     .choices {
       display: flex;
       flex-direction: column;
@@ -173,7 +165,6 @@
       color: white;
     }
 
-    /* ––– SECRET STAR ––– */
     #secretStar {
       position: fixed;
       bottom: 5%;
@@ -204,7 +195,6 @@
       transform: scale(1.6) rotate(12deg);
     }
 
-    /* ––– RESPONSIVE ––– */
     @media (max-width: 500px) {
       .container { padding: 1.5rem 1rem; margin: 3vh 4%; }
       .story { padding: 1.2rem; }
@@ -229,7 +219,7 @@
 
   <script>
     (function() {
-      // STARFIELD
+      // Canvas setup
       const canvas = document.getElementById('starCanvas');
       const ctx = canvas.getContext('2d');
       let width = window.innerWidth;
@@ -279,7 +269,7 @@
       resizeCanvas();
       drawStars();
 
-      // FLOATING PETALS
+      // Floating petals
       const petalContainer = document.getElementById('petal-container');
       for (let i = 0; i < 32; i++) {
         const petal = document.createElement('div');
@@ -294,25 +284,15 @@
         petalContainer.appendChild(petal);
       }
 
-      // TYPEWRITER
-      function typeText(text, element) {
-        element.innerHTML = '';
-        let i = 0;
-        const speed = 16;
-        function addChar() {
-          if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(addChar, speed);
-          }
-        }
-        addChar();
+      // Simple function to display text (no typewriter to avoid issues)
+      function displayText(text, element) {
+        element.innerHTML = text.replace(/\n/g, '<br>');
       }
 
-      // STORY DATA - COMPLETELY REWRITTEN WITH CLEAN FORMATTING
+      // STORY DATA - Plain strings with explicit line breaks
       const story = {
         start: {
-          text: "The night is quiet.\n\nThe room is dim, lit only by the soft glow of a phone screen.\n\nAnother notification appears.\n\nAnother message from them.\n\nAt first it was just normal conversation.\n\nJust another person.\n\nJust another chat.\n\nOr at least...\n\nthat's what I thought in the beginning.",
+          text: "The night is quiet.<br><br>The room is dim, lit only by the soft glow of a phone screen.<br><br>Another notification appears.<br><br>Another message from them.<br><br>At first it was just normal conversation.<br><br>Just another person.<br><br>Just another chat.<br><br>Or at least...<br><br>that's what I thought in the beginning.",
           choices: [
             { text: "Reply to the message", next: "lateNightTalk" },
             { text: "Talk about life", next: "deepTalk" },
@@ -321,7 +301,7 @@
         },
 
         lateNightTalk: {
-          text: "It's late.\n\nMuch later than I should still be awake.\n\nBut somehow we keep talking.\n\nOne message becomes another.\n\nMinutes become hours.\n\nI keep telling myself I'll sleep after the next message.\n\nBut the conversation never really ends.",
+          text: "It's late.<br><br>Much later than I should still be awake.<br><br>But somehow we keep talking.<br><br>One message becomes another.<br><br>Minutes become hours.<br><br>I keep telling myself I'll sleep after the next message.<br><br>But the conversation never really ends.",
           choices: [
             { text: "Ask what they're thinking about", next: "thoughts" },
             { text: "Enjoy the quiet moment", next: "quietMoment" },
@@ -330,7 +310,7 @@
         },
 
         thoughts: {
-          text: "I hesitate for a moment before typing.\n\n\"Do you ever feel like some people just appear in your life randomly?\"\n\n\"And suddenly... your normal days start feeling a little different?\"\n\nI stare at the screen after sending it.",
+          text: "I hesitate for a moment before typing.<br><br>\"Do you ever feel like some people just appear in your life randomly?\"<br><br>\"And suddenly... your normal days start feeling a little different?\"<br><br>I stare at the screen after sending it.",
           choices: [
             { text: "Wait for their reply", next: "connection" },
             { text: "Change the topic", next: "connection" }
@@ -338,7 +318,7 @@
         },
 
         quietMoment: {
-          text: "For a moment neither of us sends a message.\n\nBut neither of us leaves either.\n\nThe typing bubble appears...\n\nthen disappears.\n\nThen appears again.\n\nIt's strange.\n\nHow silence with the right person doesn't feel uncomfortable.",
+          text: "For a moment neither of us sends a message.<br><br>But neither of us leaves either.<br><br>The typing bubble appears...<br><br>then disappears.<br><br>Then appears again.<br><br>It's strange.<br><br>How silence with the right person doesn't feel uncomfortable.",
           choices: [
             { text: "Say something", next: "connection" },
             { text: "Let the silence stay", next: "driftEnding" }
@@ -346,7 +326,7 @@
         },
 
         teaseScene: {
-          text: "\"Why are you still awake?\" I type.\n\nTheir reply comes almost instantly.\n\n\"You are literally awake too.\"\n\nI can't help smiling at the screen.",
+          text: "\"Why are you still awake?\" I type.<br><br>Their reply comes almost instantly.<br><br>\"You are literally awake too.\"<br><br>I can't help smiling at the screen.",
           choices: [
             { text: "Admit defeat", next: "connection" },
             { text: "Blame them", next: "connection" }
@@ -354,7 +334,7 @@
         },
 
         connection: {
-          text: "Days slowly turn into weeks.\n\nOur conversations become part of my routine.\n\nGood morning messages.\n\nRandom jokes.\n\nLong conversations that somehow stretch deep into the night.\n\nI didn't notice when it happened...\n\nBut somewhere along the way\n\nthey stopped feeling like just another person.",
+          text: "Days slowly turn into weeks.<br><br>Our conversations become part of my routine.<br><br>Good morning messages.<br><br>Random jokes.<br><br>Long conversations that somehow stretch deep into the night.<br><br>I didn't notice when it happened...<br><br>But somewhere along the way<br><br>they stopped feeling like just another person.",
           choices: [
             { text: "Focus on studies", next: "studyScene" },
             { text: "Talk deeper", next: "deepTalk" }
@@ -362,7 +342,7 @@
         },
 
         studyScene: {
-          text: "Exams are coming.\n\nI should be studying.\n\nAnd I am.\n\nBut every once in a while I check my phone.\n\nAnother message from them.\n\n\"Still studying?\"\n\nI reply.\n\n\"Yeah.\"\n\nA few minutes later they send another message.\n\n\"Keep going. You'll do great.\"\n\nIt's a small message.\n\nBut somehow it makes studying feel easier.",
+          text: "Exams are coming.<br><br>I should be studying.<br><br>And I am.<br><br>But every once in a while I check my phone.<br><br>Another message from them.<br><br>\"Still studying?\"<br><br>I reply.<br><br>\"Yeah.\"<br><br>A few minutes later they send another message.<br><br>\"Keep going. You'll do great.\"<br><br>It's a small message.<br><br>But somehow it makes studying feel easier.",
           choices: [
             { text: "Thank them", next: "bondScene" },
             { text: "Keep studying", next: "bondScene" }
@@ -370,7 +350,7 @@
         },
 
         deepTalk: {
-          text: "Our conversations slowly change.\n\nWe stop talking about random things.\n\nInstead we talk about life.\n\nDreams.\n\nFears.\n\nThe future.\n\nAt one point they ask something that makes me pause.\n\n\"Do you think two people can slowly become important to each other... without realizing it?\"",
+          text: "Our conversations slowly change.<br><br>We stop talking about random things.<br><br>Instead we talk about life.<br><br>Dreams.<br><br>Fears.<br><br>The future.<br><br>At one point they ask something that makes me pause.<br><br>\"Do you think two people can slowly become important to each other... without realizing it?\"",
           choices: [
             { text: "Admit it might be possible", next: "bondScene" },
             { text: "Avoid the question", next: "driftEnding" }
@@ -378,7 +358,7 @@
         },
 
         bondScene: {
-          text: "Weeks continue to pass.\n\nLate night talks.\n\nEncouragement during exams.\n\nSmall jokes that only we understand.\n\nQuiet moments.\n\nSupport.\n\nSomewhere in all of this...\n\nsomething changes inside my heart.\n\nAnd I don't fully understand when it happened.",
+          text: "Weeks continue to pass.<br><br>Late night talks.<br><br>Encouragement during exams.<br><br>Small jokes that only we understand.<br><br>Quiet moments.<br><br>Support.<br><br>Somewhere in all of this...<br><br>something changes inside my heart.<br><br>And I don't fully understand when it happened.",
           choices: [
             { text: "Think about what they mean to me", next: "criticalMoment" },
             { text: "Ignore the feeling", next: "giveUpEnding" }
@@ -386,7 +366,7 @@
         },
 
         criticalMoment: {
-          text: "Tonight feels different.\n\nI look at our chat again.\n\nThe typing bubble appears on their side.\n\nThen disappears.\n\nThen appears again.\n\nIt's like they're trying to say something.\n\nAnd suddenly my heart feels nervous for no reason.",
+          text: "Tonight feels different.<br><br>I look at our chat again.<br><br>The typing bubble appears on their side.<br><br>Then disappears.<br><br>Then appears again.<br><br>It's like they're trying to say something.<br><br>And suddenly my heart feels nervous for no reason.",
           choices: [
             { text: "Wait patiently", next: "threeAMStart" },
             { text: "Step away", next: "giveUpEnding" }
@@ -394,62 +374,62 @@
         },
 
         driftEnding: {
-          text: "Life becomes busy.\n\nMessages slowly become less frequent.\n\nDays pass between conversations.\n\nEventually the silence grows too large.\n\nAnd what once felt important quietly fades away.\n\nENDING: Drifted Apart",
+          text: "Life becomes busy.<br><br>Messages slowly become less frequent.<br><br>Days pass between conversations.<br><br>Eventually the silence grows too large.<br><br>And what once felt important quietly fades away.<br><br>ENDING: Drifted Apart",
           choices: [{ text: "Restart", next: "start" }]
         },
 
         giveUpEnding: {
-          text: "Sometimes feelings take time to appear.\n\nAnd sometimes people leave before they ever do.\n\nENDING: The One Who Walked Away",
+          text: "Sometimes feelings take time to appear.<br><br>And sometimes people leave before they ever do.<br><br>ENDING: The One Who Walked Away",
           choices: [{ text: "Restart", next: "start" }]
         },
 
         threeAMStart: {
-          text: "It is almost 3:00 AM.\n\nThe world is quiet.\n\nA message appears.",
+          text: "It is almost 3:00 AM.<br><br>The world is quiet.<br><br>A message appears.",
           choices: [{ text: "Read the message", next: "threeAM1" }]
         },
 
         threeAM1: {
-          text: "\"I don't know why this feels strange...\"\n\n\"Even after knowing how difficult this could be... I still gave it a chance.\"",
+          text: "\"I don't know why this feels strange...\"<br><br>\"Even after knowing how difficult this could be... I still gave it a chance.\"",
           choices: [{ text: "Continue", next: "threeAM2" }]
         },
 
         threeAM2: {
-          text: "\"Because I trusted you.\"\n\n\"I knew your feelings were real.\"",
+          text: "\"Because I trusted you.\"<br><br>\"I knew your feelings were real.\"",
           choices: [{ text: "Continue", next: "threeAM3" }]
         },
 
         threeAM3: {
-          text: "\"And honestly... I always felt lucky.\"\n\n\"Lucky that someone could care about me that much.\"",
+          text: "\"And honestly... I always felt lucky.\"<br><br>\"Lucky that someone could care about me that much.\"",
           choices: [{ text: "Continue", next: "threeAM4" }]
         },
 
         threeAM4: {
-          text: "\"But somewhere along the way...\"\n\n\"Something changed.\"",
+          text: "\"But somewhere along the way...\"<br><br>\"Something changed.\"",
           choices: [{ text: "Continue", next: "threeAM5" }]
         },
 
         threeAM5: {
-          text: "\"Now I feel the same way about you.\"\n\n\"You melted a heart that wasn't supposed to melt.\"",
+          text: "\"Now I feel the same way about you.\"<br><br>\"You melted a heart that wasn't supposed to melt.\"",
           choices: [{ text: "Continue", next: "threeAM6" }]
         },
 
         threeAM6: {
-          text: "\"You won my heart with your prayers.\"\n\n\"Now don't stop winning me.\"\n\nTRUE ENDING",
+          text: "\"You won my heart with your prayers.\"<br><br>\"Now don't stop winning me.\"<br><br>TRUE ENDING",
           choices: [{ text: "Finish the story", next: "storyComplete" }]
         },
 
         storyComplete: {
-          text: "The story seems to end here.\n\nBut sometimes...\n\nstories hide secrets in the stars.",
+          text: "The story seems to end here.<br><br>But sometimes...<br><br>stories hide secrets in the stars.",
           choices: [{ text: "Restart", next: "start" }]
         },
 
         secretEnding: {
-          text: "It almost feels familiar...\n\nDoesn't it?\n\nLike this story reminds you of something.\n\nBut this is just a story.\n\nStories can be copied.\n\nStories can be rewritten.\n\nStories can be told again.\n\nBut ours?\n\nOur story could never be repeated.\n\nBecause what we have...\n\nis something the universe only wrote once.\n\nAnd it wrote it just for us.",
+          text: "It almost feels familiar...<br><br>Doesn't it?<br><br>Like this story reminds you of something.<br><br>But this is just a story.<br><br>Stories can be copied.<br><br>Stories can be rewritten.<br><br>Stories can be told again.<br><br>But ours?<br><br>Our story could never be repeated.<br><br>Because what we have...<br><br>is something the universe only wrote once.<br><br>And it wrote it just for us.",
           choices: [{ text: "Return", next: "start" }]
         }
       };
 
-      // ENGINE
+      // Engine
       let current = "start";
       const storyDiv = document.getElementById('story');
       const choicesDiv = document.getElementById('choices');
@@ -460,8 +440,10 @@
         const node = story[current];
         if (!node) return;
 
-        typeText(node.text, storyDiv);
+        // Display text with HTML line breaks
+        storyDiv.innerHTML = node.text;
 
+        // Render buttons
         choicesDiv.innerHTML = '';
         node.choices.forEach(choice => {
           const btn = document.createElement('button');
@@ -474,12 +456,14 @@
           choicesDiv.appendChild(btn);
         });
 
+        // Secret star visibility
         if (current === "storyComplete") {
           secretStar.classList.add('visible');
         } else {
           secretStar.classList.remove('visible');
         }
 
+        // Night fade for 3AM scenes
         if (current === "threeAMStart" || current.startsWith("threeAM")) {
           nightFade.classList.add('active');
         } else {
