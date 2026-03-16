@@ -1,598 +1,508 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Small Story About Two People</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Small Story About Two People</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+    }
 
-<style>
+    body {
+      margin: 0;
+      font-family: 'Cormorant Garamond', 'Georgia', 'Times New Roman', serif;
+      background: linear-gradient(145deg, #0a0c1a 0%, #151b2b 100%);
+      color: rgba(255, 245, 235, 0.9);
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
 
-body{
-margin:0;
-font-family:Georgia,serif;
-background:#020617;
-color:white;
-overflow:hidden;
-}
+    /* ––– DREAMIER STARFIELD ––– */
+    #starCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.7;
+    }
 
-/* STAR BACKGROUND */
+    /* ––– SOFT VIGNETTE + WARMTH ––– */
+    .atmosphere {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 40%, rgba(200, 180, 210, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 70%, rgba(160, 140, 200, 0.06) 0%, transparent 55%),
+                  radial-gradient(ellipse at 50% 50%, rgba(10, 8, 20, 0.3) 0%, #0a0c1a 90%);
+      z-index: 0;
+      pointer-events: none;
+    }
 
-#stars{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:0;
-}
+    /* ––– GENTLE FLOATING ORBS (LOVE MOTIF) ––– */
+    .floating-petal {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 200, 220, 0.25);
+      border-radius: 60% 40% 70% 30%;
+      filter: blur(1px) drop-shadow(0 0 6px rgba(255, 180, 200, 0.4));
+      animation: driftUp 25s infinite ease-in-out;
+      z-index: 1;
+      pointer-events: none;
+    }
 
-/* MAIN CONTENT */
+    @keyframes driftUp {
+      0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
+      15% { opacity: 0.5; }
+      70% { opacity: 0.4; transform: translateY(-10vh) rotate(180deg) scale(1.2); }
+      100% { transform: translateY(-20vh) rotate(360deg) scale(0.2); opacity: 0; }
+    }
 
-.container{
-position:relative;
-z-index:2;
-max-width:900px;
-margin:auto;
-margin-top:15vh;
-text-align:center;
-padding:40px;
-}
+    /* ––– DEEP FADE (used for 3am) ––– */
+    #nightFade {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 30%, #0e0b1a 0%, #03020a 95%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 4s cubic-bezier(0.2, 0.9, 0.3, 1);
+      z-index: 2;
+      mix-blend-mode: multiply;
+    }
 
-h1{
-font-weight:normal;
-letter-spacing:2px;
-margin-bottom:30px;
-font-size:clamp(20px,6vw,28px);
-}
+    #nightFade.active {
+      opacity: 0.85;
+    }
 
-.story{
-font-size:clamp(18px,4.5vw,22px);
-line-height:1.6;
-min-height:160px;
-margin-bottom:40px;
-}
+    /* ––– MAIN CONTAINER ––– */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 700px;
+      margin: 5vh auto 2vh;
+      padding: 2.5rem 2rem;
+      background: rgba(5, 7, 18, 0.35);
+      backdrop-filter: blur(8px) saturate(140%);
+      -webkit-backdrop-filter: blur(8px) saturate(140%);
+      border-radius: 42px 12px 42px 12px;
+      border: 1px solid rgba(255, 220, 200, 0.15);
+      box-shadow: 0 25px 40px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(230, 200, 210, 0.1) inset;
+      text-align: center;
+    }
 
-.choices{
-display:flex;
-flex-direction:column;
-gap:14px;
-}
+    h1 {
+      font-weight: 300;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-size: clamp(1.2rem, 5vw, 1.9rem);
+      color: rgba(255, 230, 225, 0.9);
+      text-shadow: 0 0 18px rgba(255, 180, 200, 0.5);
+      margin-bottom: 2.2rem;
+      word-spacing: 6px;
+      border-bottom: 1px dashed rgba(255, 200, 200, 0.3);
+      padding-bottom: 1.2rem;
+    }
 
-button{
-padding:16px;
-font-size:clamp(16px,4vw,18px);
-width:100%;
-border:none;
-border-radius:6px;
-background:#1e293b;
-color:white;
-cursor:pointer;
-transition:0.3s;
-}
+    /* ––– STORY CARD ––– */
+    .story {
+      font-size: clamp(1.2rem, 5vw, 1.5rem);
+      line-height: 1.7;
+      min-height: 200px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+      color: rgba(255, 240, 235, 0.95);
+      background: rgba(10, 8, 20, 0.2);
+      padding: 1.6rem 1.8rem;
+      border-radius: 24px 8px 24px 8px;
+      border-left: 2px solid rgba(255, 180, 180, 0.35);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      text-align: left;
+      white-space: pre-line;
+      font-family: 'Cormorant Garamond', serif;
+      transition: background 0.6s;
+    }
 
-button:hover{
-background:#334155;
-transform:scale(1.05);
-}
+    /* ––– CHOICES ––– */
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin-top: 1rem;
+    }
 
-#nightFade{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:black;
-opacity:0;
-pointer-events:none;
-transition:3s;
-z-index:1;
-}
+    .choice-btn {
+      background: rgba(25, 20, 35, 0.6);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(240, 210, 220, 0.2);
+      color: #fadee6;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      padding: 1rem 1.8rem;
+      border-radius: 40px 8px 40px 8px;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+      text-transform: none;
+      width: 100%;
+    }
 
-#nightFade.active{
-opacity:0.6;
-}
+    .choice-btn:hover {
+      background: rgba(60, 45, 70, 0.7);
+      border-color: rgba(255, 200, 220, 0.6);
+      transform: scale(1.02) translateY(-2px);
+      box-shadow: 0 18px 25px -10px #ffc0cb40, 0 0 15px #ffc0d0;
+      color: white;
+    }
 
-/* PARTICLES */
+    /* ––– SECRET STAR (easter egg) ––– */
+    #secretStar {
+      position: fixed;
+      bottom: 5%;
+      right: 5%;
+      font-size: 2.2rem;
+      color: rgba(255, 240, 200, 0.7);
+      text-shadow: 0 0 20px gold;
+      opacity: 0;
+      cursor: pointer;
+      transition: 1.2s ease;
+      z-index: 30;
+      filter: drop-shadow(0 0 8px #ffb6c1);
+      transform: rotate(8deg);
+    }
 
-.particle{
-position:absolute;
-width:2px;
-height:2px;
-background:white;
-opacity:0.3;
-border-radius:50%;
-animation:float linear infinite;
-}
+    #secretStar.visible {
+      opacity: 0.9;
+      animation: twinkle 2.5s infinite alternate;
+    }
 
-@keyframes float{
+    @keyframes twinkle {
+      0% { text-shadow: 0 0 10px #fbb, 0 0 30px #ffb3b3; transform: rotate(8deg) scale(1); }
+      100% { text-shadow: 0 0 25px #ffe0f0, 0 0 50px #ffc0cb; transform: rotate(8deg) scale(1.08); }
+    }
 
-0%{transform:translateY(100vh);opacity:0;}
-20%{opacity:0.4;}
-80%{opacity:0.4;}
-100%{transform:translateY(-10vh);opacity:0;}
+    #secretStar:hover {
+      color: #ffe4e9;
+      transform: scale(1.6) rotate(12deg);
+    }
 
-}
+    /* ––– subtle progress glow for endings ––– */
+    .ending-glow {
+      transition: all 0.5s;
+    }
 
-/* SECRET STAR */
-
-#secretStar{
-position:fixed;
-top:12%;
-right:8%;
-font-size:12px;
-opacity:0;
-cursor:pointer;
-transition:1s;
-z-index:3;
-}
-
-#secretStar.visible{
-opacity:0.8;
-}
-
-#secretStar:hover{
-transform:scale(1.6);
-}
-
-</style>
+    /* ––– RESPONSIVE ––– */
+    @media (max-width: 500px) {
+      .container { padding: 1.5rem 1rem; margin: 3vh 4%; }
+      .story { padding: 1.2rem; }
+    }
+  </style>
 </head>
-
 <body>
 
-<canvas id="stars"></canvas>
-<div id="nightFade"></div>
-
-<div id="secretStar">★</div>
-
-<div class="container">
-
-<h1>A Small Story About Two People</h1>
-
-<div id="story" class="story"></div>
-
-<div id="choices" class="choices"></div>
-
-</div>
-
-<script>
-
-/* STAR BACKGROUND */
-
-const canvas = document.getElementById("stars")
-const ctx = canvas.getContext("2d")
-
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
-
-let stars=[]
-
-for(let i=0;i<150;i++){
-stars.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-size:Math.random()*2
-})
-}
-
-function drawStars(){
-ctx.clearRect(0,0,canvas.width,canvas.height)
-ctx.fillStyle="white"
-stars.forEach(star=>{
-ctx.beginPath()
-ctx.arc(star.x,star.y,star.size,0,Math.PI*2)
-ctx.fill()
-})
-}
-
-setInterval(drawStars,40)
-
-/* FLOATING PARTICLES */
-
-for(let i=0;i<30;i++){
-let p=document.createElement("div")
-p.className="particle"
-p.style.left=Math.random()*100+"vw"
-p.style.animationDuration=(10+Math.random()*20)+"s"
-p.style.animationDelay=Math.random()*20+"s"
-document.body.appendChild(p)
-}
-
-/* TYPEWRITER */
-
-function typeText(text,element){
-element.innerHTML=""
-let i=0
-
-function typing(){
-if(i<text.length){
-element.innerHTML+=text.charAt(i)
-i++
-setTimeout(typing,18)
-}
-}
-
-typing()
-}
-
-/* STORY DATA */
-
-const story={
-
-start:{
-text:`The night is quiet.
-
-The room is dim, lit only by the soft glow of a phone screen.
-
-Another notification appears.
-
-Another message from him.
-
-At first it was just normal conversation.
-
-Just another person.
-
-Just another chat.
-
-Or at least...
-
-that's what I thought in the beginning.`,
-choices:[
-{ text:"Reply to the message", next:"lateNightTalk"},
-{ text:"Talk about life", next:"deepTalk"},
-{ text:"Continue studying", next:"studyScene"}
-]
-},
-
-lateNightTalk:{
-text:`It's late.
-
-Much later than I should still be awake.
-
-But somehow we keep talking.
-
-One message becomes another.
-
-Minutes become hours.
-
-I keep telling myself I'll sleep after the next message.
-
-But the conversation never really ends.`,
-choices:[
-{ text:"Ask what he's thinking about", next:"thoughts"},
-{ text:"Enjoy the quiet moment", next:"quietMoment"},
-{ text:"Tease him for being awake", next:"teaseScene"}
-]
-},
-
-thoughts:{
-text:`I hesitate for a moment before typing.
-
-"Do you ever feel like some people just appear in your life randomly?"
-
-"And suddenly... your normal days start feeling a little different?"
-
-I stare at the screen after sending it.`,
-choices:[
-{ text:"Wait for his reply", next:"connection"},
-{ text:"Change the topic", next:"connection"}
-]
-},
-
-quietMoment:{
-text:`For a moment neither of us sends a message.
-
-But neither of us leaves either.
-
-The typing bubble appears...
-
-then disappears.
-
-Then appears again.
-
-It's strange.
-
-How silence with the right person doesn't feel uncomfortable.`,
-choices:[
-{ text:"Say something", next:"connection"},
-{ text:"Let the silence stay", next:"driftEnding"}
-]
-},
-
-teaseScene:{
-text:`"Why are you still awake?" I type.
-
-His reply comes almost instantly.
-
-"You are literally awake too."
-
-I can't help smiling at the screen.`,
-choices:[
-{ text:"Admit defeat", next:"connection"},
-{ text:"Blame him", next:"connection"}
-]
-},
-
-connection:{
-text:`Days slowly turn into weeks.
-
-Our conversations become part of my routine.
-
-Good morning messages.
-
-Random jokes.
-
-Long conversations that somehow stretch deep into the night.
-
-I didn't notice when it happened...
-
-But somewhere along the way
-
-he stopped feeling like just another person.`,
-choices:[
-{ text:"Focus on studies", next:"studyScene"},
-{ text:"Talk deeper", next:"deepTalk"}
-]
-},
-
-studyScene:{
-text:`Exams are coming.
-
-I should be studying.
-
-And I am.
-
-But every once in a while I check my phone.
-
-Another message from him.
-
-"Still studying?"
-
-I reply.
-
-"Yeah."
-
-A few minutes later he sends another message.
-
-"Keep going. You'll do great."
-
-It's a small message.
-
-But somehow it makes studying feel easier.`,
-choices:[
-{ text:"Thank him", next:"bondScene"},
-{ text:"Keep studying", next:"bondScene"}
-]
-},
-
-deepTalk:{
-text:`Our conversations slowly change.
-
-We stop talking about random things.
-
-Instead we talk about life.
-
-Dreams.
-
-Fears.
-
-The future.
-
-At one point he asks something that makes me pause.
-
-"Do you think two people can slowly become important to each other... without realizing it?"`,
-choices:[
-{ text:"Admit it might be possible", next:"bondScene"},
-{ text:"Avoid the question", next:"driftEnding"}
-]
-},
-
-bondScene:{
-text:`Weeks continue to pass.
-
-Late night talks.
-
-Encouragement during exams.
-
-Small jokes that only we understand.
-
-Quiet moments.
-
-Support.
-
-Somewhere in all of this...
-
-something changes inside my heart.
-
-And I don't fully understand when it happened.`,
-choices:[
-{ text:"Think about what he means to me", next:"criticalMoment"},
-{ text:"Ignore the feeling", next:"giveUpEnding"}
-]
-},
-
-criticalMoment:{
-text:`Tonight feels different.
-
-I look at our chat again.
-
-The typing bubble appears on his side.
-
-Then disappears.
-
-Then appears again.
-
-It's like he's trying to say something.
-
-And suddenly my heart feels nervous for no reason.`,
-choices:[
-{ text:"Wait patiently", next:"threeAMStart"},
-{ text:"Step away", next:"giveUpEnding"}
-]
-},
-
-driftEnding:{
-text:`Life becomes busy.
-
-Messages slowly become less frequent.
-
-Days pass between conversations.
-
-Eventually the silence grows too large.
-
-And what once felt important quietly fades away.
-
-ENDING: Drifted Apart`,
-choices:[{ text:"Restart", next:"start"}]
-},
-
-giveUpEnding:{
-text:`Sometimes feelings take time to appear.
-
-And sometimes people leave before they ever do.
-
-ENDING: The One Who Walked Away`,
-choices:[{ text:"Restart", next:"start"}]
-},
-
-threeAMStart:{
-text:`It is almost 3:00 AM.
-
-The world is quiet.
-
-A message appears.`,
-choices:[{ text:"Read the message", next:"threeAM1"}]
-},
-
-threeAM1:{
-text:`"I don't know why this feels strange..."
-
-"Even after knowing how difficult this could be... I still gave it a chance."`,
-choices:[{ text:"Continue", next:"threeAM2"}]
-},
-
-threeAM2:{
-text:`"Because I trusted you."
-
-"I knew your feelings were real."`,
-choices:[{ text:"Continue", next:"threeAM3"}]
-},
-
-threeAM3:{
-text:`"And honestly... I always felt lucky."
-
-"Lucky that someone could care about me that much."`,
-choices:[{ text:"Continue", next:"threeAM4"}]
-},
-
-threeAM4:{
-text:`"But somewhere along the way..."
-
-"Something changed."`,
-choices:[{ text:"Continue", next:"threeAM5"}]
-},
-
-threeAM5:{
-text:`"Now I feel the same way about you."
-
-"You melted a heart that wasn't supposed to melt."`,
-choices:[{ text:"Continue", next:"threeAM6"}]
-},
-
-threeAM6:{
-text:`"You won my heart with your prayers."
-
-"Now don't stop winning me."
-
-TRUE ENDING`,
-choices:[{ text:"Finish the story", next:"storyComplete"}]
-},
-
-storyComplete:{
-text:`The story seems to end here.
-
-But sometimes...
-
-stories hide secrets in the stars.`,
-choices:[{ text:"Restart", next:"start"}]
-},
-
-secretEnding:{
-text:`It almost feels familiar...
-
-Doesn't it?
-
-Like this story reminds you of something.
-
-But this is just a story.
-
-Stories can be copied.
-
-Stories can be rewritten.
-
-Stories can be told again.
-
-But ours?
-
-Our story could never be repeated.
-
-Because what we have...
-
-is something the universe only wrote once.
-
-And it wrote it just for us.`,
-choices:[{ text:"Return", next:"start"}]
-}
-
-}
-/* ENGINE */
-
-let current="start"
-
-const storyDiv=document.getElementById("story")
-const choicesDiv=document.getElementById("choices")
-const secretStar=document.getElementById("secretStar")
-
-function render(){
-
-const node=story[current]
-
-typeText(node.text,storyDiv)
-
-choicesDiv.innerHTML=""
-
-node.choices.forEach(choice=>{
-
-const btn=document.createElement("button")
-
-btn.innerText=choice.text
-
-btn.onclick=()=>{
-current=choice.next
-render()
-}
-
-choicesDiv.appendChild(btn)
-
-})
-
-if(current==="storyComplete"){
-secretStar.classList.add("visible")
-}
-const nightFade = document.getElementById("nightFade")
-
-if(current === "threeAMStart"){
-nightFade.classList.add("active")
-}
-}
-
-secretStar.onclick=()=>{
-current="secretEnding"
-render()
-}
-
-render()
-
-</script>
-
+  <!-- improved starfield canvas (warmer, denser) -->
+  <canvas id="starCanvas"></canvas>
+  <div class="atmosphere"></div>
+  <div id="nightFade"></div>
+
+  <!-- floating romantic particles (petal-like) -->
+  <div id="petal-container" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1;"></div>
+
+  <div id="secretStar" title="a glimmer you almost missed">✧</div>
+
+  <div class="container">
+    <h1>— two slow hearts —</h1>
+    <div id="story" class="story"></div>
+    <div id="choices" class="choices"></div>
+  </div>
+
+  <script>
+    (function() {
+      // ----------------------------------------------
+      //  SOFT STARFIELD (romantic, slightly twinkling)
+      // ----------------------------------------------
+      const canvas = document.getElementById('starCanvas');
+      const ctx = canvas.getContext('2d');
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+
+      function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        initStars();
+      }
+
+      let stars = [];
+      function initStars() {
+        stars = [];
+        const starCount = Math.min(240, Math.floor(width * height / 5000));
+        for (let i = 0; i < starCount; i++) {
+          stars.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            radius: Math.random() * 2.2 + 0.8,
+            alpha: Math.random() * 0.6 + 0.2,
+            speed: 0.0005 + Math.random() * 0.0015,
+            phase: Math.random() * 2 * Math.PI,
+            color: `rgba(255, ${200 + Math.floor(55 * Math.random())}, ${190 + Math.floor(65 * Math.random())}, ` // warmish
+          });
+        }
+      }
+
+      function drawStars() {
+        ctx.clearRect(0, 0, width, height);
+        const now = Date.now() * 0.001;
+        stars.forEach(s => {
+          const twinkle = 0.7 + 0.3 * Math.sin(now * s.speed * 5 + s.phase);
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.radius, 0, 2 * Math.PI);
+          // warm star colors
+          const r = 255;
+          const g = 200 + 35 * Math.sin(s.phase);
+          const b = 180 + 50 * Math.cos(s.phase * 2);
+          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${s.alpha * twinkle})`;
+          ctx.fill();
+          // occasional faint glow
+          if (s.radius > 1.5) {
+            ctx.shadowColor = '#ffc0cb';
+            ctx.shadowBlur = 6;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          }
+        });
+        requestAnimationFrame(drawStars);
+      }
+
+      window.addEventListener('resize', () => {
+        resizeCanvas();
+      });
+      resizeCanvas();
+      drawStars();
+
+      // ----------------------------------------------
+      //  FLOATING PETALS / ORBS (soft romantic)
+      // ----------------------------------------------
+      const petalContainer = document.getElementById('petal-container');
+      for (let i = 0; i < 32; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'floating-petal';
+        const size = 4 + Math.random() * 12;
+        petal.style.width = size + 'px';
+        petal.style.height = size * (0.6 + Math.random() * 0.8) + 'px';
+        petal.style.left = Math.random() * 100 + '%';
+        petal.style.background = `rgba(255, ${190 + Math.floor(65 * Math.random())}, ${180 + Math.floor(75 * Math.random())}, 0.2)`;
+        petal.style.animationDuration = 15 + Math.random() * 25 + 's';
+        petal.style.animationDelay = Math.random() * 15 + 's';
+        petalContainer.appendChild(petal);
+      }
+
+      // ----------------------------------------------
+      //  TYPEWRITER (smoother, slightly romantic pause)
+      // ----------------------------------------------
+      function typeText(text, element, callback = null) {
+        element.innerHTML = '';
+        let i = 0;
+        const speed = 16; // slightly faster but still soft
+        function addChar() {
+          if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(addChar, speed);
+          } else {
+            if (callback) callback();
+          }
+        }
+        addChar();
+      }
+
+      // ----------------------------------------------
+      //  STORY NODES (enhanced with subtle emo, unchanged structure)
+      // ----------------------------------------------
+      const story = {
+        start: {
+          text: `The night is quiet.\n\nThe room is dim, lit only by the soft glow of a phone screen.\n\nAnother notification appears.\n\nAnother message from him.\n\nAt first it was just normal conversation.\n\nJust another person.\n\nJust another chat.\n\nOr at least...\n\nthat's what I thought in the beginning.`,
+          choices: [
+            { text: "reply to the message", next: "lateNightTalk" },
+            { text: "talk about life", next: "deepTalk" },
+            { text: "continue studying", next: "studyScene" }
+          ]
+        },
+        lateNightTalk: {
+          text: `It's late.\n\nMuch later than I should still be awake.\n\nBut somehow we keep talking.\n\nOne message becomes another.\n\nMinutes become hours.\n\nI keep telling myself I'll sleep after the next message.\n\nBut the conversation never really ends.`,
+          choices: [
+            { text: "ask what he's thinking about", next: "thoughts" },
+            { text: "enjoy the quiet moment", next: "quietMoment" },
+            { text: "tease him for being awake", next: "teaseScene" }
+          ]
+        },
+        thoughts: {
+          text: `I hesitate for a moment before typing.\n\n"Do you ever feel like some people just appear in your life randomly?"\n\n"And suddenly... your normal days start feeling a little different?"\n\nI stare at the screen after sending it.`,
+          choices: [
+            { text: "wait for his reply", next: "connection" },
+            { text: "change the topic", next: "connection" }
+          ]
+        },
+        quietMoment: {
+          text: `For a moment neither of us sends a message.\n\nBut neither of us leaves either.\n\nThe typing bubble appears...\n\nthen disappears.\n\nThen appears again.\n\nIt's strange.\n\nHow silence with the right person doesn't feel uncomfortable.`,
+          choices: [
+            { text: "say something", next: "connection" },
+            { text: "let the silence stay", next: "driftEnding" }
+          ]
+        },
+        teaseScene: {
+          text: `"Why are you still awake?" I type.\n\nHis reply comes almost instantly.\n\n"You are literally awake too."\n\nI can't help smiling at the screen.`,
+          choices: [
+            { text: "admit defeat", next: "connection" },
+            { text: "blame him", next: "connection" }
+          ]
+        },
+        connection: {
+          text: `Days slowly turn into weeks.\n\nOur conversations become part of my routine.\n\nGood morning messages.\n\nRandom jokes.\n\nLong conversations that somehow stretch deep into the night.\n\nI didn't notice when it happened...\n\nBut somewhere along the way\n\nhe stopped feeling like just another person.`,
+          choices: [
+            { text: "focus on studies", next: "studyScene" },
+            { text: "talk deeper", next: "deepTalk" }
+          ]
+        },
+        studyScene: {
+          text: `Exams are coming.\n\nI should be studying.\n\nAnd I am.\n\nBut every once in a while I check my phone.\n\nAnother message from him.\n\n"Still studying?"\n\nI reply.\n\n"Yeah."\n\nA few minutes later he sends another message.\n\n"Keep going. You'll do great."\n\nIt's a small message.\n\nBut somehow it makes studying feel easier.`,
+          choices: [
+            { text: "thank him", next: "bondScene" },
+            { text: "keep studying", next: "bondScene" }
+          ]
+        },
+        deepTalk: {
+          text: `Our conversations slowly change.\n\nWe stop talking about random things.\n\nInstead we talk about life.\n\nDreams.\n\nFears.\n\nThe future.\n\nAt one point he asks something that makes me pause.\n\n"Do you think two people can slowly become important to each other... without realizing it?"`,
+          choices: [
+            { text: "admit it might be possible", next: "bondScene" },
+            { text: "avoid the question", next: "driftEnding" }
+          ]
+        },
+        bondScene: {
+          text: `Weeks continue to pass.\n\nLate night talks.\n\nEncouragement during exams.\n\nSmall jokes that only we understand.\n\nQuiet moments.\n\nSupport.\n\nSomewhere in all of this...\n\nsomething changes inside my heart.\n\nAnd I don't fully understand when it happened.`,
+          choices: [
+            { text: "think about what he means to me", next: "criticalMoment" },
+            { text: "ignore the feeling", next: "giveUpEnding" }
+          ]
+        },
+        criticalMoment: {
+          text: `Tonight feels different.\n\nI look at our chat again.\n\nThe typing bubble appears on his side.\n\nThen disappears.\n\nThen appears again.\n\nIt's like he's trying to say something.\n\nAnd suddenly my heart feels nervous for no reason.`,
+          choices: [
+            { text: "wait patiently", next: "threeAMStart" },
+            { text: "step away", next: "giveUpEnding" }
+          ]
+        },
+        driftEnding: {
+          text: `Life becomes busy.\n\nMessages slowly become less frequent.\n\nDays pass between conversations.\n\nEventually the silence grows too large.\n\nAnd what once felt important quietly fades away.\n\n✧ ENDING: Drifted Apart ✧`,
+          choices: [{ text: "restart", next: "start" }]
+        },
+        giveUpEnding: {
+          text: `Sometimes feelings take time to appear.\n\nAnd sometimes people leave before they ever do.\n\n✧ ENDING: The One Who Walked Away ✧`,
+          choices: [{ text: "restart", next: "start" }]
+        },
+        threeAMStart: {
+          text: `It is almost 3:00 AM.\n\nThe world is quiet.\n\nA message appears.`,
+          choices: [{ text: "read the message", next: "threeAM1" }]
+        },
+        threeAM1: {
+          text: `"I don't know why this feels strange..."\n\n"Even after knowing how difficult this could be... I still gave it a chance."`,
+          choices: [{ text: "continue", next: "threeAM2" }]
+        },
+        threeAM2: {
+          text: `"Because I trusted you."\n\n"I knew your feelings were real."`,
+          choices: [{ text: "continue", next: "threeAM3" }]
+        },
+        threeAM3: {
+          text: `"And honestly... I always felt lucky."\n\n"Lucky that someone could care about me that much."`,
+          choices: [{ text: "continue", next: "threeAM4" }]
+        },
+        threeAM4: {
+          text: `"But somewhere along the way..."\n\n"Something changed."`,
+          choices: [{ text: "continue", next: "threeAM5" }]
+        },
+        threeAM5: {
+          text: `"Now I feel the same way about you."\n\n"You melted a heart that wasn't supposed to melt."`,
+          choices: [{ text: "continue", next: "threeAM6" }]
+        },
+        threeAM6: {
+          text: `"You won my heart with your prayers."\n\n"Now don't stop winning me."\n\n✧ TRUE ENDING ✧`,
+          choices: [{ text: "finish the story", next: "storyComplete" }]
+        },
+        storyComplete: {
+          text: `The story seems to end here.\n\nBut sometimes...\n\nstories hide secrets in the stars.`,
+          choices: [{ text: "restart", next: "start" }]
+        },
+        secretEnding: {
+          text: `It almost feels familiar...\n\nDoesn't it?\n\nLike this story reminds you of something.\n\nBut this is just a story.\n\nStories can be copied.\n\nStories can be rewritten.\n\nStories can be told again.\n\nBut ours?\n\nOur story could never be repeated.\n\nBecause what we have...\n\nis something the universe only wrote once.\n\nAnd it wrote it just for us.`,
+          choices: [{ text: "return to start", next: "start" }]
+        }
+      };
+
+      // ----------------------------------------------
+      //  ENGINE
+      // ----------------------------------------------
+      let current = "start";
+      const storyDiv = document.getElementById('story');
+      const choicesDiv = document.getElementById('choices');
+      const secretStar = document.getElementById('secretStar');
+      const nightFade = document.getElementById('nightFade');
+
+      function render() {
+        const node = story[current];
+        if (!node) return;
+
+        // type text
+        typeText(node.text, storyDiv);
+
+        // render buttons
+        choicesDiv.innerHTML = '';
+        node.choices.forEach(choice => {
+          const btn = document.createElement('button');
+          btn.className = 'choice-btn';
+          btn.innerText = choice.text;
+          btn.onclick = () => {
+            current = choice.next;
+            render();
+          };
+          choicesDiv.appendChild(btn);
+        });
+
+        // secret star appears only after true ending
+        if (current === "storyComplete") {
+          secretStar.classList.add('visible');
+        } else {
+          secretStar.classList.remove('visible');
+        }
+
+        // deep night fade for 3am sequences
+        if (current === "threeAMStart" || current.startsWith("threeAM")) {
+          nightFade.classList.add('active');
+        } else {
+          nightFade.classList.remove('active');
+        }
+      }
+
+      // secret star click
+      secretStar.onclick = () => {
+        current = "secretEnding";
+        render();
+      };
+
+      render();
+    })();
+  </script>
 </body>
 </html>
