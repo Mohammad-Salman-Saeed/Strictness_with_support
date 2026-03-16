@@ -266,6 +266,13 @@ color:rgba(255,215,0,0.2);
 cursor:pointer;
 z-index:100;
 transition:0.3s;
+opacity:0;
+pointer-events:none;
+}
+
+.flynn-ribbon.visible {
+opacity:1;
+pointer-events:auto;
 }
 
 .flynn-ribbon:hover {
@@ -657,6 +664,10 @@ function displayNode(nodeId) {
     const node = story[nodeId];
     if (!node) return;
     
+    // Reveal Flynn easter egg after Chapter 15
+    if(nodeId === "feb2026"){
+    document.getElementById("flynnEasterEgg").classList.add("visible");
+    }
     currentNode = nodeId;
     visitedNodes.push(nodeId);
     
