@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>✦ How Well Do You Know Us? ✦ </title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 <style>
 * {
 margin:0;
@@ -11,16 +11,16 @@ box-sizing:border-box;
 }
 
 body {
-background:linear-gradient(145deg, #1a0f24 0%, #2d1a2d 50%, #1a2f2a 100%);
+background:linear-gradient(145deg, #120a18 0%, #231523 50%, #13231f 100%);
 font-family:'Georgia', 'Times New Roman', serif;
 min-height:100vh;
-padding:20px;
+padding:12px;
 color:#f5e6ff;
 position:relative;
 overflow-x:hidden;
 }
 
-/* Floating particles container */
+/* Particle container */
 #particle-container {
 position:fixed;
 top:0;
@@ -33,42 +33,52 @@ z-index:1000;
 
 .particle {
 position:absolute;
-font-size:20px;
-animation:floatToHeart 1s forwards;
+font-size:24px;
+animation:floatToHeart 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 z-index:1000;
+filter:drop-shadow(0 0 5px gold);
 }
 
 @keyframes floatToHeart {
 0% {
-    transform:translate(0, 0) scale(1);
+    transform:translate(0, 0) scale(1) rotate(0deg);
     opacity:1;
 }
+70% {
+    opacity:0.8;
+}
 100% {
-    transform:translate(var(--tx), var(--ty)) scale(0);
+    transform:translate(var(--tx), var(--ty)) scale(0) rotate(360deg);
     opacity:0;
 }
 }
 
-/* Heart animation */
-.heart-pulse {
-animation:heartBeat 0.5s;
-}
-
+/* Heart animations */
 @keyframes heartBeat {
 0% { transform:scale(1); }
-30% { transform:scale(1.3); filter:drop-shadow(0 0 30px #ff69b4); }
+25% { transform:scale(1.2); filter:drop-shadow(0 0 25px #ff69b4); }
+50% { transform:scale(1); }
+75% { transform:scale(1.1); filter:drop-shadow(0 0 15px #ff69b4); }
 100% { transform:scale(1); }
 }
 
-/* Emerald green accent */
-.emerald {
-color:#50c878;
-text-shadow:0 0 10px rgba(80,200,120,0.3);
+@keyframes heartGlow {
+0% { filter:drop-shadow(0 0 5px #ffb6c1); }
+50% { filter:drop-shadow(0 0 25px #ff69b4); }
+100% { filter:drop-shadow(0 0 5px #ffb6c1); }
+}
+
+.heart-pulse {
+animation:heartBeat 0.6s ease-in-out;
+}
+
+.heart-glow {
+animation:heartGlow 2s infinite;
 }
 
 /* Main container */
 .quiz-container {
-max-width:800px;
+max-width:600px;
 margin:0 auto;
 position:relative;
 z-index:10;
@@ -77,334 +87,337 @@ z-index:10;
 /* Header */
 .header {
 text-align:center;
-padding:40px 20px;
-background:rgba(20,10,20,0.4);
-backdrop-filter:blur(10px);
-border-radius:60px 60px 30px 30px;
-margin-bottom:30px;
-border:1px solid rgba(255,182,193,0.2);
+padding:30px 15px 20px;
+background:rgba(20,10,20,0.5);
+backdrop-filter:blur(15px);
+-webkit-backdrop-filter:blur(15px);
+border-radius:40px 40px 30px 30px;
+margin-bottom:20px;
+border:1px solid rgba(255,182,193,0.25);
 }
 
 h1 {
-font-size:48px;
+font-size:38px;
 font-weight:300;
-background:linear-gradient(135deg, #ffd7e0, #ffb6c1, #50c878);
+background:linear-gradient(135deg, #ffdbeb, #ffb6c1, #6fcf97);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-margin-bottom:15px;
+margin-bottom:8px;
 font-family:'Playfair Display', 'Georgia', serif;
+letter-spacing:1px;
 }
 
 .subtitle {
-color:#d8bfd8;
-font-size:16px;
-letter-spacing:4px;
-margin-bottom:20px;
+color:#c7a5c7;
+font-size:14px;
+letter-spacing:3px;
 }
 
-/* Progress section - Heart on side */
-.progress-section {
+/* Progress bar - completely redesigned */
+.progress-bar {
+background:rgba(30,15,25,0.7);
+backdrop-filter:blur(10px);
+border-radius:60px;
+padding:12px 18px;
+margin:15px 0 20px;
 display:flex;
 align-items:center;
-justify-content:flex-end;
-gap:20px;
-margin:30px 0;
-position:relative;
+justify-content:space-between;
+border:1px solid rgba(255,182,193,0.3);
 }
 
-.heart-container {
+.score-display {
 display:flex;
-flex-direction:column;
 align-items:center;
-position:relative;
+gap:12px;
 }
 
-.heart-icon {
-font-size:80px;
-cursor:pointer;
-transition:0.3s;
-filter:drop-shadow(0 0 15px rgba(255,105,180,0.5));
+.heart-mini {
+font-size:32px;
 position:relative;
-z-index:5;
+display:inline-block;
 }
 
 .heart-fill-badge {
 position:absolute;
-bottom:-10px;
-right:-10px;
-background:#50c878;
-color:#1a0f1c;
-border-radius:50%;
-width:30px;
-height:30px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:14px;
+top:-8px;
+right:-8px;
+background:#6fcf97;
+color:#120a18;
+border-radius:30px;
+padding:3px 8px;
+font-size:12px;
 font-weight:bold;
-border:2px solid #ffb6c1;
+border:1px solid #ffb6c1;
+box-shadow:0 2px 8px rgba(0,0,0,0.3);
 }
 
 .flower-counter {
-background:rgba(255,182,193,0.2);
-backdrop-filter:blur(10px);
-padding:12px 25px;
-border-radius:50px;
-border:1px solid #50c878;
 display:flex;
 align-items:center;
-gap:10px;
+gap:6px;
+background:rgba(255,182,193,0.15);
+padding:8px 15px;
+border-radius:40px;
 }
 
 .flower-counter span {
-font-size:24px;
+font-size:22px;
 }
 
 .flower-count {
-color:#50c878;
-font-size:18px;
+color:#6fcf97;
 font-weight:bold;
-margin-left:5px;
+font-size:18px;
+margin-left:3px;
 }
 
 /* Question card */
 .question-card {
-background:rgba(25,15,22,0.7);
+background:rgba(25,15,22,0.75);
 backdrop-filter:blur(15px);
-border-radius:40px;
-padding:40px;
-margin:30px 0;
-border:2px solid rgba(255,182,193,0.2);
-box-shadow:0 20px 40px rgba(0,0,0,0.4);
+-webkit-backdrop-filter:blur(15px);
+border-radius:35px;
+padding:28px 22px;
+margin:20px 0;
+border:1px solid rgba(255,182,193,0.25);
+box-shadow:0 15px 30px rgba(0,0,0,0.5);
 }
 
 .question-number {
-color:#50c878;
-font-size:14px;
-letter-spacing:3px;
-margin-bottom:15px;
+color:#6fcf97;
+font-size:13px;
+letter-spacing:2px;
+margin-bottom:12px;
+text-transform:uppercase;
 }
 
 .question-text {
-font-size:24px;
-color:#fff0f5;
-margin-bottom:30px;
-line-height:1.5;
+font-size:22px;
+color:#ffffff;
+margin-bottom:25px;
+line-height:1.4;
 font-weight:300;
+text-shadow:0 2px 5px rgba(0,0,0,0.3);
 }
 
 /* Options */
 .options {
 display:flex;
 flex-direction:column;
-gap:15px;
-margin:30px 0;
+gap:12px;
+margin:20px 0;
 }
 
 .option {
-background:rgba(255,182,193,0.05);
+background:rgba(255,182,193,0.08);
 border:1px solid rgba(255,182,193,0.3);
-border-radius:50px;
-padding:18px 25px;
-color:#f0e6ff;
-font-size:18px;
+border-radius:60px;
+padding:16px 22px;
+color:#ffffff;
+font-size:17px;
 cursor:pointer;
-transition:all 0.3s;
+transition:all 0.2s;
 display:flex;
 align-items:center;
 gap:15px;
+backdrop-filter:blur(5px);
 }
 
-.option:hover {
-background:rgba(255,182,193,0.15);
-transform:translateX(5px);
-border-color:#50c878;
+.option:active {
+transform:scale(0.98);
+background:rgba(111,207,151,0.15);
 }
 
 .option.selected {
-background:rgba(80,200,120,0.15);
-border-color:#50c878;
-box-shadow:0 0 20px rgba(80,200,120,0.3);
+background:rgba(111,207,151,0.2);
+border-color:#6fcf97;
+box-shadow:0 0 15px rgba(111,207,151,0.3);
 }
 
 .option-emoji {
-font-size:24px;
+font-size:26px;
 width:40px;
+text-align:center;
 }
 
-/* Question answer input */
+/* Input field */
 .qa-input {
-background:rgba(255,255,255,0.05);
+background:rgba(255,255,255,0.08);
 border:1px solid rgba(255,182,193,0.3);
-border-radius:50px;
-padding:18px 25px;
+border-radius:60px;
+padding:16px 22px;
 width:100%;
 color:white;
-font-size:18px;
-margin:20px 0;
+font-size:17px;
+margin:15px 0;
 }
 
 .qa-input:focus {
 outline:none;
-border-color:#50c878;
+border-color:#6fcf97;
+background:rgba(255,255,255,0.12);
 }
 
-/* Result feedback */
+.qa-input::placeholder {
+color:rgba(255,255,255,0.3);
+font-style:italic;
+}
+
+/* Feedback */
 .feedback {
-margin:20px 0;
-padding:15px;
-border-radius:30px;
+margin:15px 0 5px;
+padding:12px;
+border-radius:40px;
 text-align:center;
-font-size:18px;
-animation:slideIn 0.3s;
+font-size:16px;
+font-weight:500;
 }
 
 .feedback.correct {
-background:rgba(80,200,120,0.2);
-border:1px solid #50c878;
-color:#50c878;
+background:rgba(111,207,151,0.15);
+border:1px solid #6fcf97;
+color:#a5e0b5;
 }
 
 .feedback.incorrect {
-background:rgba(255,100,100,0.2);
-border:1px solid #ff6464;
-color:#ff6464;
+background:rgba(255,100,100,0.15);
+border:1px solid #ff8a8a;
+color:#ffb6b6;
 }
 
-@keyframes slideIn {
-0% { opacity:0; transform:translateY(-10px); }
-100% { opacity:1; transform:translateY(0); }
-}
-
-/* Match the date section */
+/* Match section */
 .match-container {
 display:flex;
 flex-direction:column;
-gap:20px;
-margin:30px 0;
+gap:18px;
+margin:25px 0;
 }
 
 .match-row {
 display:flex;
-align-items:center;
-gap:15px;
-flex-wrap:wrap;
+flex-direction:column;
+gap:8px;
 }
 
 .match-event {
-flex:2;
-min-width:200px;
-background:rgba(255,182,193,0.05);
-padding:15px 20px;
+background:rgba(255,182,193,0.1);
+padding:14px 18px;
 border-radius:30px;
-border:1px solid rgba(255,182,193,0.2);
+font-size:16px;
+border-left:4px solid #ffb6c1;
 }
 
 .match-select {
-flex:1;
-min-width:150px;
-padding:15px 20px;
+width:100%;
+padding:14px 18px;
 border-radius:30px;
-background:rgba(20,10,15,0.8);
+background:rgba(20,10,15,0.9);
 border:1px solid rgba(255,182,193,0.3);
 color:white;
 font-size:16px;
 cursor:pointer;
+appearance:none;
+background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ffb6c1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+background-repeat:no-repeat;
+background-position:right 18px center;
 }
 
 .match-select option {
 background:#1a0f1c;
 }
 
-/* Private section (not secret, just personal) */
+/* Private section */
 .private-section {
-background:rgba(80,200,120,0.1);
-border:2px dashed #50c878;
-border-radius:40px;
-padding:30px;
-margin:40px 0;
-}
-
-.private-section h3 {
-color:#ffb6c1;
-font-size:22px;
-margin-bottom:20px;
-}
-
-/* Yes/No special buttons */
-.yes-no-container {
-display:flex;
-gap:20px;
-justify-content:center;
+background:rgba(111,207,151,0.08);
+border:2px dashed #6fcf97;
+border-radius:35px;
+padding:25px;
 margin:30px 0;
 }
 
+.private-title {
+color:#6fcf97;
+font-size:18px;
+margin-bottom:20px;
+text-align:center;
+letter-spacing:2px;
+}
+
+/* Yes/No section */
+.yes-no-container {
+display:flex;
+gap:15px;
+justify-content:center;
+margin:25px 0 15px;
+}
+
 .yes-btn, .no-btn {
-padding:15px 40px;
-border-radius:50px;
+flex:1;
+padding:16px 0;
+border-radius:60px;
 font-size:20px;
 cursor:pointer;
-transition:0.3s;
+transition:all 0.2s;
 border:none;
 font-family:'Georgia', serif;
+max-width:140px;
 }
 
 .yes-btn {
-background:rgba(255,100,100,0.2);
-border:1px solid #ff6464;
-color:#ff6464;
+background:rgba(255,100,100,0.15);
+border:1px solid #ff8a8a;
+color:#ffb6b6;
 }
 
-.yes-btn:hover {
+.yes-btn:active {
 background:rgba(255,100,100,0.3);
-transform:scale(1.05);
+transform:scale(0.95);
 }
 
 .no-btn {
-background:rgba(80,200,120,0.2);
-border:1px solid #50c878;
-color:#50c878;
-cursor:pointer;
+background:rgba(111,207,151,0.15);
+border:1px solid #6fcf97;
+color:#a5e0b5;
 }
 
-.no-btn:hover {
-background:rgba(80,200,120,0.3);
-transform:scale(1.05);
+.no-btn:active {
+background:rgba(111,207,151,0.3);
+transform:scale(0.95);
 }
 
 .no-btn.selected {
-background:#50c878;
-color:#1a0f1c;
-box-shadow:0 0 20px #50c878;
+background:#6fcf97;
+color:#120a18;
+border-color:#6fcf97;
 }
 
-/* Sad emoji container */
 .sad-emoji-container {
 display:flex;
 flex-wrap:wrap;
-gap:5px;
+gap:8px;
 justify-content:center;
 margin:20px 0;
 min-height:40px;
 }
 
 .sad-emoji {
-font-size:24px;
+font-size:28px;
 animation:pop 0.3s;
 }
 
 @keyframes pop {
-0% { transform:scale(0); }
-80% { transform:scale(1.2); }
-100% { transform:scale(1); }
+0% { transform:scale(0) rotate(0deg); }
+80% { transform:scale(1.2) rotate(5deg); }
+100% { transform:scale(1) rotate(0deg); }
 }
 
 /* Bouquet display */
 .bouquet-display {
 text-align:center;
-padding:40px;
+padding:30px 20px;
 background:rgba(0,0,0,0.3);
-border-radius:60px;
+border-radius:50px;
 margin:30px 0;
 }
 
@@ -412,178 +425,203 @@ margin:30px 0;
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
-gap:15px;
-font-size:50px;
-animation:float 3s infinite;
+gap:12px;
+font-size:48px;
+animation:float 4s infinite ease-in-out;
 }
 
 @keyframes float {
 0% { transform:translateY(0); }
-50% { transform:translateY(-10px); }
+50% { transform:translateY(-8px); }
 100% { transform:translateY(0); }
 }
 
 /* Certificate */
 .certificate {
-background:linear-gradient(145deg, #2a1a2a, #1f2a1f);
-border:3px double #50c878;
-border-radius:40px;
-padding:50px;
+background:linear-gradient(145deg, #251a25, #1a2a1f);
+border:3px double #6fcf97;
+border-radius:45px;
+padding:40px 25px;
 text-align:center;
-margin:40px 0;
-box-shadow:0 0 50px rgba(80,200,120,0.3);
+margin:30px 0;
+box-shadow:0 0 40px rgba(111,207,151,0.3);
 }
 
 .certificate h2 {
-font-size:48px;
+font-size:38px;
 color:#ffb6c1;
-margin-bottom:20px;
+margin-bottom:15px;
+letter-spacing:2px;
 }
 
 .certificate-seal {
 font-size:70px;
-margin:30px;
-filter:drop-shadow(0 0 20px gold);
+margin:20px;
+filter:drop-shadow(0 0 15px gold);
 }
 
 .certificate-signature {
-font-size:24px;
-color:#50c878;
+font-size:22px;
+color:#6fcf97;
 font-style:italic;
-margin:30px 0;
+margin:25px 0;
 }
 
-.date-placeholder {
-color:#a88aa8;
-font-size:16px;
+.date-box {
 background:rgba(255,255,255,0.05);
-padding:10px;
-border-radius:30px;
+padding:12px 20px;
+border-radius:60px;
 display:inline-block;
 margin:20px 0;
+border:1px dashed #6fcf97;
+}
+
+.date-box span {
+color:#ffb6c1;
+font-size:18px;
 }
 
 /* Navigation */
 .quiz-nav {
 display:flex;
 justify-content:space-between;
-margin-top:30px;
+margin:20px 0 10px;
+gap:10px;
 }
 
 .nav-btn {
-background:transparent;
+background:rgba(255,182,193,0.1);
 border:1px solid #ffb6c1;
 color:#ffb6c1;
-padding:12px 30px;
+padding:14px 25px;
 border-radius:50px;
 cursor:pointer;
-transition:0.3s;
 font-size:16px;
+flex:1;
+text-align:center;
+transition:all 0.2s;
 }
 
-.nav-btn:hover:not(:disabled) {
+.nav-btn:active:not(:disabled) {
 background:#ffb6c1;
-color:#1a0f1c;
+color:#120a18;
+transform:scale(0.97);
 }
 
 .nav-btn:disabled {
 opacity:0.3;
-cursor:not-allowed;
+border-color:rgba(255,182,193,0.2);
 }
 
-/* Mobile */
-@media (max-width:600px) {
-h1 { font-size:32px; }
-.question-card { padding:25px; }
-.question-text { font-size:20px; }
-.option { padding:15px; }
-.heart-icon { font-size:60px; }
+.submit-btn {
+background:#6fcf97 !important;
+color:#120a18 !important;
+border:none !important;
+font-weight:bold;
+padding:16px 30px !important;
+margin:20px auto !important;
+display:block !important;
+width:fit-content;
+min-width:200px;
 }
 
-/* Hidden class */
+/* Hidden */
 .hidden {
 display:none !important;
 }
 
 /* Flower colors */
-.flower-rose { color:#ff4d6d; }
-.flower-jasmine { color:#fff0d0; }
-.flower-tulip { color:#ff8c69; }
+.flower-rose { color:#ff6b8b; text-shadow:0 0 10px #ff4d6d; }
+.flower-jasmine { color:#fff2c0; text-shadow:0 0 10px #fff0b5; }
+.flower-tulip { color:#ff9f7c; text-shadow:0 0 10px #ff8a5c; }
+
+/* Mobile optimization */
+@media (max-width:480px) {
+body { padding:10px; }
+h1 { font-size:32px; }
+.question-card { padding:22px 18px; }
+.question-text { font-size:20px; }
+.option { padding:14px 18px; font-size:16px; }
+.nav-btn { padding:12px 15px; font-size:15px; }
+}
+
+/* Success animation */
+@keyframes bloom {
+0% { transform:scale(0) rotate(0deg); opacity:0; }
+100% { transform:scale(1) rotate(360deg); opacity:1; }
+}
 </style>
 </head>
 <body>
 
-<!-- Particle container for heart animation -->
 <div id="particle-container"></div>
 
 <div class="quiz-container">
     
-    <!-- Header -->
     <div class="header">
         <h1>✦ how well do you know us? ✦</h1>
-        <div class="subtitle">a quiz for Manahil · from Salman</div>
+        <div class="subtitle">for manahil · from salman</div>
     </div>
     
-    <!-- Progress Section: Heart on side + Flower counter -->
-    <div class="progress-section">
+    <!-- New progress bar -->
+    <div class="progress-bar">
+        <div class="score-display">
+            <div class="heart-mini">
+                <span id="heartIcon" style="font-size:32px;">🤍</span>
+                <span class="heart-fill-badge" id="heartBadge">0%</span>
+            </div>
+        </div>
         <div class="flower-counter">
             <span>🌸</span>
             <span class="flower-count" id="flowerCount">0</span>
-            <span style="color:#ffb6c1;">/ 20</span>
-        </div>
-        <div class="heart-container" id="heartContainer">
-            <div class="heart-icon" id="heartIcon">🤍</div>
-            <div class="heart-fill-badge" id="heartBadge">0%</div>
+            <span style="color:#ffb6c1;">/20</span>
         </div>
     </div>
     
-    <!-- Question Container -->
     <div id="questionContainer"></div>
     
-    <!-- Navigation -->
     <div class="quiz-nav">
-        <button class="nav-btn" id="prevBtn" onclick="prevQuestion()" disabled>← previous</button>
+        <button class="nav-btn" id="prevBtn" onclick="prevQuestion()" disabled>← back</button>
         <button class="nav-btn" id="nextBtn" onclick="nextQuestion()">next →</button>
     </div>
     
-    <!-- Final Certificate (hidden until end) -->
     <div id="certificateContainer" class="hidden"></div>
     
 </div>
 
 <script>
 // =============================================
-// QUIZ DATA - For Manahil
+// QUIZ DATA
 // =============================================
 
 const quizData = [
-    // Q1: Salman's birthday
+    // Q1
     {
         type: "mcq",
         question: "When was Salman born?",
         options: [
             { text: "April 25, 2005", emoji: "🌹" },
-            { text: "September 12, 2004", emoji: "🌸" },
-            { text: "November 3, 2006", emoji: "🌺" },
+            { text: "April 20, 2005", emoji: "🌸" },
+            { text: "April 25, 2004", emoji: "🌺" },
             { text: "February 18, 2005", emoji: "🌷" }
         ],
         correct: 0
     },
     
-    // Q2: Your birthday
+    // Q2
     {
         type: "mcq",
         question: "When were you born?",
         options: [
-            { text: "May 10, 2005", emoji: "🌸" },
+            { text: "May 10, 2004", emoji: "🌸" },
             { text: "July 22, 2006", emoji: "🌹" },
-            { text: "March 15, 2004", emoji: "🌺" },
+            { text: "May 10, 2005", emoji: "🌺" },
             { text: "December 5, 2005", emoji: "🌷" }
         ],
-        correct: 0
+        correct: 2
     },
     
-    // Q3: When you added him back
+    // Q3
     {
         type: "qa",
         question: "What date did you add Salman back on Snapchat? (DD Month YYYY)",
@@ -591,18 +629,18 @@ const quizData = [
         alternate: ["14th August 2025", "august 14 2025", "14 august 2025"]
     },
     
-    // Q4: When you knew you felt the same
+    // Q4
     {
         type: "qa",
-        question: "When did you know you felt the same way for him? (include date and time)",
+        question: "When did you know you felt the same way for Salman? (include month, date, year and time, M/D/Y/T)",
         correct: "February 8, 2026, 3:00am",
         alternate: ["february 8 2026 3am", "8 feb 2026 3:00", "feb 8 2026 3am", "february 8 2026 3:00am"]
     },
     
-    // Q5: Nicknames (MUST SELECT ALL)
+    // Q5
     {
         type: "multiselect-all",
-        question: "What are ALL the nicknames Salman calls you?",
+        question: "What are the nicknames Salman calls you?",
         options: [
             { text: "Rapunzel", emoji: "👸" },
             { text: "jaan", emoji: "💗" },
@@ -613,7 +651,7 @@ const quizData = [
         correct: [0, 1, 2, 3, 4]
     },
     
-    // Q6: Character comparison
+    // Q6
     {
         type: "mcq",
         question: "What character did you compare Salman to?",
@@ -626,10 +664,10 @@ const quizData = [
         correct: 0
     },
     
-    // Q7: Your best features (MUST SELECT ALL)
+    // Q7
     {
         type: "multiselect-all",
-        question: "What are your best features? (select all that apply)",
+        question: "What are your best features? (select all)",
         options: [
             { text: "Your eyes", emoji: "👀" },
             { text: "Your hair", emoji: "💇‍♀️" },
@@ -641,10 +679,10 @@ const quizData = [
         correct: [0, 1, 2, 3, 4, 5]
     },
     
-    // Q8: When you exchanged numbers
+    // Q8
     {
         type: "mcq",
-        question: "When did you and Salman exchange phone numbers?",
+        question: "When did you exchange numbers?",
         options: [
             { text: "June 2024", emoji: "☀️" },
             { text: "October 2023", emoji: "🍂" },
@@ -654,18 +692,18 @@ const quizData = [
         correct: 0
     },
     
-    // Q9: Where Salman moved
+    // Q9
     {
         type: "qa",
-        question: "Where did Salman move to in 2024?",
+        question: "Where did Salman move to in 2024?(Hint: 2 countries)",
         correct: "USA then Canada",
         alternate: ["usa then canada", "america then canada", "united states then canada", "us then canada"]
     },
     
-    // Q10: Distance
+    // Q10
     {
         type: "mcq",
-        question: "How many kilometers apart are you?",
+        question: "How many km apart are you?",
         options: [
             { text: "12,000km", emoji: "🌎" },
             { text: "9,500km", emoji: "🌍" },
@@ -677,17 +715,16 @@ const quizData = [
 ];
 
 // =============================================
-// MATCH THE DATE SECTION
+// MATCH SECTION
 // =============================================
 const matchData = [
     { event: "You first met", correct: "Age 3" },
     { event: "You exchanged numbers", correct: "June 2024" },
     { event: "Flynn Rider moment", correct: "January 27, 2026" },
-    { event: "You added Salman back on Snapchat", correct: "14 August 2025" },
+    { event: "Added Salman back", correct: "14 August 2025" },
     { event: "You knew you felt the same", correct: "February 8, 2026, 3:00am" }
 ];
 
-// Shuffle the options
 const matchOptions = [
     "Age 3", "June 2024", "January 27, 2026", 
     "14 August 2025", "February 8, 2026, 3:00am"
@@ -698,33 +735,29 @@ const matchOptions = [
 // =============================================
 const privateQuestions = [
     {
-        q: "Who was the first person to message after you added Salman back on Snapchat?",
+        q: "Who first messaged after you added Salman back?",
         correct: "you",
-        type: "qa",
         alternate: ["me", "manahil", "i did"]
     },
     {
-        q: "What is something Salman loves about you but never says? (write what you think)",
-        correct: "nakhray",
-        type: "qa",
-        alternate: ["nakhre", "my nakhray", "nakhras", "your nakhray"]
+        q: "What does Salman love about you but never says?",
+        correct: "my nakhray",
+        alternate: ["nakhre", "nakhray", "nakhras"]
     },
     {
         q: "What's OUR song?",
         correct: "Arz Kiya Hai",
-        type: "qa",
         alternate: ["arz kiya", "arziya", "arz kiya hai"]
     },
     {
-        q: "When did Salman first confess to you? (month and year)",
+        q: "When did Salman first confess? (month/year)",
         correct: "July 2024",
-        type: "qa",
         alternate: ["july 2024", "july"]
     }
 ];
 
 // =============================================
-// GAME STATE
+// STATE
 // =============================================
 let currentQuestionIndex = 0;
 let answers = new Array(quizData.length).fill(null);
@@ -734,13 +767,13 @@ let privateAnswers = new Array(privateQuestions.length).fill(null);
 let questionStatus = new Array(quizData.length).fill(null);
 let matchStatus = new Array(matchData.length).fill(null);
 let privateStatus = new Array(privateQuestions.length).fill(null);
-let sadEmojis = 0;
-let correctCount = 0;
-let flowersEarned = 0;
 let noButtonSelected = false;
 
+let totalCorrect = 0;
+const TOTAL_POSSIBLE = 20; // 10 main + 5 match + 4 private + 1 yes/no
+
 // =============================================
-// RENDER FUNCTIONS
+// RENDER
 // =============================================
 function renderQuestion() {
     const container = document.getElementById('questionContainer');
@@ -748,12 +781,12 @@ function renderQuestion() {
     
     let html = `
         <div class="question-card">
-            <div class="question-number">question ${currentQuestionIndex + 1} / ${quizData.length}</div>
+            <div class="question-number">question ${currentQuestionIndex + 1}/${quizData.length}</div>
             <div class="question-text">${q.question}</div>
     `;
     
     if (q.type === "mcq") {
-        html += `<div class="options" id="optionsContainer">`;
+        html += `<div class="options">`;
         q.options.forEach((opt, idx) => {
             const selected = answers[currentQuestionIndex] === idx ? 'selected' : '';
             html += `
@@ -767,7 +800,7 @@ function renderQuestion() {
     }
     
     else if (q.type === "multiselect-all") {
-        html += `<div class="options" id="optionsContainer">`;
+        html += `<div class="options">`;
         q.options.forEach((opt, idx) => {
             const selected = (multiSelectAnswers[currentQuestionIndex] || []).includes(idx) ? 'selected' : '';
             html += `
@@ -778,23 +811,22 @@ function renderQuestion() {
             `;
         });
         html += `</div>`;
-        html += `<p style="color:#ffb6c1; margin-top:10px;"><small>✨ select all that apply</small></p>`;
+        html += `<p style="color:#ffb6c1; text-align:center; font-size:14px;">✨ select all that apply</p>`;
     }
     
     else if (q.type === "qa") {
-        const currentAnswer = answers[currentQuestionIndex] || '';
         html += `
-            <input type="text" class="qa-input" id="qaInput" 
-                   placeholder="type your answer..." value="${currentAnswer}"
+            <input type="text" class="qa-input" 
+                   placeholder="type your answer..." 
+                   value="${answers[currentQuestionIndex] || ''}"
                    oninput="updateQAAnswer(this.value)">
         `;
     }
     
     if (questionStatus[currentQuestionIndex]) {
-        const status = questionStatus[currentQuestionIndex];
         html += `
-            <div class="feedback ${status}">
-                ${status === 'correct' ? '✓ correct!' : '✗ not quite...'}
+            <div class="feedback ${questionStatus[currentQuestionIndex]}">
+                ${questionStatus[currentQuestionIndex] === 'correct' ? '✓ yes!' : '✗ not quite'}
             </div>
         `;
     }
@@ -813,8 +845,7 @@ function renderQuestion() {
 function renderMatchSection() {
     let html = `
         <div class="question-card">
-            <div class="question-number">bonus round · match the dates</div>
-            <div class="question-text">match each memory to its date</div>
+            <div class="question-number">🎯 match the dates</div>
             <div class="match-container">
     `;
     
@@ -823,18 +854,17 @@ function renderMatchSection() {
             <div class="match-row">
                 <div class="match-event">${item.event}</div>
                 <select class="match-select" onchange="updateMatchAnswer(${idx}, this.value)">
-                    <option value="">select date</option>
+                    <option value="">— select —</option>
                     ${matchOptions.map(opt => 
                         `<option value="${opt}" ${matchAnswers[idx] === opt ? 'selected' : ''}>${opt}</option>`
                     ).join('')}
                 </select>
             </div>
         `;
-        
         if (matchStatus[idx]) {
             html += `
-                <div class="feedback ${matchStatus[idx]}" style="margin-top:5px; margin-bottom:10px;">
-                    ${matchStatus[idx] === 'correct' ? '✓ correct!' : '✗ not quite...'}
+                <div class="feedback ${matchStatus[idx]}" style="margin:0 0 15px 0;">
+                    ${matchStatus[idx] === 'correct' ? '✓ matched!' : '✗ try again'}
                 </div>
             `;
         }
@@ -846,34 +876,32 @@ function renderMatchSection() {
 
 function renderPrivateSection() {
     let html = `
-        <div class="question-card private-section">
-            <div class="question-number">✨ just between us ✨</div>
-            <div class="question-text">only you would know these</div>
+        <div class="private-section">
+            <div class="private-title">💕 just for you 💕</div>
     `;
     
     privateQuestions.forEach((item, idx) => {
         html += `
-            <div style="margin:30px 0;">
-                <p style="color:#ffb6c1; margin-bottom:15px;">${item.q}</p>
+            <div style="margin:25px 0;">
+                <p style="color:#ffb6c1; margin-bottom:10px;">${item.q}</p>
                 <input type="text" class="qa-input" 
                        placeholder="your answer..." 
                        value="${privateAnswers[idx] || ''}"
                        oninput="updatePrivateAnswer(${idx}, this.value)">
             </div>
         `;
-        
         if (privateStatus[idx]) {
             html += `
-                <div class="feedback ${privateStatus[idx]}" style="margin-top:5px; margin-bottom:10px;">
-                    ${privateStatus[idx] === 'correct' ? '✓ correct!' : '✗ not quite...'}
+                <div class="feedback ${privateStatus[idx]}" style="margin:-5px 0 15px 0;">
+                    ${privateStatus[idx] === 'correct' ? '✓ yes!' : '✗ not quite'}
                 </div>
             `;
         }
     });
     
     html += `
-        <div style="margin:40px 0; text-align:center;">
-            <p style="color:#ffb6c1; font-size:20px; margin-bottom:20px;">Do you want Salman to stop asking you deep questions?</p>
+        <div style="margin:30px 0 20px; text-align:center;">
+            <p style="color:#ffb6c1; margin-bottom:15px;">Stop asking deep questions?</p>
             <div class="yes-no-container">
                 <button class="yes-btn" onclick="sadEmoji()">Yes</button>
                 <button class="no-btn ${noButtonSelected ? 'selected' : ''}" onclick="noClicked()">No</button>
@@ -881,8 +909,8 @@ function renderPrivateSection() {
             <div class="sad-emoji-container" id="sadEmojiContainer"></div>
         </div>
         
-        <button class="nav-btn" onclick="submitAll()" style="margin:30px auto; display:block; background:#50c878; color:#1a0f1c; border:none; padding:15px 40px; font-size:18px;">
-            ✦ finish & see your results ✦
+        <button class="nav-btn submit-btn" onclick="submitAll()">
+            ✦ see your results ✦
         </button>
     `;
     
@@ -891,7 +919,7 @@ function renderPrivateSection() {
 }
 
 // =============================================
-// HANDLER FUNCTIONS
+// HANDLERS
 // =============================================
 function selectOption(idx) {
     answers[currentQuestionIndex] = idx;
@@ -907,13 +935,10 @@ function toggleMultiSelect(idx) {
     const current = multiSelectAnswers[currentQuestionIndex];
     const pos = current.indexOf(idx);
     
-    if (pos === -1) {
-        current.push(idx);
-    } else {
-        current.splice(pos, 1);
-    }
+    if (pos === -1) current.push(idx);
+    else current.splice(pos, 1);
     
-    current.sort((a,b) => a-b);
+    current.sort();
     checkCurrentQuestion();
     renderQuestion();
 }
@@ -943,7 +968,7 @@ function checkCurrentQuestion() {
     }
     else if (q.type === "multiselect-all") {
         const selected = multiSelectAnswers[currentQuestionIndex] || [];
-        isCorrect = JSON.stringify(selected.sort()) === JSON.stringify(q.correct.sort());
+        isCorrect = JSON.stringify(selected) === JSON.stringify(q.correct);
     }
     else if (q.type === "qa") {
         const ans = (answers[currentQuestionIndex] || "").toLowerCase().trim();
@@ -989,22 +1014,22 @@ function createParticleAnimation() {
     const container = document.getElementById('particle-container');
     const heart = document.getElementById('heartIcon').getBoundingClientRect();
     
-    const questionCard = document.querySelector('.question-card');
-    if (!questionCard) return;
+    const cards = document.querySelectorAll('.question-card');
+    if (!cards.length) return;
     
-    const cardBounds = questionCard.getBoundingClientRect();
+    const lastCard = cards[cards.length - 1].getBoundingClientRect();
     
     const heartX = heart.left + heart.width/2;
     const heartY = heart.top + heart.height/2;
     
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 12; i++) {
         setTimeout(() => {
             const particle = document.createElement('div');
             particle.className = 'particle';
-            particle.innerHTML = ['✨', '💫', '🌸', '🌹', '💗', '🌟', '💕'][Math.floor(Math.random() * 7)];
+            particle.innerHTML = ['✨', '💫', '🌸', '🌹', '💗', '🌟'][Math.floor(Math.random() * 6)];
             
-            const startX = cardBounds.left + Math.random() * cardBounds.width;
-            const startY = cardBounds.top + Math.random() * cardBounds.height;
+            const startX = lastCard.left + Math.random() * lastCard.width;
+            const startY = lastCard.top + Math.random() * lastCard.height;
             
             particle.style.left = startX + 'px';
             particle.style.top = startY + 'px';
@@ -1017,26 +1042,20 @@ function createParticleAnimation() {
             
             container.appendChild(particle);
             
-            setTimeout(() => {
-                particle.remove();
-            }, 1000);
-        }, i * 30);
+            setTimeout(() => particle.remove(), 1200);
+        }, i * 40);
     }
     
     document.getElementById('heartIcon').classList.add('heart-pulse');
     setTimeout(() => {
         document.getElementById('heartIcon').classList.remove('heart-pulse');
-    }, 500);
+    }, 600);
 }
 
 let sadCount = 0;
 function sadEmoji() {
     sadCount++;
-    const container = document.getElementById('sadEmojiContainer');
-    const sad = document.createElement('span');
-    sad.className = 'sad-emoji';
-    sad.textContent = '🥺';
-    container.appendChild(sad);
+    document.getElementById('sadEmojiContainer').innerHTML += '<span class="sad-emoji">🥺</span>';
 }
 
 function noClicked() {
@@ -1056,7 +1075,7 @@ function nextQuestion() {
     if (q.type === "multiselect-all") {
         const selected = multiSelectAnswers[currentQuestionIndex] || [];
         if (selected.length !== q.options.length) {
-            alert("You need to select ALL options for this question!");
+            alert("You need to select ALL options!");
             return;
         }
     }
@@ -1075,118 +1094,101 @@ function prevQuestion() {
 }
 
 // =============================================
-// SUBMIT & CALCULATE RESULTS
+// SUBMIT
 // =============================================
 function submitAll() {
-    correctCount = 0;
-    let totalPossible = 0;
+    totalCorrect = 0;
     
     quizData.forEach((q, idx) => {
-        totalPossible++;
-        if (q.type === "mcq" && answers[idx] === q.correct) correctCount++;
+        if (q.type === "mcq" && answers[idx] === q.correct) totalCorrect++;
         else if (q.type === "qa") {
             const ans = (answers[idx] || "").toLowerCase().trim();
             if (ans === q.correct.toLowerCase() || (q.alternate && q.alternate.some(a => ans === a.toLowerCase()))) {
-                correctCount++;
+                totalCorrect++;
             }
         }
         else if (q.type === "multiselect-all") {
             const selected = multiSelectAnswers[idx] || [];
-            if (JSON.stringify(selected.sort()) === JSON.stringify(q.correct.sort())) {
-                correctCount++;
-            }
+            if (JSON.stringify(selected) === JSON.stringify(q.correct)) totalCorrect++;
         }
     });
     
     matchData.forEach((item, idx) => {
-        totalPossible++;
-        if (matchAnswers[idx] === item.correct) correctCount++;
+        if (matchAnswers[idx] === item.correct) totalCorrect++;
     });
     
     privateQuestions.forEach((item, idx) => {
-        totalPossible++;
         const ans = (privateAnswers[idx] || "").toLowerCase().trim();
         if (ans === item.correct.toLowerCase() || (item.alternate && item.alternate.some(a => ans === a.toLowerCase()))) {
-            correctCount++;
+            totalCorrect++;
         }
     });
     
-    totalPossible++;
-    if (noButtonSelected) correctCount++;
+    if (noButtonSelected) totalCorrect++;
     
-    flowersEarned = correctCount;
-    
-    const percentage = Math.round((correctCount / totalPossible) * 100);
+    const percentage = Math.round((totalCorrect / TOTAL_POSSIBLE) * 100);
     document.getElementById('heartBadge').textContent = percentage + '%';
-    document.getElementById('flowerCount').textContent = flowersEarned;
-    
-    if (percentage > 0) {
-        document.getElementById('heartIcon').innerHTML = '❤️';
-    }
+    document.getElementById('flowerCount').textContent = totalCorrect;
+    document.getElementById('heartIcon').innerHTML = '❤️';
+    document.getElementById('heartIcon').classList.add('heart-glow');
     
     showCertificate();
 }
 
-// =============================================
-// SHOW CERTIFICATE
-// =============================================
 function showCertificate() {
     document.getElementById('questionContainer').innerHTML = '';
     document.getElementById('prevBtn').classList.add('hidden');
     document.getElementById('nextBtn').classList.add('hidden');
     
-    const totalFlowers = flowersEarned;
-    const roses = Math.min(5, totalFlowers);
-    const jasmine = Math.min(5, Math.max(0, totalFlowers - 5));
-    const tulips = Math.min(5, Math.max(0, totalFlowers - 10));
-    const extra = Math.max(0, totalFlowers - 15);
+    const roses = Math.min(6, totalCorrect);
+    const jasmine = Math.min(6, Math.max(0, totalCorrect - 6));
+    const tulips = Math.min(6, Math.max(0, totalCorrect - 12));
+    const extra = Math.max(0, totalCorrect - 18);
     
-    function getFlowerEmoji(type, count) {
-        let emojis = '';
+    function getFlowers(type, count) {
+        let flowers = '';
         for (let i = 0; i < count; i++) {
-            if (type === 'rose') emojis += '<span class="flower-rose" style="font-size:45px; display:inline-block; animation:bloom 0.5s;">🌹</span>';
-            if (type === 'jasmine') emojis += '<span class="flower-jasmine" style="font-size:45px; display:inline-block; animation:bloom 0.5s;">🌼</span>';
-            if (type === 'tulip') emojis += '<span class="flower-tulip" style="font-size:45px; display:inline-block; animation:bloom 0.5s;">🌷</span>';
+            if (type === 'rose') flowers += '<span class="flower-rose" style="animation:bloom 0.5s; display:inline-block;">🌹</span>';
+            if (type === 'jasmine') flowers += '<span class="flower-jasmine" style="animation:bloom 0.5s; display:inline-block;">🌼</span>';
+            if (type === 'tulip') flowers += '<span class="flower-tulip" style="animation:bloom 0.5s; display:inline-block;">🌷</span>';
         }
-        return emojis;
+        return flowers;
     }
     
     const certificate = `
         <div class="certificate">
-            <h2>✦ CERTIFICATE OF LOVE ✦</h2>
+            <h2>✦ certificate of love ✦</h2>
             <div class="certificate-seal">💮</div>
-            <p style="font-size:24px; margin:20px 0;">awarded to:</p>
-            <p style="font-size:48px; color:#ffb6c1; margin:20px 0; font-family:'Playfair Display';">Manahil</p>
-            <p style="font-size:20px; margin:30px 0;">for knowing our story by heart</p>
+            <p style="font-size:22px;">awarded to:</p>
+            <p style="font-size:52px; color:#ffb6c1; margin:15px 0;">Manahil</p>
             
             <div class="bouquet-display">
-                <p style="color:#50c878; margin-bottom:20px; font-size:18px;">your bouquet (${flowersEarned} flowers):</p>
+                <p style="color:#6fcf97; margin-bottom:20px;">your bouquet (${totalCorrect} flowers):</p>
                 <div class="bouquet">
-                    ${getFlowerEmoji('rose', roses)}
-                    ${getFlowerEmoji('jasmine', jasmine)}
-                    ${getFlowerEmoji('tulip', tulips)}
-                    ${extra > 0 ? '🌸'.repeat(extra) : ''}
+                    ${getFlowers('rose', roses)}
+                    ${getFlowers('jasmine', jasmine)}
+                    ${getFlowers('tulip', tulips)}
+                    ${extra ? '🌸'.repeat(extra) : ''}
                 </div>
             </div>
             
             <div style="margin:30px 0;">
-                <p style="color:#50c878; margin-bottom:15px;">your heart:</p>
+                <p style="color:#6fcf97;">your heart:</p>
                 <div style="font-size:80px; animation:pulse 2s infinite;">❤️</div>
-                <p style="color:#ffb6c1; margin-top:15px;">${Math.round((flowersEarned/20)*100)}% full</p>
+                <p style="color:#ffb6c1; margin-top:10px;">${Math.round((totalCorrect/20)*100)}% full</p>
             </div>
             
             <!-- 👇 CHANGE THIS DATE BEFORE SENDING 👇 -->
-            <div class="date-placeholder">
-                📅 <span style="color:#ffb6c1;">March 18, 2026</span>
+            <div class="date-box">
+                📅 <span>_______________</span>
             </div>
             <!-- 👆 CHANGE THIS DATE 👆 -->
             
             <div class="certificate-signature">
-                yours always,<br>
-                <span style="font-size:28px;">Salman</span>
+                yours always,<br>Salman
             </div>
             
-            <p style="margin-top:40px; font-size:16px; color:#50c878;">${flowersEarned}/20 correct · you know us beautifully</p>
+            <p style="color:#6fcf97; margin-top:20px;">${totalCorrect}/20 · you know us perfectly</p>
         </div>
     `;
     
@@ -1194,22 +1196,8 @@ function showCertificate() {
     document.getElementById('certificateContainer').classList.remove('hidden');
 }
 
-// Initialize
+// Start
 renderQuestion();
-
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes pulse {
-        0% { transform:scale(1); }
-        50% { transform:scale(1.1); filter:drop-shadow(0 0 20px #ff69b4); }
-        100% { transform:scale(1); }
-    }
-    @keyframes bloom {
-        0% { transform:scale(0) rotate(0deg); opacity:0; }
-        100% { transform:scale(1) rotate(360deg); opacity:1; }
-    }
-`;
-document.head.appendChild(style);
 </script>
 </body>
 </html>
