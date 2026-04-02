@@ -2,224 +2,275 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FMA War Room – Archive Edition</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>FMA War Room – 45 Days of Us</title>
 
 <style>
+* {
+    box-sizing: border-box;
+}
+
 body{
-margin:0;
-font-family: 'Segoe UI', sans-serif;
-background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-color:white;
-text-align:center;
+    margin:0;
+    font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #0a0f1a, #101820, #1a2a32);
+    color: #f0f3fa;
+    text-align:center;
+    min-height: 100vh;
 }
 
 .container{
-max-width:900px;
-margin:auto;
-padding:20px;
+    max-width: 1000px;
+    margin:auto;
+    padding: 20px 18px 40px;
 }
 
 h1{
-margin-top:20px;
-letter-spacing:2px;
-text-shadow:0 0 10px rgba(255,255,255,0.3);
+    margin-top: 10px;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #fff0f5, #ffb7c5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .subtitle{
-color:#a8dadc;
-font-style:italic;
-margin-bottom:30px;
+    color: #b8e1fc;
+    font-style: italic;
+    margin-bottom: 20px;
+    font-weight: 300;
+    border-bottom: 1px dashed rgba(255,180,200,0.4);
+    display: inline-block;
+    padding-bottom: 6px;
 }
 
 .card{
-background:rgba(255,255,255,0.07);
-padding:20px;
-margin:20px 0;
-border-radius:20px;
-backdrop-filter:blur(10px);
-box-shadow:0 0 20px rgba(0,0,0,0.4);
-border-left:4px solid #ff416c;
+    background: rgba(25, 35, 50, 0.65);
+    backdrop-filter: blur(12px);
+    padding: 22px 20px;
+    margin: 24px 0;
+    border-radius: 40px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,130,150,0.3);
+    transition: 0.2s;
 }
 
 .section-title{
-color:#ffb6c1;
-letter-spacing:1px;
-margin-bottom:15px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #ffccdd;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
 }
 
 .progress-container{
-background:rgba(255,255,255,0.1);
-border-radius:50px;
-overflow:hidden;
-margin-top:10px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 60px;
+    overflow: hidden;
+    margin: 15px 0 12px;
+    height: 24px;
+    box-shadow: inset 0 1px 4px #00000055;
 }
 
 .progress-bar{
-height:20px;
-width:0%;
-background:linear-gradient(90deg,#ff416c,#ff4b2b);
-transition:1s;
-box-shadow:0 0 20px #ff416c;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ff6a88, #ff3b5c);
+    transition: width 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    box-shadow: 0 0 12px #ff6a88;
+    border-radius: 60px;
 }
 
 button{
-padding:12px 20px;
-margin:8px;
-border:none;
-border-radius:30px;
-cursor:pointer;
-background:linear-gradient(90deg,#ff416c,#ff4b2b);
-color:white;
-font-size:14px;
-font-weight:bold;
-transition:0.3s;
--webkit-tap-highlight-color:transparent;
+    padding: 12px 24px;
+    margin: 8px 12px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background: linear-gradient(95deg, #ff4b6e, #ff2e4d);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: 0.2s;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.3);
+    -webkit-tap-highlight-color: transparent;
 }
 
 button:hover{
-transform:scale(1.05);
-box-shadow:0 0 20px #ff416c;
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+    box-shadow: 0 8px 18px #ff4b6e55;
 }
 
 button:active{
-transform:scale(0.95);
+    transform: scale(0.97);
 }
 
 .diary-entry{
-margin:15px 0;
-padding:20px;
-background:rgba(255,255,255,0.05);
-border-radius:15px;
-text-align:left;
-border-left:3px solid #ffb6c1;
-word-wrap:break-word;
+    margin: 18px 0;
+    padding: 22px;
+    background: rgba(15, 25, 35, 0.7);
+    border-radius: 28px;
+    text-align: left;
+    border-left: 5px solid #ff8aa5;
+    word-wrap: break-word;
+    backdrop-filter: blur(4px);
+    transition: 0.15s;
 }
 
 .locked{
-opacity:0.3;
-filter:blur(3px);
-font-style:italic;
-color:#a8dadc;
+    opacity: 0.55;
+    filter: blur(2px);
+    font-style: italic;
+    background: #1e2a36;
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 20px;
+    text-align: center;
+    color: #bfd9ff;
+    font-size: 0.9rem;
 }
 
 .unlock-anim{
-animation:fadeIn 1s ease forwards;
+    animation: gentleFade 0.6s ease forwards;
 }
 
-@keyframes fadeIn{
-from{opacity:0; transform:translateY(20px);}
-to{opacity:1; transform:translateY(0);}
+@keyframes gentleFade{
+    from{opacity:0; transform:translateY(14px);}
+    to{opacity:1; transform:translateY(0);}
 }
 
 .achievement-badge{
-display:inline-block;
-padding:8px 15px;
-margin:5px;
-background:rgba(255,215,0,0.2);
-border:1px solid gold;
-border-radius:30px;
-font-size:12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    margin: 6px;
+    background: rgba(255,215,0,0.12);
+    border: 1px solid rgba(255,200,100,0.6);
+    border-radius: 60px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    backdrop-filter: blur(4px);
 }
 
 .secret-message{
-background:rgba(255,105,180,0.2);
-border:2px solid #ff69b4;
-padding:20px;
-border-radius:20px;
-margin:20px 0;
-font-size:18px;
-line-height:1.8;
-text-align:center;
-animation:glow 2s infinite;
+    background: rgba(255,105,180,0.2);
+    border: 1.5px solid #ff99cc;
+    padding: 18px;
+    border-radius: 40px;
+    margin: 18px 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    text-align: center;
+    font-weight: 500;
+    animation: softGlow 2.5s infinite;
+    letter-spacing: 0.3px;
 }
 
-@keyframes glow{
-0%{box-shadow:0 0 10px #ff69b4;}
-50%{box-shadow:0 0 30px #ff69b4;}
-100%{box-shadow:0 0 10px #ff69b4;}
+@keyframes softGlow{
+    0%{box-shadow:0 0 6px #ff99cc;}
+    70%{box-shadow:0 0 22px #ff5e9e;}
+    100%{box-shadow:0 0 6px #ff99cc;}
 }
 
 .streak-badge{
-background:#ff416c;
-color:white;
-padding:5px 15px;
-border-radius:30px;
-display:inline-block;
-margin:10px 0;
+    background: #ff416c;
+    color: white;
+    padding: 6px 22px;
+    border-radius: 40px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 .secret-badge{
-background:gold;
-color:black;
-padding:5px 10px;
-border-radius:30px;
-font-size:12px;
-font-weight:bold;
-cursor:pointer;
+    background: rgba(255,200,50,0.8);
+    color: #1e1a1a;
+    padding: 6px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: inline-block;
+    transition: 0.1s;
 }
 
 .achievements-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:10px;
-margin:15px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 15px 0;
 }
 
-/* Mobile optimizations */
-@media (max-width:480px){
-button{
-padding:15px 25px;
-font-size:16px;
-width:100%;
-margin:5px 0;
+.score-number{
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(145deg, #fff, #ffbfcf);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
 }
-.diary-entry{
-padding:15px;
-font-size:14px;
-}
+
+@media (max-width: 550px){
+    button{
+        width: 90%;
+        margin: 8px auto;
+        display: block;
+    }
+    .container{
+        padding: 16px;
+    }
+    .section-title{
+        font-size: 1.4rem;
+    }
 }
 </style>
 </head>
-
 <body>
 <div class="container">
 
-<h1>FMA WAR ROOM</h1>
-<div class="subtitle">every hour brings you closer to the story</div>
+<h1>📖 FMA WAR ROOM</h1>
+<div class="subtitle">45 letters · 45 days · one love story</div>
 
-<!-- SECTION 1: PERFORMANCE TRACKER -->
+<!-- STUDY TRACKER -->
 <div class="card">
-<h2 class="section-title">⏳ study tracker</h2>
-<div id="scoreDisplay" style="font-size:32px; font-weight:bold;">0 / 100</div>
-
+<h2 class="section-title">⏳ 45-day journey</h2>
+<div class="score-number" id="scoreDisplay">0 / 100</div>
 <div class="progress-container">
 <div class="progress-bar" id="progressBar"></div>
 </div>
-
-<div style="margin:15px 0;">
-<span class="streak-badge" id="streakDisplay">streak: 0 days</span>
+<div style="margin: 16px 0;">
+<span class="streak-badge" id="streakDisplay">🔥 streak: 0 days</span>
 </div>
-
 <div>
-<button onclick="addHours(5)">📚 +5 hours (3 pts)</button>
-<button onclick="addHours(7)">🔥 +7 hours (5 pts)</button>
+<button onclick="addPoints(3, 5)">📖 +5 hours (3 pts)</button>
+<button onclick="addPoints(5, 7)">⚡ +7+ hours (5 pts)</button>
+</div>
+<div style="margin-top: 14px; font-size: 0.85rem; color: #cbdff2;">
+✨ earn points → unlock paragraphs from 45 letters ✨
+</div>
 </div>
 
-<div style="margin-top:15px; font-size:14px; color:#a8dadc;">
-✨ reach 100 points to unlock full diary ✨
-</div>
-</div>
-
-<!-- SECTION 2: DIARY VAULT -->
+<!-- DIARY VAULT (45 DAYS) -->
 <div class="card">
-<h2 class="section-title">📖 diary vault</h2>
+<h2 class="section-title">💌 letters to you</h2>
 <div id="diaryContainer"></div>
 </div>
 
-<!-- SECTION 3: ACHIEVEMENTS + SECRET MESSAGES -->
+<!-- ACHIEVEMENTS + SECRETS -->
 <div class="card">
-<h2 class="section-title">🏆 achievements & secrets</h2>
+<h2 class="section-title">🏆 milestones & whispers</h2>
 <div id="achievementsContainer" class="achievements-grid"></div>
 <div id="secretMessageContainer"></div>
 </div>
@@ -227,353 +278,248 @@ font-size:14px;
 </div>
 
 <script>
-
-// =========================
-// INITIALIZE STORAGE
-// =========================
-let score = localStorage.getItem("score") ? parseInt(localStorage.getItem("score")) : 0;
-let streak = localStorage.getItem("streak") ? parseInt(localStorage.getItem("streak")) : 0;
-let lastUpdate = localStorage.getItem("lastUpdate") ? localStorage.getItem("lastUpdate") : null;
-let unlockedParagraphs = localStorage.getItem("unlocked") ? JSON.parse(localStorage.getItem("unlocked")) : {};
-let achievements = localStorage.getItem("achievements") ? JSON.parse(localStorage.getItem("achievements")) : [];
-let secretUnlocked = localStorage.getItem("secretUnlocked") ? parseInt(localStorage.getItem("secretUnlocked")) : 0;
-let lastUnlockedDay = localStorage.getItem("lastUnlockedDay") ? parseInt(localStorage.getItem("lastUnlockedDay")) : 1;
-
-// =========================
-// ✍️ YOUR DIARIES (DAYS 1-30) - ONLY DAYS 1-2 FILLED, REST EMPTY FOR YOU
-// =========================
-const diaries = {
-    1: `First day. Damn girl, you're really making my creativity run so fucking free to be making all these ideas.😭 Today was strange in a quiet way. The kind of day where the sky looks normal but something inside feels slightly off. I think I carried a little storm from my world into ours… and I didn’t even realise it at first. 🌫️
-
-You kept asking what was wrong, and instead of just saying “I’m annoyed about something else,” I started overthinking us. Classic me. I questioned things that never even needed questioning. Whether I talk too much. Whether my “meri jaan” and “love” and “jaan” might one day annoy you. Meanwhile you were just… being you. Calm. Patient. Steady. 🤍
-
-The funny part? You didn’t get tired of my yapping. You didn’t roll your eyes at the nicknames. You didn’t say I was too much. You just said you enjoy it. And that your expressiveness has grown — and honestly, it has. I’ve seen it. Even if sometimes I pretend I don’t. 😌
-
-I hate that my mood spilled over and touched yours. That wasn’t fair. You didn’t deserve the cold version of me this morning. But even in that, you stayed. You listened. And that says more than dramatic goodnight paragraphs ever could.
-
-If anything, today reminded me of something important — we’re not perfect, but we’re real. And even on slightly messy mornings… I still choose you. Even when I’m grumpy. Even when I overthink. Even when I forget to add emojis. ❤️`,
-
-    2: `Some days love is loud. Some days it’s just two people trying not to misunderstand each other. Today felt like that — like we were both holding delicate glass but scared to drop it. 🤍
-
-I think sometimes I love so loudly that it sounds like pressure. And you love so softly that I mistake it for silence. But the truth? Neither of us is wrong. We’re just different shades of the same feeling.
-
-When you said you try, I realized something — I never wanted you to change. I just wanted to feel close. I just wanted to feel important, and that I mattered too other than just the words "You matter." But the truth is, you were close the whole time. I was just overthinking the distance.
-
-The best part? We fixed it. Not dramatically. Not perfectly. Just honestly. And somehow that felt more real than any perfect day ever could. 🌙`,
-
-    3: `Day 3. What a day it's been.
-
-You know those random question games we play? The ones where I just keep asking and asking, and you somehow still answer with that little excitement in your voice when we start? I love those. And I know you do too — I can feel it. But I also knowwwww, that they take a lot out of you. All that mental energy, all those deep dives into feelings and thoughts — it's a lot. And today, even though it was your day, even though you weren't distracted by anything at all and gave your whole self to Manahil and her studies, you still showed up for those questions. That matters to me. More than you know.
-
-(But also, they're so nice naaaa? Like the conversations they bring out?😭 Chef's kiss. Still, I hear you. I'll try to keep them within bearable limits. Loll.)
-
-And then there's this other thing — you told me you read our chats. From the very first good morning to the last good night. Thirteen hours of us, and you go back through them. Almost every day. Manahil, that's not something everyone does. That's something only someone who really, really treasures someone does. Reading our old chats, visiting your garden every single day, they don't just hint it, they scream of love.
-
-And then we talked about the old days — when we had no direct way to talk, so we wrote on Instagram stories. Leaving words for each other in places no one else thought to look. That was us. Finding a way back to each other. Always.
-
-And today? NINE hours of studying. Nine. When you usually do five. You didn't just study today — you poured yourself into it. That's not effort, that's fire. That's you deciding your dreams are worth it. And they are. They're worth everything.
-
-You made me fall even deeper today. Just by being exactly who you are.
-
-I'm so incredibly proud of you, my love. 💕`, // Filled
-    4: ``, // Empty - you'll fill
-    5: ``, // Empty - you'll fill
-    6: ``, // Empty - you'll fill
-    7: ``, // Empty - you'll fill
-    8: ``, // Empty - you'll fill
-    9: ``, // Empty - you'll fill
-    10: ``, // Empty - you'll fill
-    11: ``, // Empty - you'll fill
-    12: ``, // Empty - you'll fill
-    13: ``, // Empty - you'll fill
-    14: ``, // Empty - you'll fill
-    15: ``, // Empty - you'll fill
-    16: ``, // Empty - you'll fill
-    17: ``, // Empty - you'll fill
-    18: ``, // Empty - you'll fill
-    19: ``, // Empty - you'll fill
-    20: ``, // Empty - you'll fill
-    21: ``, // Empty - you'll fill
-    22: ``, // Empty - you'll fill
-    23: ``, // Empty - you'll fill
-    24: ``, // Empty - you'll fill
-    25: ``, // Empty - you'll fill
-    26: ``, // Empty - you'll fill
-    27: ``, // Empty - you'll fill
-    28: ``, // Empty - you'll fill
-    29: ``, // Empty - you'll fill
-    30: ``, // Empty - you'll fill
+// ============================================================
+// 45 COMPLETE LETTERS (DAYS 1 to 45) – YOUR ORIGINAL TEXTS
+// ============================================================
+const fullLetters = {
+    1: `The First Day of the Rest of Your Life\n\nToday is the day. Not tomorrow, not next week. Today.\n\nYou're starting something important. Your exams are coming, and I know you. When you set your mind to something, there's no stopping you.\n\nThis first step? It's the hardest. And you just took it. I'm so proud of you already.\n\nAnd honestly? Watching you choose yourself, choose your future—it's the most attractive thing I've ever seen. Keep going. I'm right here.`,
+    2: `Two Days In a Row\n\nTwo days. Most people can't do two days.\n\nBut you're not most people. You never have been.\n\nEvery page you read, every concept you master—you're not just studying. You're building. Building a future. Building yourself. Building something that no one can ever take away from you.\n\nAnd I'm watching. I'm noticing. I'm falling a little more every time you choose to show up.\n\nKeep going, my love. Day 3 is waiting.`,
+    3: `The Habit Forms\n\nDay 3. They say three days make a habit. You're already proving them right.\n\nBut here's what they don't say—that the real magic happens when you keep going even when it's hard. Especially when it's hard.\n\nI see that fire in you. That determination. It's the same fire that made me fall for you in the first place.\n\nStudy hard today. Crush it. And know that somewhere across the distance, someone is thinking of you and smiling.`,
+    4: `Keep Building\n\nFour days. Can you feel it? That momentum? That feeling of becoming?\n\nYour exams are coming, and with every day you study, you're not just preparing—you're transforming. Into the person who passes with flying colors. Into the person who achieves everything they've dreamed of.\n\nI see that person. She's beautiful. She's determined. She's you.\n\nAnd I'm so, so lucky to witness it.`,
+    5: `Halfway to a Week\n\nFive days. Almost a full week.\n\nDo you know how rare you are? Most people quit by now. The excitement fades. The motivation dips.\n\nBut you? You keep going. Not because it's easy—because it's worth it.\n\nThat's the kind of person I want by my side. That's the kind of person I want to build a life with.\n\nKeep going, my love. I'm so proud of you.`,
+    6: `The Grind\n\nDay 6. The grind. The part where it stops being exciting and starts being work.\n\nThis is where champions are made. Not in the glory moments—in the quiet moments when no one's watching and you keep going anyway.\n\nI'm watching. I see you. And I'm in awe.\n\nEvery page you turn, you're turning toward your dreams. And toward me.`,
+    7: `One Week Strong\n\nONE WEEK. Seven days. 168 hours of choosing yourself.\n\nThey say it takes 21 days to form a habit. But in just seven days, you've already proven something to me: you're unstoppable.\n\nYour exams don't stand a chance. Your dreams don't stand a chance. You're going to crush all of it.\n\nAnd when you do, I'll be here. Cheering. Always.`,
+    8: `The Focus in Your Eyes\n\nI keep imagining you studying. The way your eyes narrow when you're concentrating. The way you bite your lip when you're figuring something out. The way you don't give up until you understand.\n\nThat focus? It's beautiful. It's rare. It's you.\n\nKeep focusing, my love. Every concept you master is one step closer to your dreams. And one step closer to us.`,
+    9: `Almost Double Digits\n\nDay 9. Tomorrow is double digits.\n\nThink about that. Nine days of showing up. Nine days of choosing yourself. Nine days of building your future.\n\nYou're not just studying for an exam. You're proving to yourself what you're capable of. And what you're capable of? It's limitless.\n\nI believe in you. Always have. Always will.`,
+    10: `DOUBLE DIGITS\n\nDAY 10! Double digits!\n\nLook at you! Ten days of consistency. Ten days of growth. Ten days closer to your goals.\n\nYou know what else is double? The number of times I've caught myself smiling today looking at you, just thinking of you studying. Working. Becoming.\n\nYou're doing it, my love, you're slowly but surely doing it.\n\nAnd I'm so... so proud.`,
+    11: `The Home Stretch Mindset\n\nDay 11. You're past the one-third mark.\n\nThe initial rush is gone. Now it's just you and the work. And honestly? This is where I admire you most.\n\nAnyone can start something. But you? You keep going. Even when it's boring. Even when it's hard. Even when you're tired. EVEN if it's not the same amount every day. But you're doing it, you're doing this JUST for me and you.\n\nThat's not just discipline. That's love for your future. Love for yourself.\n\nAnd watching you do it? It means everything.`,
+    12: `You're Enough\n\nYou're done for today. Put the books away. Close the notes. Just for a few minutes, let yourself breathe.\n\nSometimes I get in my own head. I overthink. I wonder if I'm doing too much, saying too much, being too much. And in those moments, I forget the simplest truth: you're still here. You always have been.\n\nToday, if you're feeling off — if something feels heavy, if my mood affected yours — I'm sorry. Not because I did something wrong, but because you didn't deserve to carry any of it. You never do.\n\nBut here's what I want you to remember, now that you've finished today's work: you are enough. Right now. Today. After studying, after whatever happened, after all of it — you're still enough.\n\nSo rest now. You earned it. 💕`,
+    13: `Another New Start? Or Something even More Beautiful?\n\nDay 13. And today felt different. Not bad. Just… honest.\n\nYou know how sometimes two people can love each other and still misunderstand each other? Not because they're wrong. Just because they're different.\n\nI thought about that today. About how I am — loud, expressive, maybe sometimes too much. And about how you are — quieter, steadier, someone who feels deeply but doesn't always know how to show it in the moment. And you know what I realized? Neither of us is broken. We're just… us.\n\nI don't need you to prove anything to me. Not your love. Not your effort. Not your feelings. I see them. I see you. Even when you think you're not 'enough' — you are.\n\nYou're not just showing up for yourself. You're showing up for us.\n\nThirteen days in, and I wouldn't trade a single one. Keep going, meri jaan. 💕`,
+    14: `Two Weeks of You\n\nTWO WEEKS. Half a month. The moon has changed phases since you started.\n\nThat's who you are. Consistent. Reliable. Unstoppable.\n\nYou managed to make me fall even deeper.. What you said last night ~ You don't just read messages — you read entire days. Only people who truly treasure someone do that.\n\nAnd today? Nine hours. You studied nine hours. That's not just hard work — that's heart work. That's you deciding that your dreams matter.\n\nYour exam should be scared. You're coming for them with everything you've got.\n\nI'm so so proud of you love. 💕`,
+    15: `Fifteen\n\nDay 15. Halfway through, and you just keep surprising me.\n\nBut today? Today you surprised me with something I didn't even remember existing. A handwritten letter. From bachpan. You kept it. All these years, through everything, you held onto something little me wrote. And you called this one the 'real' letter — the one that mattered.\n\nManahil. ❤️ You said I'm the best thing jo aapke saath hui. That I set the bar so high you doubt anyone could ever think of someone the way I think of you.\n\nAnd today? Seven hours of studying. Even after everything, after all these emotions, you still showed up for yourself.\n\nFifteen days in, parhayi going strong. And 2 years in, you're still the best thing that ever happened to me. 💕`,
+    16: `Sixteen & A Movie\n\nDay 16. Yesterday was universe.html. And your reaction? Worth every second I spent building it. The shock, the awe, the way you kept saying how crazy it was.\n\nThen today happened. 11 hours without light. No replies. And me? I got worried. But that's what love does, I guess. And when you finally replied, you didn't get annoyed. You consoled me. You understood.\n\nThrough all of this, you still studied. 4-5 hours today. Even with no light, even with everything going on. That's not just discipline — that's dedication.\n\nI'm so proud of you. 💕`,
+    17: `Seventeen & Steady\n\nDay 17. What a day you've had, meri jaan. The kind that asks everything of you and still expects more. And you showed up anyway.\n\nSometimes love means being there when someone needs you — and today, you were. Even when you were running on empty, you kept going. Not for yourself. For the people who needed you.\n\nAnd yeah, maybe today wasn't about books or pages or study hours. But you know what? That's okay. Some days are just about surviving.\n\nI see you. I see how hard today was. I see how much you gave. And I'm so, so proud of you for it.\n\nRest well, my love. You've earned it. 💕`,
+    18: `I See All of You\n\nI see you. Not just the student. Not just the dreamer.\n\nI see the you behind all of it. The one who doubts but keeps going. The one who fears but shows up anyway. The one who gets tired but doesn't quit.\n\nI see her. And she means everything to me, YOU mean everything to me. Not for what you achieve — for who you are.\n\nKeep being you. That's more than enough.`,
+    19: `The Day Trust Won\n\nSome days test you, today tested us so much.\n\nEverything breaking at once. The site. The stress. The silence when things weren't working. And me? I was spiraling. But you — you just stayed calm. You didn't question it. You just trusted that I'd fix it.\n\nThat kind of trust? It's rare. It's beautiful.\n\nAnd through all of this, my love, you still showed up for yourself. Five hours today. Even with your head hurting. Even with nazla. Even with that ache that says something's coming. You still opened your books.\n\nI know it wasn't your best focus. But here's what I see: you showing up on a day when staying in bed would have been completely justified. That's not nothing. That's everything.\n\nGet better soon, meri jaan. I was here then, I am here now, I will still be here. Always. 💕`,
+    20: `The Day That Proved Everything\n\nWow. What a stupidly crazy day, huh?\n\nHorrendous communications. Terrible, boring talks. No excitement. Just... dead. But here's the thing I need you to understand, Manahil. I can't live without you. Even if it's because you're sick. Even if it's because you're tired. Those dry replies? They still feel like you. They're still better than no replies.\n\nToday proved something, I think. It proved that even if one of us wanted to get rid of the other, the other still won't leave. Not because we're stubborn — but because we both mean more to each other than any temporary resentment.\n\nAnd through all of this — you still found time to study. A few hours, my love. Do you understand how incredible that is?\n\nI'm so, soooo... proud of you. Thank you my love, thank you my Manahil. ❣️`,
+    21: `Three Weeks Strong!\n\nOMFG... AAJJJ SHURU HOI HAI NA PARHAYIIIII 😭💕\n\nYou actually started, aj se Manahil. Like really started. And even though this means I get pushed away for a few hours every day now, I have never been more proud of you than I am right now.\n\nThose 6.5 hours today — achanak se karliye??? Are you okay??? Like genuinely, did someone possess you? The whiplash is real but the pride is REALER.\n\nWe will be back together again, really soon, In Sha Allah. Closer than ever. But for now? For now, you focus. You grind.\n\nAlso — OKAY BUT CAN WE TALK ABOUT THIS MORNING?? 😭 For the first time ever, I woke you up with voice messages instead of normal texts. You actually heard me instead of reading me. 🤭\n\nTwenty-one days. Three full weeks. I'm so proud of you, meri jaan. 💕`,
+    22: `The Quiet That Speaks Volumes 💫\n\nToday was... quiet. The kind of quiet that would have scared me once. But today? Today it feels like purpose.\n\nYou're studying. Really studying. And I'm here, on the other side of your focus, waiting patiently for the moments you resurface.\n\nThose little glimpses of you between chapters? They're everything 💌. A quick message. 'I'm tireedddd.', or 'I miss you..' You don't realize it, but those small things light up my entire world.\n\nI think about you during these long hours. I imagine you with your head down, completely absorbed. And somehow, even from far away, that image makes me smile.\n\nKeep going, my love. You're not just studying. You're becoming something. And I'm so honoured to witness every second of it. 💕`,
+    23: `The Girl Who Gives Me Everything 🤍\n\nAnother day done. Another chapter finished.\n\nI keep thinking about you surrounded by books all day — at your desk, at tuition, everywhere. And then, in the middle of all that studying, there's me. The person you give every single free moment to. All 7 hours of your free time. Just... me.\n\nDo you realize how insane that is? 😭 You could be resting. Scrolling. Doing literally anything else. But you choose to spend every bit of your break with me.\n\nAnd ohhh the things we imagined today 🤭 All those conversations about our future — how you'll annoy me, how I'll annoy you right back. Those are the talks I live for.\n\n7 hours yesterday. And today? Even with teaching those kids, you still found time to study. That's love — love for your future, love for your dreams.\n\nKeep going, my love. So, soo, very proud of you. 💗`,
+    24: `The Same But Different 💫\n\nAnother day that looked like the last one on paper. And yet — it wasn't. Not really.\n\nSame routine. Same tuitions. Same tired eyes fighting to stay open. Same books calling your name and your body begging you to rest. Same me, on the other side, watching it all.\n\nBut underneath all that sameness? There were the future conversations that snuck in between your exhaustion. Those conversations don't feel repetitive. They feel like blueprints.\n\nAnd then there was tonight. The part where you stepped away from studying for too long, and the clock was creeping toward midnight — but I did anyway 😭. Rules exist for a reason, but sometimes love bends them. Just a little.\n\nThat's the part that makes today different from yesterday. The choosing. The going back.\n\nKeep going, my love. Through the tiredness. I'll be here — always cheering. 💕`,
+    25: `The Day Love Filled Every Corner 💕\n\nToday felt different. Today felt like breathing after you didn't realize you were holding your breath.\n\nEvery conversation, every message, every little moment — they all had this warmth to them. Like we remembered, somewhere deep down, just how good we are at this.\n\nThe way you showed love to me today? Endless. The way I showed it back? Even more so. It's funny how love multiplies like that.\n\nAnd okay, let's talk about those moments 😭 The ones where I pretend to get upset and you come running — well, not running, but calling. 'Jaan.' 'Love.' And then, Flynn Rider. Do you understand how that absolutely destroys me??\n\nBut through all of this — through the Flynn Rider moments — you still studied. Full focus. Even after all the love and laughter, you opened those books and gave it everything.\n\nAlways yours, always convinced by you. ❤️`,
+    26: `Days Like This Need Gentleness 🤍\n\nOne hour, Manahil. Just one.\n\nSome days just... happen. They unfold the way they want to, not the way we planned. Today was one of those days.\n\nYou woke up, you studied in the morning — that one hour counts. That's you choosing yourself before the world even had a chance to demand things from you. Then tuition. Then an iftar party. Then your cousin. Life pulled you in a dozen different directions today, and you handled it.\n\nBut it also meant the books got left behind. One hour, when you usually give so much more. That's just the truth of it.\n\nBecause here's the truth I hope you never forget: you matter. Not just to me — to yourself, to your future. And the fact that you still came back at 12, after everything — you came back. To yourself. To me.\n\nThat's who you are. Someone who returns.\n\nRest now, my love. You gave today what you could. I'll be here in the morning. ❤️‍🩹`,
+    27: `The Quiet Before the Climb 🤍\n\nYesterday was... quiet, which feels weird. The kind of quiet where words felt too heavy.\n\nBari raat kept you in ibadat — an hour and a bit with Him. Then sehri came and went, and sleep took you before words could find their way back.\n\nAnd through all of it, that headache. That tiredness. That feeling of just wanting to listen — to disappear into someone else's voice instead of having to create words of your own. I noticed, and I didn't mind.\n\nAnd then today happened. Despite everything — despite the headache's ghost, despite the tiredness lingering — you studied. Five hours, Manahil. Five hours of showing up for yourself when it would have been so easy to let yesterday spill into today.\n\nThat's who you are. Someone who has quiet days, yes. But also someone who, the very next day, puts in five hours.\n\nRest now, my love. You earned it. 💕`,
+    28: `The Kind of Day You Want to Freeze 🕰️\n\nIf I could pause time, I would have stopped it yesterday. Right in the middle of us.\n\nWhat a day, Manahil. What a beautiful, chaotic, love-filled day.\n\nFrom taking care of our three little digital babies together (still can't believe you said THREE 😭) to me literally teaching you how to use your own phone — the irony is not lost on me. But honestly? I'd teach you a thousand times.\n\nAND THEN. THEN. Both of us praising and worshipping MY QUEEN?? 😮‍💨 Moments like that — where we're completely on the same wavelength — those are the ones I replay in my head.\n\nYesterday was magic.\n\nToday was... different. Saturday, tuitions, outings, a day that pulled you in every direction except toward your books. And still — STILL — you managed five hours. That's you refusing to let a busy day be an excuse.\n\nGo, meri jaan. Go be with Him. I'll be here on the other side, waiting. Proud of you. Always proud of you. 🤍`,
+    29: `The Days That Test Us 🌧️\n\nWhat a shit fucking day, huh?\n\nOne of the worst since we started this. The kind of day you'd willingly erase from memory if you could.\n\nBut through all the shittiness, through everything going wrong — you stayed. You stayed late. You stayed awake. For me. Thank you for choosing me even on a day when choosing anything felt exhausting.\n\nAnd then today — OHHH BOY. 3:45 PM, Manahil 😭? HOW? HOW DID YOU, AJ HI, forget to take your phone off mute?? I was trying to wake you up for THREE HOURS.\n\nBut here's the thing. Here's the part that absolutely floors me. Even with that disastrous start. Even with the headache. Even with your body hurting — you still did 7.5 hours. SEVEN AND A HALF.\n\nYou're already better than me, Manahil. Because you still do it. You still show up. Even when everything is working against you.\n\nBetter days coming. I promise. 🤍`,
+    30: `One Whole Month With You 💫\n\nOne whole month, Manahil.\n\nOne whole month of you prioritising yourself over everyone else. One whole month of me writing letters for you every single day. 30 days. 30 letters.\n\nAnd what a month it's been. The highs, the lows, the days that felt impossible, the days that felt like magic. All of it. All of us.\n\nAND YOU BEAT ME. ACTUALLY BEAT ME IN GK!! 😭 So deserving of yesterday's word, fr. I'm not even mad. Mostly impressed.\n\nAnd then today. OH, TODAY.\n\nWoke up on time. Did practice on time. Finished teaching. And by 12am — 6.5 HOURS, MANAHIL. 6.5!!! On a weekday. When 5 hours is the mark. YOU DID 6.5.\n\nDo you understand how happy I am? My chest is actually full right now. Full of pride, full of love.\n\nOne month down. A lifetime to go. 🤍`,
+    31: `Giving You What You Need, Always 🤍\n\nMmmm kal ka din bhiiii miss Manahil, kal ka din bhii gaya sadness ke saath.\n\nAnd honestly? It made sense. First the prayer — which always takes everything out of you. Then your own full day. By the time you came to me, you were bound to have nothing left to give.\n\nI noticed. I always notice.\n\nAnd I tried. I really tried to be there, to give energy when you had none. But I won't lie — it took a lot out of me yesterday 😅. By the time you woke up, I was running on fumes and love.\n\nBut STILL. I'll keep burning myself out if I have to. Every single day. For you, my love.\n\nAnd yesterday — you did something worth celebrating. So I made you something. A little something different. Seeing you figure it out, watching the realization hit — that was its own kind of reward.\n\nAnd today — hmm hmm — today was another 5 hours, wasn't it? 5 hours, Manahil. On a day that started with you just recovering from being drained.\n\nI'm so proud of you. Always yours. Always here. 🤍`,
+    32: `The Mixed Days Are Still Ours 🌪️\n\nWhat a mixed bag the last 24 hours have been, manahil. What a ride 😭.\n\nThey started so terribly. You were a little late — busy with things, completely valid reasons — and, well, I became so so so sad.\n\nAND THEN, MASHALLAH SE, you also came to me in a terrible mood 😭. Both of us being bad at the same time? Complete chaos.\n\nBut thankfully — THANKFULLY — it got controlled quickly. Talking to you brought me back.\n\nAND THEN OMGGG. My yapping 😭😭. Right in the middle of the road, sidewalks, cars passing beside me, crazy freezing winds — and me just yapping away with no care. Those are genuinely some of the best times ever.\n\nAnd now — today. MANAHIL?? 9 HOURS AND 20 MINUTES OF SLEEP?? Howwww?? 😭 But that did mean less study time today. But still? You studied. You opened those books. You showed up.\n\nA few more days, Manahil. Just a few more. And then you're done. Keep going. 💕`,
+    33: `The Days When Life Just Happens 🌩️\n\nYou probably thought I'd have nothing to write today, didn't you?\n\nHAH. GOTCHU, my lady. That's not gonna happen.\n\nTwo days with barely any talk. Two days where the hours we usually fill with each other just... emptied out. And you know what? I still have things to say.\n\n8-9 hours without electricity. Darkness swallowing your place whole. And in that darkness — mosquitoes. Endless, hungry mosquitoes just having a feast on you.\n\nThen today. Waking up at 3:30. A little studying before being pulled away again. Then Muneeba's Eid shopping. Then Bushra appears with mehendi, and now your hands are decorated and I HAVEN'T EVEN SEEN THEM YET?? This is criminal behaviour.\n\nNo 5 hour target reached. No massive study win. But not every letter has to be about achievements. Sometimes days are just... days. And I'm still here for those days. I just need you to exist.\n\nNow please. Send. The. Mehendi. Picture. PLEASEEEEEE. 😭🤍`,
+    34: `Chand Raat With You 🌙\n\nFINALLY. FINALLY we had a night together 😭.\n\nThree whole days, Manahil. Three days without a full night to ourselves. But last night? Last night was ours.\n\nSo much fun. So much talking. So much just... being us again.\n\nOH. AND THEN THAT IDEA. That mind blowing, amazing, superb, genius idea I got. Omg love, you are so NOT ready for it 🤭🤭🤭.\n\nAnd now — Chand Raat. Chand Raat Mubarak, my love. Mujhe mera chand dekh ke hi feel hua chand raat tab hoi meri.\n\nToday was... a day😮‍💨. You went out for hours. Came back in an insanely shit mood. Didn't even have iftar — the last iftar of this Ramadan. And the studies? Basically none.\n\nAnd here's what I want you to hear: These are busy days. You're just a girl 😭🎀. Chand Raat is your thing. It's your moment. You're allowed to enjoy.\n\nMere chand ko Chand Raat Mubarak again, meri jaan. You're my chand, every single night. 🤍`,
+    35: `Our First Eid Together 🌙\n\nUfff where do I even begin? 💫\n\nChand Raat ended, and I had asked you — my moon — to show me my moon on the night of moons. And you did. And Manahil... you, your hand, looked like poetry 🌸.\n\nWe talked for so long after that. I love those nights. The ones where time stops mattering.\n\nYou said something to me that night that I keep thinking about. You told me that whenever you're in a bad mood, I handle it perfectly. Something even your dad can't do 🥺. That's not a small thing, Manahil.\n\nAnd now — it's late. The dawat is over, the guests are gone, the chaos has finally settled. And you're mine 🥰. You sent me the video of your Eid fit. Peach dress, creamy white dupatta. And me — in off-white. Our first Eid twinning😭🧡🤍.\n\nTonight is ours. No rushing, no guests, no busy. Just you, me, and the peace we've been waiting for 🌙.\n\nEid Mubarak for the 100th time, meri jaan. My chand. My favourite view. 🤍`,
+    36: `The Break Is Over. Back to Work. 🤍\n\nTwo days. Two whole days before you get this letter. And honestly? Fair. Eid took us — took you — and we let it.\n\nNooowwww. Let's get back to us, shall we? 😁\n\nIt started with you going to your khala's house, and me being the absolute shoulder devil trying to convince you not to give eidi to your cousins 😭.\n\nAnd then — I don't even know how — that turned into us bitching about something that happened to me on my way back? The way we switch topics, Manahil. Instant. Seamless.\n\nAnd thennnn. The imagination ran wild. You and me. Me coming to your home, standing in the main hall, shouting JAAAAANNNNNNN until the whole house is able to hear who's calling who.\n\nBut now. My love. Listen to me. The break is over.\n\nRamadan is behind us. Eid has come and gone. And the last three days? Three days where 30 hours of study could have happened. Could have. But didn't. I'm not saying this to make you feel bad — I'm saying it because it's true.\n\nYou have 10 days left, Manahil. Ten. That's it.\n\nSo from tomorrow? No more breaks. No more distractions. I believe in you. Now rest. Tomorrow, we work. 🤍`,
+    37: `There She Is 🤍\n\nThe last 24 hours were... weird, to say the least 😅. Not bad. Just... weird.\n\nI finally showed you the Eid edit. The one of us, twinning for the first time. Peach and off-white, finally matching like the universe always intended.\n\nAnyway. We missed a lot of our usual talks. You kept disappearing — into anxiety, into sleep. And then there was the anxiety attack yesterday. Damn, Manahil. That was worrying. But I'm so glad you came to me first.\n\nAnd now. Today. GAWDDAMN, Manahil.\n\nYou slept at what — 5:30am? Maybe later? And still. STILL. You woke up early. Not because it was easy. But because you had to. Because the break is over. Because those 10 days are ticking down.\n\nAnd then? You studied. Not a little. But 8.5 — maybe even 9 — hours. On a weekday. After anxiety. After three days of nothing.\n\nTherrrrreeeeee she isssssssss. There's the nerd!! There's the study Manahil I've been waiting to see!!\n\nThat's who you are, Manahil. Not someone who never falls behind — but someone who always catches up.\n\n10 days left, my love. Today proved you still have it. Tomorrow, you prove it again.\n\nNow rest. Properly this time. You earned it. 🤍`,
+    38: `The Final Stretch Begins 😮‍💨\n\nAnd here we are. The depression era 😭. The days where you'll hardly get enough time to give to me. But you know what? It's fine. It's for the greater cause.\n\nNow. Let me talk about your reply to yesterday's letter. Manahil. It was so beautiful I swear. The way you wrote back, the way you matched my energy.\n\nOHHH ALSO. Another country?? Another one added to our wishlist bucket? You're really eager to be going on a world tour with me at this point, aren't you?? 🤭🤭\n\nNow. Let's talk about today. You woke up a little later than the intended 10:30. Not ideal. But you know what you did? You sat to study RIGHT after waking up. No scrolling. No delaying.\n\nAnd then? You kept going. Through the tiredness that lingered from yesterday. Through the weight of knowing there's only so many days left.\n\nCome back soon, my love. I'll be here. Same as always. Waiting, missing, writing. 🤍`,
+    39: `I Told You So 😭\n\nI TOLD YOU!! I freaking told you yesterday, even before you came, that I was getting this feeling — you'd be here at exactly 12am. And you were!! 😭\n\nAnyway. Yesterday was so much better than the day before. We were actually present with each other. Actually together.\n\nAND THEN came my — ~~good~~ — GREAT news. I managed to get the highest marks in the Ubisoft game presentation!! 🥳🥳 And you — you said it. For the first time. 'I'm proud of you.'\n\nManahil. So that's how it feels, huh? To hear those words from you? Now I get it.\n\nAnd then — letter time. And ngl, this time — just like the day before — your response was exactly on par with the letter itself.\n\nOkay. Now. Let's talk about today. Girl. You can't be getting lazy right now.\n\nThis is it. This is the final stretch. The last push. You're so close, Manahil. So close. Don't stop now.\n\nKeep going. I'm right here. 🤍`,
+    40: `The 40s 🤍\n\nMmmmm, we're in the 40s now, miss... Including this one, just 6 more days to go for this to end. But we won't be sad, okay? You know the saying. Don't be sad it's ending. Be happy that it happened.\n\nYesterday began really nicely, wouldn't you say? From planning our couple dresses — we look so freaking hot as a couple, btw 🔥. To planning our future dates — WE'RE DOING EVERY. SINGLE. ONE. OF. THEM.\n\nBut then — the most important discussion. The finalisation. We have now fixed Switzerland. As our future.\n\nToday, however, wasn't too good. From my behalf. I had a terrible time. And I did badly need you. So thank you. Thank you for taking me along with your studies.\n\nAnd now — let's talk about the final stretch. You're so close, Manahil. These last few days — they're going to ask everything from you. But you've already done the hard part. You've built the discipline.\n\nKeep going, my love. The end is so close. 🤍`,
+    41: `5 Days Left 💫\n\n5 days to go.\n\nYesterday's start was pretty shit, wouldn't you say? 😭 The last few days had been going so horribly and it all caught up to me. I completely lost my energy. But I had you. You stayed by my side. Supported me. Consoled me. So thank you, Manahil.\n\nYesterday I finally showed you my full game. And wow — you really liked ittttt.\n\nAnd theeeennn came the letter. And omg love — I don't know how every single time I say or think that today's letter won't be as much, and then I start typing and it suddenly becomes more than the previous day every time 😭😭.\n\nAlso — can we freaking talk about your replies on the letters? Ohhhh myyyyy goddddd hayeeeeeeeeee.\n\nBut damn jaan — your sleep is also getting affected now 😭. But you DID wake up!! You woke up at dot 10:15am.\n\nWell jaan — now you've said you'll come back an hour late today. Instead of 12, you'll be coming back at 1. Which sucks 😭. But I know what you have to do and I will let you do it.\n\nThese last 5 days are going to ask everything from you. But you've already done the hard part. The hours are behind you. The foundation is built.\n\nI believe in you!!!!! 💗`,
+    42: `4 Days Left 💫\n\n4 days to go...\n\nGawddamn girl 😭 why so much torture 😭 A WHOLE HOUR LATER THAN THE NORMAL TIME??? Damn I suffered during those 59 minutes.\n\nYesterday on paper does sound like all me, don't you think??? 😭 You finally finally got to know all the things I can make. Going all around the world with the massive all-cuisine restaurant list of items I can cook hehe.\n\nYesterday WAS crazier tho!! I recovered from my shitty mood, felt better, more confident, and just randomly started feeling more love towards you??\n\nAnd because of this insanely crazy level of love I had for you yesterday — you got BOTH your surprises 😭 YES, BOTH. A letter, our daily ritual, AAANNDDD poetry??? WHATTTT 😭\n\nBut what happened to you yesterday night 😭 You just didn't want to leave my side either LOL. But whatever happened — I absolutely loved it.\n\nWell FINALLY now, coming to today — you woke up so so late Manahil 😭 It was a Sundayyyyy, you were supposed to utilise itttt.\n\nBut but but — I DID notice something. Once you actually started, you locked in. No distractions. No unnecessary breaks. Just you, your books, and pure focus for 8–9 hours straight.\n\nAnd THAT? That matters way more than waking up early.\n\nI'm proud of youuuuuu 🤍`,
+    43: `3 Days Left ✨\n\n3 days to go..\n\nYesterday was a Sunday. But a very... 'underutilized' Sunday 😅. You came back much earlier — thank god for that — at about 11:30. And you were so extremely tired.\n\nIt makes me so happy that I'm able to be that person for you. That you are able to completely forget about all your stress, all your anxiety attacks, all your headaches — in the time you spend with me.\n\nAlso it's kinda crazy and also really nice that we're able to just switch topics so smoothly.\n\nBut thank god you didn't go to 52 yesterday at night 😭. It was a Sunday night and I wanted to spend it with you and only you.\n\nAnd then another quick topic change — we do that really well, don't we 😭 — to confirming that Madiha is indeed alive. And then bitching about him for a while hehe.\n\nAnd then came what you desperately wait for throughout the whole day — the letter. I'm kinda thinking... what will you wait for once this is over? 😭\n\nBut the letter tho — I honestly don't know what's happening jaan 😭. The letters seem to just be getting bigger and bigger!!\n\nAnd then came the time for the real real surprise. I eventually sent it to you. Our own dictionary. With every single word tailormade just for us. From A all the way to Z.\n\nAnd yes... 'All eyes are on eye miss manahil 👀'\n\nBut coming to today nowwww — another day, another great session of studies by you. I'm honestly confused how you're able to wake up everyday and study every damn day and not lose your head by now.\n\n4 more days left. Just 4. You've climbed the mountain. Keep going. I'm right here. 💘`,
+    44: `48 Hours Left 💘\n\n2 more days left. 48 more hours of this.\n\nI'm kinda enjoying this — you coming back early, or talking to me before 12, or even just showing up on time instead of staying late studying.\n\nAnd then lolll we had that Insta period — sending each other reels. Damn, that's fun. We have such similar feeds LOL.\n\nAaaanywaysss — Insta reels, yes. Keep sending them, love. It's really nice.\n\nAnd yes, Manahil ji — you ARE more of God's favourite than I am.\n\nBut girl, omg — what was that convincing?? Were you trying to convince me or make me fall in love again?\n\nAND THEN — finally — came the letter. Damn, yeah, you're right. It just keeps getting bigger and bigger. It IS a novel at this point 😭.\n\nBUT BUT BUT — the best convo happened before you were about to go to sleep omggggg. Yes. Whatever we talked about. Just. YES.\n\n8th December. That's all I'm gonna say. Actually, no, nvm — that's not all I'm gonna say. I'm gonna talk about it in detail because OMG.\n\n8th June 2024 — second best day till now. 8th June 2025 — worst day till now. 8th February 2026 — best day of my life HELLO??\n\nAnd now — we have finalised. 8th December. AS OUR WEDDING DATE!!!! OMFG YAAAYYYYYYYYYY.\n\nOur wedding, Manahil. You and me. Manahil and Salman. 8th December.\n\nNow onto today. You woke up late again 😭. Right after waking up, you read such a massive story about what happened the previous day with me — while making something we both absolutely love.\n\nTwo more days, my love. Two more days of waking up to books. Then you're free.\n\nKeep going love. Just a little more. ❤️‍🔥`,
+    45: `The Last One 💫\n\nIt's the final day for this. The last letter. After this... it's done.\n\nKinda emotional, isn't it? 45 days. 45 letters. 45 different ways of giving you love and motivation. It all falls down to this final one.\n\nYou came right on time yesterday as well. At this point I don't even know why we have the 12am strict timer — I don't know what you even have left to study 😭.\n\nAnd you're finally conversing with Alina now! Yay 🥳.\n\nAnd then we had that short conversation about what our red flags and green flags are.\n\nWe did have to come to the letter — the most special part of the day — a lot quicker yesterday because you had to go to sleep a lot earlier, so it's fair.\n\nAnd you've made your promise now, love!! You can't back out of it! Now from 15th April onwards, you are totally mine from when the clock strikes 7:30pm all the way to your sleeping time at 5am hehehehe.\n\nNow, onto the letter. Notice how Day 44's letter was a lot smaller than Day 43's? Hehe. I meant to do that. Because I wanted to end the last day with a bang.\n\nYou see how my freaking brain works? I come up with all this for you and about you within seconds and minutes.\n\nLol, anything we do will surely be fun. We could just be sitting silently staring at the cloudy sky and still somehow make it fun.\n\nOoooh, well, just to let you know — you're not going to handle my physical flirting and my 'tharak' at all 😭.\n\nThough I do miss asking you questions 😭. I haven't done so in a month, man. But stay ready for after the exam, because you're getting a month's worth of things to answer.\n\nYes, my love yes — as soon as I get a newer phone, you WILL be getting those larger sized, most detailed, higher resolution vlogs from me.\n\nAnd after so many and such little talks, it was finally time for you to sleep. But of course, how can I just let you go like that peacefully without blasting a mini bomb on your head. SURPRISE SURPRISE — I was writing a piece of poetry for you all day yesterday 😭.\n\nLol, you wanted to wake up so necessarily that you came back from your sleep to remind me once again that I do make sure you wake up. Saviour Salman arrives every time his princess in trouble calls upon him.\n\nAnd it was a pretty long one as well — not as long as a few of the English ones, but pretty long. Hah, I got a lot of long things. My height. My arms. My legs. My poetry.\n\nBut now you've gone. And you haven't been online for 12 hours, which does make me worry a bit — but I won't.\n\n---\n\nAnd now — this is it. The last one.\n\n45 days ago, I started writing letters to someone who was about to begin something hard. Someone who doubted herself, who needed a push. And look at you now.\n\nYou didn't just study for an exam, Manahil. You built something. Discipline. Strength. Proof that you can do hard things.\n\nI watched you do it. Every single day. I watched you fall and get back up. I watched you fight through laziness and exhaustion and moments when every part of you wanted to quit. And you didn't. You never did.\n\nDo you understand what that means? You're not the same person who started this journey. This person is ready. This person is going to walk into that exam hall on Saturday and show them exactly what she's made of.\n\nAnd I'll be there. Not in the room, but in your heart. In your mind. In every answer you write. I'll be there, cheering louder than anyone.\n\nThese 45 letters — they're yours. Every word, every thought, every moment I spent writing them — they were for you. To remind you that you're capable. To remind you that you're loved.\n\nAnd me? I fell. Every single day. A little more. Until there was nothing left to fall — just this overwhelming, ridiculous, can't-stop-smiling love for you.\n\nYou mean everything to me, Manahil. Not because of what you achieve. Because of who you are. The person who doubts but keeps going. The person who gets tired but doesn't quit. The person who, without even trying, became my whole world.\n\n45 days. 45 letters. And a lifetime of feelings that still can't fit into words.\n\nYour exam is in 3 days. When Saturday comes, you're going to walk in and show them what I've always known — that you're extraordinary.\n\nI'll be here on Saturday morning, waking you up. I'll be here when you finish, waiting to hear your voice. I'll be here after, celebrating whatever comes next. And I'll be here for all the days after that — the quiet ones, the loud ones, the ones where we're planning our wedding on 8th December, the ones where we're travelling the world.\n\nYou're not just someone I'm in love with. You're the person I'm choosing. Every day. For the rest of our lives.\n\nNow you take that exam. Give it everything you have. And know that no matter what happens — you've already given it your absolute best.\n\nWhen you're done, I'll be here. Same as always.\n\nYours, from Day 1 to Day 45 to forever. 🤍`
 };
 
-// =========================
-// 🤫 SECRET MESSAGES (English text, romantic Urdu meaning)
-// =========================
+// ========== GAMIFICATION LOGIC ==========
+let score = localStorage.getItem("fmaScore") ? parseInt(localStorage.getItem("fmaScore")) : 0;
+let streak = localStorage.getItem("fmaStreak") ? parseInt(localStorage.getItem("fmaStreak")) : 0;
+let lastUpdate = localStorage.getItem("fmaLastUpdate") || null;
+let unlockedParagraphs = localStorage.getItem("fmaUnlockedPars") ? JSON.parse(localStorage.getItem("fmaUnlockedPars")) : {};
+let achievements = localStorage.getItem("fmaAchievements") ? JSON.parse(localStorage.getItem("fmaAchievements")) : [];
+let secretUnlocked = localStorage.getItem("fmaSecretCount") ? parseInt(localStorage.getItem("fmaSecretCount")) : 0;
+
 const secretMessages = [
-    "Meri zindagi ho tum jaan.",
-    "Tumhare bina mera dil hai veeran.",
-    "Meri aakhon ka noor ho tum.",
-    "Dil me basi ho tum mere.",
-    "Tum meri zindagi ka woh na-mukammal hissa ho.",
-    "Tum mere khwabo ki malka ho.",
-    "Mere har din ki shuruwat sirf tumse hai.",
-    "Mere sukoon ki nishani ho tum.",
-    "Tum se mere dil ko milta hai sukoon.",
-    "Meri zindagi ka bohot ehm hissa ho tum."
+    "Meri zindagi ho tum jaan. 🌙", "Tumhare bina mera dil hai veeran. 💔", "Meri aakhon ka noor ho tum. ✨",
+    "Dil me basi ho tum mere. 💖", "Tum meri zindagi ka woh na-mukammal hissa ho. 🌸", "Tum mere khwabo ki malka ho. 👑",
+    "Mere har din ki shuruwat sirf tumse hai. 🌅", "Mere sukoon ki nishani ho tum. 🤍", "Tum se mere dil ko milta hai sukoon. 🕊️",
+    "Meri zindagi ka bohot ehm hissa ho tum. 🎀"
 ];
 
-// =========================
-// ACHIEVEMENTS
-// =========================
 const achievementList = [
-    { id: 1, name: "First Step", desc: "Unlocked first diary", emoji: "🌱", threshold: 10 },
-    { id: 2, name: "Getting There", desc: "25 points reached", emoji: "🌿", threshold: 25 },
-    { id: 3, name: "Halfway", desc: "50 points reached", emoji: "🌲", threshold: 50 },
-    { id: 4, name: "Dedicated", desc: "75 points reached", emoji: "🔥", threshold: 75 },
-    { id: 5, name: "Full Access", desc: "Unlocked all diaries", emoji: "👑", threshold: 100 },
-    { id: 6, name: "Secret Finder", desc: "Found a hidden message", emoji: "✨", threshold: "secret" }
+    { id: 1, name: "First Step", emoji: "🌱", threshold: 10 },
+    { id: 2, name: "Getting There", emoji: "🌿", threshold: 25 },
+    { id: 3, name: "Halfway", emoji: "🌲", threshold: 50 },
+    { id: 4, name: "Dedicated", emoji: "🔥", threshold: 75 },
+    { id: 5, name: "Full Access", emoji: "👑", threshold: 100 },
+    { id: 6, name: "Secret Finder", emoji: "✨", threshold: "secret" }
 ];
 
-// =========================
-// FUNCTIONS
-// =========================
-function save(){
-    localStorage.setItem("score", score);
-    localStorage.setItem("streak", streak);
-    localStorage.setItem("lastUpdate", new Date().toDateString());
-    localStorage.setItem("unlocked", JSON.stringify(unlockedParagraphs));
-    localStorage.setItem("achievements", JSON.stringify(achievements));
-    localStorage.setItem("secretUnlocked", secretUnlocked);
-    localStorage.setItem("lastUnlockedDay", lastUnlockedDay);
+function saveAll() {
+    localStorage.setItem("fmaScore", score);
+    localStorage.setItem("fmaStreak", streak);
+    localStorage.setItem("fmaLastUpdate", new Date().toDateString());
+    localStorage.setItem("fmaUnlockedPars", JSON.stringify(unlockedParagraphs));
+    localStorage.setItem("fmaAchievements", JSON.stringify(achievements));
+    localStorage.setItem("fmaSecretCount", secretUnlocked);
 }
 
-function checkStreak(){
-    let today = new Date().toDateString();
-    if(lastUpdate && lastUpdate !== today){
-        let yesterday = new Date();
-        yesterday.setDate(yesterday.getDate()-1);
-        if(lastUpdate === yesterday.toDateString()){
-            // streak continues
-        } else {
+function checkStreak() {
+    const today = new Date().toDateString();
+    if (lastUpdate && lastUpdate !== today) {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        if (lastUpdate !== yesterday.toDateString()) {
             streak = 0;
-            lastUnlockedDay = 1; // Reset to day 1 if streak broken
         }
     }
     lastUpdate = today;
 }
 
-function updateUI(){
-    checkStreak();
-    document.getElementById("scoreDisplay").innerText = score + " / 100";
-    document.getElementById("streakDisplay").innerText = "streak: " + streak + " days";
-    document.getElementById("progressBar").style.width = score + "%";
-    
-    checkAchievements();
-    renderDiary();
-    renderAchievements();
-    renderSecretMessages();
-}
-
-function addHours(hours){
-    let points = hours === 7 ? 5 : 3;
+function addPoints(points, hourLabel) {
     score += points;
-    if(score > 100) score = 100;
-    
+    if (score > 100) score = 100;
     streak++;
-    
-    unlockNextParagraph(); // Changed to unlock in order
-    
-    save();
+    unlockRandomParagraph(); // unlock one new paragraph each time
+    checkAchievements();
+    saveAll();
     updateUI();
+    triggerConfettiEffect();
 }
 
-// NEW FUNCTION: Unlocks paragraphs in order day by day
-function unlockNextParagraph(){
-    // Find the current day we're working on
-    let currentDay = 1;
-    
-    // Loop through days to find which day we're on
-    for(let day = 1; day <= 30; day++){
-        if(!diaries[day] || diaries[day].trim() === "") continue; // Skip empty days
-        
-        let paragraphs = diaries[day].split(/\n\s*\n/).filter(p => p.trim() != "");
-        if(paragraphs.length === 0) continue;
-        
-        if(!unlockedParagraphs[day]){
-            unlockedParagraphs[day] = [];
+function unlockRandomParagraph() {
+    // find first day that still has locked paragraphs (any day 1-45)
+    for (let day = 1; day <= 45; day++) {
+        if (!fullLetters[day]) continue;
+        const paragraphs = fullLetters[day].split(/\n\s*\n/).filter(p => p.trim().length > 0);
+        if (paragraphs.length === 0) continue;
+        if (!unlockedParagraphs[day]) unlockedParagraphs[day] = [];
+        const lockedIndices = [];
+        for (let i = 0; i < paragraphs.length; i++) {
+            if (!unlockedParagraphs[day].includes(i)) lockedIndices.push(i);
         }
-        
-        // If this day still has locked paragraphs, this is our current day
-        if(unlockedParagraphs[day].length < paragraphs.length){
-            currentDay = day;
-            break;
+        if (lockedIndices.length > 0) {
+            const randomIdx = lockedIndices[Math.floor(Math.random() * lockedIndices.length)];
+            unlockedParagraphs[day].push(randomIdx);
+            unlockedParagraphs[day].sort((a,b)=>a-b);
+            return;
         }
-    }
-    
-    // Now unlock a random paragraph from currentDay
-    let day = currentDay;
-    let paragraphs = diaries[day].split(/\n\s*\n/).filter(p => p.trim() != "");
-    
-    if(!unlockedParagraphs[day]){
-        unlockedParagraphs[day] = [];
-    }
-    
-    // If all paragraphs for this day are already unlocked, move to next day
-    if(unlockedParagraphs[day].length >= paragraphs.length){
-        // Find next day with content
-        for(let nextDay = day + 1; nextDay <= 30; nextDay++){
-            if(!diaries[nextDay] || diaries[nextDay].trim() === "") continue;
-            let nextParagraphs = diaries[nextDay].split(/\n\s*\n/).filter(p => p.trim() != "");
-            if(nextParagraphs.length > 0){
-                day = nextDay;
-                paragraphs = nextParagraphs;
-                if(!unlockedParagraphs[day]){
-                    unlockedParagraphs[day] = [];
-                }
-                break;
-            }
-        }
-    }
-    
-    // Get locked paragraph indexes for this day
-    let lockedIndexes = [];
-    for(let i = 0; i < paragraphs.length; i++){
-        if(!unlockedParagraphs[day].includes(i)){
-            lockedIndexes.push(i);
-        }
-    }
-    
-    // If there are locked paragraphs, unlock a random one
-    if(lockedIndexes.length > 0){
-        let randomIndex = lockedIndexes[Math.floor(Math.random() * lockedIndexes.length)];
-        unlockedParagraphs[day].push(randomIndex);
-        
-        // Sort to keep them organized
-        unlockedParagraphs[day].sort((a,b) => a - b);
     }
 }
 
-function checkAchievements(){
-    let newAchievements = [];
-    
+function checkAchievements() {
+    let newUnlocked = false;
     achievementList.forEach(ach => {
-        if(ach.id === 6) return; // Handle secret separately
-        
-        if(score >= ach.threshold && !achievements.includes(ach.id)){
-            newAchievements.push(ach.id);
+        if (ach.id !== 6 && score >= ach.threshold && !achievements.includes(ach.id)) {
             achievements.push(ach.id);
+            newUnlocked = true;
         }
     });
-    
-    // Check for secret achievement (streak 7+)
-    if(streak >= 7 && !achievements.includes(6)){
+    if (streak >= 7 && !achievements.includes(6)) {
         achievements.push(6);
-        newAchievements.push(6);
         secretUnlocked = Math.min(secretUnlocked + 1, secretMessages.length);
+        newUnlocked = true;
     }
-    
-    if(newAchievements.length > 0){
-        alert("🏆 New achievement unlocked!");
+    if (newUnlocked) {
+        setTimeout(() => alert("🏆 New milestone unlocked! ✨"), 80);
     }
 }
 
-function renderDiary(){
-    let container = document.getElementById("diaryContainer");
+function renderDiary() {
+    const container = document.getElementById("diaryContainer");
     container.innerHTML = "";
-    
-    for(let day = 1; day <= 30; day++){
-        if(!diaries[day] || diaries[day].trim() === "") continue; // Skip empty days
-        
-        let entryDiv = document.createElement("div");
+    for (let day = 1; day <= 45; day++) {
+        if (!fullLetters[day]) continue;
+        const raw = fullLetters[day];
+        const paragraphs = raw.split(/\n\s*\n/).filter(p => p.trim().length > 0);
+        if (paragraphs.length === 0) continue;
+        const entryDiv = document.createElement("div");
         entryDiv.className = "diary-entry";
-        
-        let title = "<strong>📅 Day " + day + "</strong><br><br>";
-        
-        let paragraphs = diaries[day].split(/\n\s*\n/).filter(p => p.trim() != "");
-        
-        if(score >= 100){
-            // Full access mode
-            entryDiv.innerHTML = title + paragraphs.join("<br><br>");
+        let titleHtml = `<strong>📘 Day ${day} · ${paragraphs[0].split('\n')[0].substring(0, 60)}</strong><br><br>`;
+        let contentHtml = "";
+        if (score >= 100) {
+            contentHtml = paragraphs.join("<br><br>");
             entryDiv.classList.add("unlock-anim");
         } else {
-            // Locked mode - show in order
-            let content = "";
-            
-            for(let i = 0; i < paragraphs.length; i++){
-                if(unlockedParagraphs[day] && unlockedParagraphs[day].includes(i)){
-                    content += paragraphs[i] + "<br><br>";
+            for (let i = 0; i < paragraphs.length; i++) {
+                if (unlockedParagraphs[day] && unlockedParagraphs[day].includes(i)) {
+                    contentHtml += paragraphs[i] + "<br><br>";
                 } else {
-                    content += "<span class='locked'>🔒 locked paragraph</span><br><br>";
+                    contentHtml += "<span class='locked'>🔒 locked · keep studying to reveal this part</span><br><br>";
                 }
             }
-            
-            entryDiv.innerHTML = title + content;
         }
-        
+        entryDiv.innerHTML = titleHtml + contentHtml;
         container.appendChild(entryDiv);
     }
 }
 
-function renderAchievements(){
-    let container = document.getElementById("achievementsContainer");
+function renderAchievements() {
+    const container = document.getElementById("achievementsContainer");
     container.innerHTML = "";
-    
     achievementList.forEach(ach => {
-        if(ach.id === 6) return; // Handle separately
-        
-        let achieved = achievements.includes(ach.id);
-        
-        let badge = document.createElement("div");
+        if (ach.id === 6) return;
+        const achieved = achievements.includes(ach.id);
+        const badge = document.createElement("div");
         badge.className = "achievement-badge";
-        badge.style.background = achieved ? "rgba(255,215,0,0.3)" : "rgba(255,255,255,0.05)";
-        badge.style.borderColor = achieved ? "gold" : "#666";
-        badge.style.opacity = achieved ? "1" : "0.5";
-        
-        badge.innerHTML = `${ach.emoji} ${ach.name}`;
-        
-        if(!achieved){
-            badge.innerHTML += `<br><span style="font-size:10px;">${ach.threshold} pts</span>`;
-        }
-        
+        badge.style.background = achieved ? "rgba(255,215,0,0.25)" : "rgba(255,255,255,0.05)";
+        badge.style.opacity = achieved ? "1" : "0.6";
+        badge.innerHTML = `${ach.emoji} ${ach.name} ${achieved ? '✓' : `(${ach.threshold} pts)`}`;
         container.appendChild(badge);
     });
 }
 
-function renderSecretMessages(){
-    let container = document.getElementById("secretMessageContainer");
+function renderSecrets() {
+    const container = document.getElementById("secretMessageContainer");
     container.innerHTML = "";
-    
-    if(achievements.includes(6)){
-        for(let i = 0; i < secretUnlocked; i++){
-            let msgDiv = document.createElement("div");
+    if (achievements.includes(6)) {
+        for (let i = 0; i < secretUnlocked; i++) {
+            const msgDiv = document.createElement("div");
             msgDiv.className = "secret-message";
-            msgDiv.innerHTML = `✨ ${secretMessages[i]} ✨`;
+            msgDiv.innerHTML = `💌 ${secretMessages[i]} 💌`;
             container.appendChild(msgDiv);
         }
-        
-        if(secretUnlocked < secretMessages.length){
-            let hint = document.createElement("div");
-            hint.style.marginTop = "10px";
-            hint.style.fontSize = "12px";
-            hint.style.color = "#ffb6c1";
-            hint.innerText = "✨ keep studying to unlock more secrets ✨";
+        if (secretUnlocked < secretMessages.length) {
+            const hint = document.createElement("div");
+            hint.style.marginTop = "12px";
+            hint.style.fontSize = "0.8rem";
+            hint.style.color = "#ffb7c5";
+            hint.innerText = "✨ keep your streak alive → more love notes appear ✨";
             container.appendChild(hint);
         }
     } else {
-        let secretBadge = document.createElement("div");
-        secretBadge.className = "secret-badge";
-        secretBadge.onclick = function(){
-            alert("🤫 Keep your streak alive to unlock hidden messages...");
-        };
-        secretBadge.innerText = "🤫 secret locked";
-        container.appendChild(secretBadge);
+        const lockedHint = document.createElement("div");
+        lockedHint.className = "secret-badge";
+        lockedHint.innerText = "🔐 7-day streak unlocks secret messages";
+        lockedHint.onclick = () => alert("Stay consistent for 7 days and hidden love notes will reveal 💕");
+        container.appendChild(lockedHint);
     }
 }
 
-// Initialize
-updateUI();
+function updateUI() {
+    checkStreak();
+    document.getElementById("scoreDisplay").innerHTML = `${score} / 100`;
+    document.getElementById("streakDisplay").innerHTML = `🔥 streak: ${streak} day${streak !== 1 ? 's' : ''}`;
+    document.getElementById("progressBar").style.width = `${score}%`;
+    renderDiary();
+    renderAchievements();
+    renderSecrets();
+    saveAll();
+}
+
+function triggerConfettiEffect() {
+    if (typeof confetti === 'function') {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#ff99cc', '#ff4b6e', '#ffd966'] });
+    } else {
+        // simple mini burst: just for joy (confetti lib optional, but nice)
+        console.log("✨ +1 progress");
+    }
+}
+
+// initial load & inject optional confetti lib dynamically
+const script = document.createElement('script');
+script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1";
+script.onload = () => { updateUI(); };
+document.head.appendChild(script);
+window.onload = () => { updateUI(); };
 </script>
 </body>
 </html>
-
-
-
