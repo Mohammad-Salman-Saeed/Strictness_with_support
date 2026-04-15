@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Happy Birthday Manahil 💕 </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #0b5e3c 0%, #0a4a2f 100%);
+            /* Rich emerald green - definitely green! */
+            font-family: 'Segoe UI', 'Poppins', 'Dancing Script', cursive, system-ui, -apple-system;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            touch-action: pan-x pan-y;
+        }
+
+        /* Additional green overlay to ensure no white */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(20, 100, 60, 0.3), rgba(0, 40, 20, 0.5));
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .birthday-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: transparent;
+            touch-action: none;
+        }
+
+        #cakeCanvas {
+            width: 92vw;
+            height: auto;
+            max-width: 500px;
+            aspect-ratio: 1 / 1;
+            filter: drop-shadow(0 20px 25px rgba(0, 0, 0, 0.4));
+            border-radius: 48px;
+            cursor: grab;
+            touch-action: none;
+            background: rgba(0,0,0,0.05);
+        }
+
+        .birthday-text {
+            text-align: center;
+            margin-top: 18px;
+            font-family: 'Segoe UI', 'Poppins', 'Dancing Script', cursive;
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: #e91e63;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 105, 180, 0.7);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 22px;
+            border-radius: 60px;
+            backdrop-filter: blur(6px);
+            line-height: 1.3;
+            pointer-events: none;
+            letter-spacing: 0.5px;
+        }
+
+        .sub-line {
+            font-size: 1.7rem;
+        }
+
+        .slice-hint {
+            position: fixed;
+            bottom: 25px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: rgba(255, 250, 210, 0.95);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 10px 18px;
+            border-radius: 50px;
+            width: fit-content;
+            margin: 0 auto;
+            font-size: 0.9rem;
+            font-weight: 600;
+            pointer-events: none;
+            z-index: 15;
+            font-family: monospace;
+            letter-spacing: 1px;
+            transition: opacity 0.4s ease;
+        }
+
+        .message-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(16px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            font-family: 'Segoe UI', 'Poppins', system-ui;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .message-card {
+            max-width: 90%;
+            background: linear-gradient(135deg, #fff9f5, #ffeef4);
+            border-radius: 56px;
+            padding: 2rem 1.8rem;
+            box-shadow: 0 30px 45px rgba(0, 0, 0, 0.5), 0 0 0 3px #ffb7c5, 0 0 0 8px #e91e63;
+            animation: messagePop 0.5s forwards;
+        }
+
+        @keyframes messagePop {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .message-card p {
+            font-size: 1.35rem;
+            line-height: 1.5;
+            color: #3e1a2c;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .message-card .big-text {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #c2185b;
+            margin: 1rem 0;
+        }
+
+        .close-btn {
+            background: #e91e63;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: bold;
+            padding: 12px 28px;
+            border-radius: 50px;
+            margin-top: 20px;
+            box-shadow: 0 6px 0 #880e3f;
+            cursor: pointer;
+            transition: 0.08s linear;
+            font-family: inherit;
+        }
+
+        .close-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #880e3f;
+        }
+
+        .reopen-message-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #e91e63cc;
+            backdrop-filter: blur(12px);
+            border: none;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: bold;
+            padding: 10px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1500;
+            font-family: inherit;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .reopen-message-btn:active { transform: scale(0.96); }
+
+        @media (max-width: 600px) {
+            .birthday-text { font-size: 1.8rem; margin-top: 12px; }
+            .sub-line { font-size: 1.3rem; }
+            .message-card p { font-size: 1.05rem; }
+            .message-card .big-text { font-size: 1.3rem; }
+            .slice-hint { font-size: 0.75rem; bottom: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="birthday-container">
+    <canvas id="cakeCanvas" width="600" height="600"></canvas>
+    <div class="birthday-text">
+        Happy Birthday My Love!💕<br>
+        <span class="sub-line">Happy Birthday My M🫶</span>
+    </div>
+    <div class="slice-hint" id="sliceHint">✨ Swipe your finger ACROSS the cake to cut it! ✨</div>
+    <button class="reopen-message-btn" id="reopenMsgBtn">💌 Read Message Again</button>
+</div>
+
+<div id="messageOverlay" class="message-overlay">
+    <div class="message-card">
+        <p>💖 Never have I met a person more special than you,<br>
+        never have I seen a person more beautiful than you,<br>
+        never have I thought a person so amazing like you<br>
+        would be the most important in my life.</p>
+        <p class="big-text">Thank you for being that special person for me Manahil,<br>
+        thank you for being my love.</p>
+        <p>🎂 Happy Birthday! 🎉</p>
+        <button class="close-btn" id="closeMsgBtn">❤️ Forever Yours ❤️</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ========== 1. ANIMATED CAKE: FALLING PIECE BY PIECE ==========
+        const canvas = document.getElementById('cakeCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 600;
+        canvas.height = 600;
+
+        // Animation state: each piece falls one after another
+        let animStage = 0;     // 0:plate,1:bottom,2:middle,3:top,4:cream,5:candle,6:complete
+        let fallingY = {
+            plate: -100,
+            bottom: -160,
+            middle: -220,
+            top: -280,
+            cream: -340,
+            candle: -400
+        };
+        let targetY = {
+            plate: 480,
+            bottom: 440,
+            middle: 400,
+            top: 360,
+            cream: 345,
+            candle: 310
+        };
+        let stageDone = {
+            plate: false, bottom: false, middle: false, top: false, cream: false, candle: false
+        };
+        let animationRunning = true;
+        let creamDrips = [];
+        let creamDripsGenerated = false;
+        
+        // Cake cut state
+        let cakeSliced = false;
+        let cutTriggered = false;
+        let allowCutting = false;   // becomes true only after full cake built
+        
+        // Swipe & slice mechanics
+        let isDragging = false;
+        let swipePoints = [];
+        let sliceParticles = [];
+        let confettiExplosion = [];
+        
+        // Generate cream drips after cream lands
+        function generateCreamDrips() {
+            creamDrips = [];
+            for (let i = 0; i < 42; i++) {
+                let angle = Math.random() * Math.PI * 2;
+                let radius = 40 + Math.random() * 60;
+                let xOff = Math.cos(angle) * radius;
+                let yOff = Math.sin(angle) * radius * 0.5 + 12;
+                creamDrips.push({
+                    x: 300 + xOff,
+                    y: 348 + (Math.random() * 14),
+                    radius: 3 + Math.random() * 7
+                });
+            }
+            for (let i = 0; i < 24; i++) {
+                creamDrips.push({
+                    x: 210 + Math.random() * 180,
+                    y: 350 + Math.random() * 22,
+                    radius: 3 + Math.random() * 6
+                });
+            }
+        }
+        
+        // Update falling animation
+        function updateFallingAnimation() {
+            if (!animationRunning) return;
+            let anyMoving = false;
+            
+            if (animStage === 0 && !stageDone.plate) {
+                if (fallingY.plate < targetY.plate) {
+                    fallingY.plate += (targetY.plate - fallingY.plate) * 0.12 + 1.8;
+                    if (fallingY.plate >= targetY.plate - 1) {
+                        fallingY.plate = targetY.plate;
+                        stageDone.plate = true;
+                        animStage = 1;
+                    }
+                    anyMoving = true;
+                }
+            }
+            else if (animStage === 1 && !stageDone.bottom) {
+                if (fallingY.bottom < targetY.bottom) {
+                    fallingY.bottom += (targetY.bottom - fallingY.bottom) * 0.12 + 1.7;
+                    if (fallingY.bottom >= targetY.bottom - 1) {
+                        fallingY.bottom = targetY.bottom;
+                        stageDone.bottom = true;
+                        animStage = 2;
+                    }
+                    anyMoving = true;
+                }
+            }
+            else if (animStage === 2 && !stageDone.middle) {
+                if (fallingY.middle < targetY.middle) {
+                    fallingY.middle += (targetY.middle - fallingY.middle) * 0.12 + 1.7;
+                    if (fallingY.middle >= targetY.middle - 1) {
+                        fallingY.middle = targetY.middle;
+                        stageDone.middle = true;
+                        animStage = 3;
+                    }
+                    anyMoving = true;
+                }
+            }
+            else if (animStage === 3 && !stageDone.top) {
+                if (fallingY.top < targetY.top) {
+                    fallingY.top += (targetY.top - fallingY.top) * 0.12 + 1.7;
+                    if (fallingY.top >= targetY.top - 1) {
+                        fallingY.top = targetY.top;
+                        stageDone.top = true;
+                        animStage = 4;
+                    }
+                    anyMoving = true;
+                }
+            }
+            else if (animStage === 4 && !stageDone.cream) {
+                if (fallingY.cream < targetY.cream) {
+                    fallingY.cream += (targetY.cream - fallingY.cream) * 0.12 + 1.5;
+                    if (fallingY.cream >= targetY.cream - 2) {
+                        fallingY.cream = targetY.cream;
+                        stageDone.cream = true;
+                        if (!creamDripsGenerated) {
+                            generateCreamDrips();
+                            creamDripsGenerated = true;
+                        }
+                        animStage = 5;
+                    }
+                    anyMoving = true;
+                }
+            }
+            else if (animStage === 5 && !stageDone.candle) {
+                if (fallingY.candle < targetY.candle) {
+                    fallingY.candle += (targetY.candle - fallingY.candle) * 0.12 + 1.9;
+                    if (fallingY.candle >= targetY.candle - 1) {
+                        fallingY.candle = targetY.candle;
+                        stageDone.candle = true;
+                        animStage = 6;
+                        animationRunning = false;
+                        allowCutting = true;   // NOW cake is ready to be cut!
+                    }
+                    anyMoving = true;
+                }
+            }
+            
+            drawCake();
+            if (anyMoving) requestAnimationFrame(updateFallingAnimation);
+            else if (animStage === 6) drawCake();
+        }
+        
+        // Drawing utilities
+        function roundedRect(x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            ctx.lineTo(x + r, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
+            ctx.fill();
+        }
+        
+        function drawCake() {
+            ctx.clearRect(0, 0, 600, 600);
+            ctx.shadowBlur = 3;
+            ctx.shadowColor = "rgba(0,0,0,0.2)";
+            
+            // Plate
+            let plateY = fallingY.plate;
+            if (plateY > -50 || stageDone.plate) {
+                ctx.fillStyle = "#e0ddd5";
+                roundedRect(300 - 140, plateY, 280, 16, 14);
+                ctx.fillStyle = "#c0bcb0";
+                roundedRect(300 - 130, plateY+3, 260, 5, 5);
+            }
+            
+            // Bottom layer
+            let bottomY = fallingY.bottom;
+            if (bottomY > -50 || stageDone.bottom) {
+                ctx.fillStyle = "#9e2a2a";
+                roundedRect(300 - 120, bottomY, 240, 38, 14);
+                ctx.fillStyle = "#7a1f1f";
+                roundedRect(300 - 112, bottomY+5, 224, 7, 6);
+                for(let i=0;i<60;i++) { ctx.fillStyle = "#6a1818"; ctx.beginPath(); ctx.arc(210 + (i*13)%200, bottomY+18 + (i*7)%24, 1.5, 0, Math.PI*2); ctx.fill(); }
+            }
+            
+            // Middle layer
+            let middleY = fallingY.middle;
+            if (middleY > -50 || stageDone.middle) {
+                ctx.fillStyle = "#b34141";
+                roundedRect(300 - 105, middleY, 210, 38, 12);
+                ctx.fillStyle = "#8b2c2c";
+                roundedRect(300 - 98, middleY+5, 196, 6, 5);
+                for(let i=0;i<50;i++) { ctx.fillStyle = "#752020"; ctx.beginPath(); ctx.arc(220 + (i*11)%190, middleY+16 + (i*5)%22, 1.3, 0, Math.PI*2); ctx.fill(); }
+            }
+            
+            // Top layer
+            let topY = fallingY.top;
+            if (topY > -50 || stageDone.top) {
+                ctx.fillStyle = "#c24a4a";
+                roundedRect(300 - 90, topY, 180, 38, 12);
+                ctx.fillStyle = "#a23a3a";
+                roundedRect(300 - 84, topY+5, 168, 5, 5);
+            }
+            
+            // Cream + drips
+            let creamY = fallingY.cream;
+            if (creamY > -50 || stageDone.cream) {
+                ctx.fillStyle = "#fff8f0";
+                if (!stageDone.cream && creamY < targetY.cream - 4) {
+                    ctx.beginPath();
+                    ctx.ellipse(300, creamY+8, 85, 22, 0, 0, Math.PI*2);
+                    ctx.fill();
+                } else {
+                    roundedRect(300 - 95, creamY, 190, 20, 16);
+                    if (creamDripsGenerated) {
+                        for (let drip of creamDrips) {
+                            ctx.beginPath();
+                            ctx.arc(drip.x, drip.y, drip.radius, 0, Math.PI*2);
+                            ctx.fillStyle = "#fff2e2";
+                            ctx.fill();
+                        }
+                    }
+                    ctx.fillStyle = "#ffefdc";
+                    for (let i=0;i<12;i++) { ctx.beginPath(); ctx.ellipse(225 + i*14, creamY+12, 4, 6, 0, 0, Math.PI*2); ctx.fill(); }
+                }
+            }
+            
+            // Candle with flame
+            let candleY = fallingY.candle;
+            if (candleY > -50 || stageDone.candle) {
+                ctx.fillStyle = "#f7e9cf";
+                ctx.fillRect(300 - 6, candleY, 12, 42);
+                ctx.fillStyle = "#ddc5a0";
+                ctx.fillRect(300 - 3, candleY+5, 4, 32);
+                ctx.beginPath(); ctx.moveTo(300, candleY-2); ctx.lineTo(300, candleY+4); ctx.strokeStyle = "#553322"; ctx.lineWidth = 1.8; ctx.stroke();
+                let flicker = 0.85 + Math.sin(Date.now() * 0.018) * 0.12;
+                ctx.beginPath();
+                ctx.moveTo(300, candleY-2);
+                ctx.lineTo(296, candleY-15 * flicker);
+                ctx.lineTo(300, candleY-21 * flicker);
+                ctx.lineTo(304, candleY-15 * flicker);
+                ctx.fillStyle = "#ffaa44";
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(300, candleY-13, 10, 0, Math.PI*2);
+                ctx.fillStyle = "rgba(255,100,0,0.3)";
+                ctx.fill();
+            }
+            
+            // Hearts decoration
+            ctx.font = "22px 'Segoe UI'";
+            ctx.fillStyle = "#e91e63";
+            ctx.fillText("❤️", 265, 425);
+            ctx.fillText("❤️", 330, 460);
+            ctx.fillText("❤️", 305, 380);
+            
+            // Draw slice trail (during cut attempt)
+            if (swipePoints.length > 1 && !cakeSliced && allowCutting) {
+                ctx.beginPath();
+                for(let i=0;i<swipePoints.length-1;i++) {
+                    ctx.moveTo(swipePoints[i].x, swipePoints[i].y);
+                    ctx.lineTo(swipePoints[i+1].x, swipePoints[i+1].y);
+                }
+                ctx.lineWidth = 5;
+                ctx.strokeStyle = "#ffaa66";
+                ctx.shadowBlur = 0;
+                ctx.stroke();
+            }
+            
+            // Slice effect particles
+            for(let p of sliceParticles) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI*2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+            }
+            
+            // Celebration confetti after cut
+            for(let c of confettiExplosion) {
+                if(c.x < 620 && c.x > -20 && c.y < 620) {
+                    ctx.save();
+                    ctx.translate(c.x, c.y);
+                    ctx.rotate((c.rotation || 0) * Math.PI/180);
+                    ctx.fillStyle = c.color;
+                    ctx.fillRect(-c.size/2, -c.size/2, c.size, c.size/1.5);
+                    ctx.restore();
+                }
+            }
+            ctx.shadowBlur = 0;
+        }
+        
+        // ========== 2. REALISTIC CUT MECHANICS ==========
+        function getCakeBoundingBox() {
+            return { minX: 180, maxX: 420, minY: 310, maxY: 500 };
+        }
+        
+        function segmentsIntersect(ax, ay, bx, by, cx, cy, dx, dy) {
+            const det = (bx-ax)*(dy-cy) - (by-ay)*(dx-cx);
+            if (det === 0) return false;
+            const r = ((ay-cy)*(dx-cx) - (ax-cx)*(dy-cy)) / det;
+            const s = ((ay-cy)*(bx-ax) - (ax-cx)*(by-ay)) / det;
+            return (r >= 0 && r <= 1 && s >= 0 && s <= 1);
+        }
+        
+        function doesSwipeIntersectCake(p1, p2) {
+            const box = getCakeBoundingBox();
+            if (p1.x >= box.minX && p1.x <= box.maxX && p1.y >= box.minY && p1.y <= box.maxY) return true;
+            if (p2.x >= box.minX && p2.x <= box.maxX && p2.y >= box.minY && p2.y <= box.maxY) return true;
+            const edges = [
+                [[box.minX, box.minY], [box.maxX, box.minY]],
+                [[box.maxX, box.minY], [box.maxX, box.maxY]],
+                [[box.maxX, box.maxY], [box.minX, box.maxY]],
+                [[box.minX, box.maxY], [box.minX, box.minY]]
+            ];
+            for (let edge of edges) {
+                if (segmentsIntersect(p1.x, p1.y, p2.x, p2.y, edge[0][0], edge[0][1], edge[1][0], edge[1][1])) return true;
+            }
+            return false;
+        }
+        
+        function triggerCakeCut() {
+            if (cakeSliced || cutTriggered || !allowCutting) return;
+            cutTriggered = true;
+            cakeSliced = true;
+            
+            // Hide hint
+            const hint = document.getElementById('sliceHint');
+            if (hint) { hint.style.opacity = "0"; setTimeout(() => { if(hint) hint.style.display = "none"; }, 400); }
+            
+            // Massive confetti burst
+            for(let i=0;i<260;i++) {
+                confettiExplosion.push({
+                    x: 280 + (Math.random() - 0.5) * 280,
+                    y: 380 + (Math.random() - 0.5) * 180,
+                    vx: (Math.random() - 0.5) * 9,
+                    vy: (Math.random() * -12) - 2,
+                    size: 5 + Math.random() * 9,
+                    color: `hsl(${Math.random() * 360}, 85%, 65%)`,
+                    rotation: Math.random() * 360,
+                    life: 1.2
+                });
+            }
+            
+            // Animate confetti
+            function animateExplosion() {
+                let alive = false;
+                for(let i=0;i<confettiExplosion.length;i++) {
+                    let c = confettiExplosion[i];
+                    if (c.vx) {
+                        c.x += c.vx;
+                        c.y += c.vy;
+                        c.vy += 0.2;
+                        c.rotation += (c.rotSpeed || 0.12);
+                        c.life -= 0.01;
+                    }
+                    if (c.life <= 0 || c.y > 650) {
+                        confettiExplosion.splice(i,1);
+                        i--;
+                    } else alive = true;
+                }
+                drawCake();
+                if (alive) requestAnimationFrame(animateExplosion);
+                else drawCake();
+            }
+            animateExplosion();
+            
+            // Show message after delay
+            setTimeout(() => {
+                const overlay = document.getElementById('messageOverlay');
+                overlay.style.visibility = "visible";
+                overlay.style.opacity = "1";
+                const reopen = document.getElementById('reopenMsgBtn');
+                reopen.style.opacity = "1";
+                reopen.style.visibility = "visible";
+                reopen.style.pointerEvents = "auto";
+            }, 550);
+        }
+        
+        function addSliceParticlesAt(x, y) {
+            for(let i=0;i<8;i++) {
+                sliceParticles.push({
+                    x: x, y: y,
+                    vx: (Math.random() - 0.5) * 5,
+                    vy: (Math.random() - 1) * 4,
+                    life: 0.8,
+                    size: Math.random() * 5 + 2,
+                    color: `hsl(${Math.random() * 30 + 340}, 80%, 65%)`
+                });
+            }
+        }
+        
+        function updateSliceParticles() {
+            for(let i=0;i<sliceParticles.length;i++) {
+                let p = sliceParticles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.2;
+                p.life -= 0.025;
+                if(p.life <= 0 || p.y > 620) { sliceParticles.splice(i,1); i--; }
+            }
+        }
+        
+        // Touch & mouse handling with DELIBERATE SWIPE (prevents accidental cut)
+        function getCanvasCoords(e) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            let clientX, clientY;
+            if (e.touches) { clientX = e.touches[0].clientX; clientY = e.touches[0].clientY; }
+            else { clientX = e.clientX; clientY = e.clientY; }
+            let canvasX = (clientX - rect.left) * scaleX;
+            let canvasY = (clientY - rect.top) * scaleY;
+            canvasX = Math.min(Math.max(0, canvasX), canvas.width);
+            canvasY = Math.min(Math.max(0, canvasY), canvas.height);
+            return { x: canvasX, y: canvasY };
+        }
+        
+        function onSliceStart(e) {
+            if (!allowCutting || cakeSliced) return;
+            e.preventDefault();
+            isDragging = true;
+            swipePoints = [];
+            let p = getCanvasCoords(e);
+            swipePoints.push(p);
+        }
+        
+        function onSliceMove(e) {
+            if (!isDragging || !allowCutting || cakeSliced) return;
+            e.preventDefault();
+            let p = getCanvasCoords(e);
+            swipePoints.push(p);
+            // Limit swipePoints length for performance
+            if (swipePoints.length > 25) swipePoints.shift();
+            
+            // Check intersection with cake for each segment
+            let cutDetected = false;
+            for (let i = 0; i < swipePoints.length - 1; i++) {
+                if (doesSwipeIntersectCake(swipePoints[i], swipePoints[i+1])) {
+                    cutDetected = true;
+                    break;
+                }
+            }
+            if (cutDetected) {
+                // Add slice effect at intersection area
+                let mid = swipePoints[Math.floor(swipePoints.length/2)];
+                if (mid) addSliceParticlesAt(mid.x, mid.y);
+                triggerCakeCut();
+                isDragging = false;
+                swipePoints = [];
+                return;
+            }
+            updateSliceParticles();
+            drawCake();
+            // Draw temporary swipe trail
+            if (swipePoints.length > 1) {
+                ctx.beginPath();
+                for(let i=0;i<swipePoints.length-1;i++) {
+                    ctx.moveTo(swipePoints[i].x, swipePoints[i].y);
+                    ctx.lineTo(swipePoints[i+1].x, swipePoints[i+1].y);
+                }
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = "#ffaa66";
+                ctx.stroke();
+            }
+        }
+        
+        function onSliceEnd(e) {
+            isDragging = false;
+            if (!cakeSliced && allowCutting) {
+                swipePoints = [];
+                drawCake();
+            }
+        }
+        
+        canvas.addEventListener('touchstart', onSliceStart, { passive: false });
+        canvas.addEventListener('touchmove', onSliceMove, { passive: false });
+        canvas.addEventListener('touchend', onSliceEnd);
+        canvas.addEventListener('mousedown', onSliceStart);
+        window.addEventListener('mousemove', (e) => { if(isDragging && allowCutting && !cakeSliced) onSliceMove(e); });
+        window.addEventListener('mouseup', onSliceEnd);
+        
+        // Message reopen functionality
+        const reopenBtn = document.getElementById('reopenMsgBtn');
+        const overlayMsg = document.getElementById('messageOverlay');
+        const closeMsgBtn = document.getElementById('closeMsgBtn');
+        
+        function showMessageAgain() {
+            overlayMsg.style.visibility = "visible";
+            overlayMsg.style.opacity = "1";
+        }
+        reopenBtn.addEventListener('click', showMessageAgain);
+        closeMsgBtn.addEventListener('click', () => {
+            overlayMsg.style.opacity = "0";
+            setTimeout(() => { overlayMsg.style.visibility = "hidden"; }, 500);
+        });
+        
+        // Start the falling animation
+        updateFallingAnimation();
+        drawCake();
+        
+        // ========== 3. PERPETUAL BACKGROUND CONFETTI (GREEN REMAINS) ==========
+        const bgCanvas = document.createElement('canvas');
+        bgCanvas.style.position = 'fixed';
+        bgCanvas.style.top = '0';
+        bgCanvas.style.left = '0';
+        bgCanvas.style.width = '100%';
+        bgCanvas.style.height = '100%';
+        bgCanvas.style.pointerEvents = 'none';
+        bgCanvas.style.zIndex = '100';
+        document.body.appendChild(bgCanvas);
+        const bgCtx = bgCanvas.getContext('2d');
+        let bgParticles = [];
+        
+        function resizeBg() {
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeBg);
+        resizeBg();
+        
+        for(let i=0;i<150;i++) {
+            bgParticles.push({
+                x: Math.random() * bgCanvas.width,
+                y: Math.random() * bgCanvas.height,
+                vx: (Math.random() - 0.5) * 0.7,
+                vy: Math.random() * 1.8 + 0.7,
+                size: 3 + Math.random() * 7,
+                color: `hsl(${Math.random() * 60 + 310}, 80%, 65%)`,
+                rot: Math.random() * 360,
+                rotSpd: (Math.random() - 0.5) * 0.07
+            });
+        }
+        
+        function drawBgConfetti() {
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+            for(let c of bgParticles) {
+                c.x += c.vx;
+                c.y += c.vy;
+                c.rot += c.rotSpd;
+                if(c.y > bgCanvas.height + 50) { c.y = -40; c.x = Math.random() * bgCanvas.width; }
+                if(c.x > bgCanvas.width + 50) c.x = -50;
+                if(c.x < -50) c.x = bgCanvas.width + 30;
+                bgCtx.save();
+                bgCtx.translate(c.x, c.y);
+                bgCtx.rotate(c.rot * Math.PI/180);
+                bgCtx.fillStyle = c.color;
+                bgCtx.fillRect(-c.size/2, -c.size/2, c.size, c.size/1.5);
+                bgCtx.restore();
+            }
+            requestAnimationFrame(drawBgConfetti);
+        }
+        drawBgConfetti();
+    })();
+</script>
+</body>
+</html>
