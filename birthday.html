@@ -16,7 +16,7 @@
         body {
             min-height: 100vh;
             background: linear-gradient(145deg, #0b5e3c 0%, #0a4a2f 100%);
-            /* Rich emerald green - definitely green! */
+            /* Rich emerald green */
             font-family: 'Segoe UI', 'Poppins', 'Dancing Script', cursive, system-ui, -apple-system;
             display: flex;
             justify-content: center;
@@ -28,7 +28,7 @@
             touch-action: pan-x pan-y;
         }
 
-        /* Additional green overlay to ensure no white */
+        /* Additional green overlay for depth */
         body::before {
             content: '';
             position: fixed;
@@ -50,6 +50,7 @@
             align-items: center;
             justify-content: center;
             z-index: 10;
+            padding: 20px 0 30px 0;
         }
 
         canvas {
@@ -60,67 +61,108 @@
         }
 
         #cakeCanvas {
-            width: 92vw;
+            width: 85vw;
             height: auto;
-            max-width: 500px;
+            max-width: 460px;
             aspect-ratio: 1 / 1;
             filter: drop-shadow(0 20px 25px rgba(0, 0, 0, 0.4));
             border-radius: 48px;
             cursor: grab;
             touch-action: none;
             background: rgba(0,0,0,0.05);
+            margin-top: 5px;
+        }
+
+        /* Text container - better spacing and no overlap with buttons */
+        .birthday-text-wrapper {
+            text-align: center;
+            margin-top: 12px;
+            margin-bottom: 8px;
+            padding: 0 16px;
+            position: relative;
+            z-index: 12;
+            pointer-events: none;
         }
 
         .birthday-text {
-            text-align: center;
-            margin-top: 18px;
             font-family: 'Segoe UI', 'Poppins', 'Dancing Script', cursive;
-            font-size: 2.3rem;
+            font-size: 2rem;
             font-weight: 800;
             color: #e91e63;
             text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 105, 180, 0.7);
             background: rgba(0, 0, 0, 0.3);
-            padding: 8px 22px;
+            padding: 8px 20px;
             border-radius: 60px;
             backdrop-filter: blur(6px);
             line-height: 1.3;
-            pointer-events: none;
             letter-spacing: 0.5px;
+            display: inline-block;
         }
 
         .sub-line {
-            font-size: 1.7rem;
+            font-size: 1.5rem;
+            display: inline-block;
         }
 
+        /* Hint message - moved further down, smaller and less intrusive */
         .slice-hint {
             position: fixed;
-            bottom: 25px;
+            bottom: 70px;
             left: 0;
             right: 0;
             text-align: center;
             color: rgba(255, 250, 210, 0.95);
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(10px);
-            padding: 10px 18px;
+            padding: 8px 16px;
             border-radius: 50px;
             width: fit-content;
             margin: 0 auto;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 600;
             pointer-events: none;
             z-index: 15;
             font-family: monospace;
             letter-spacing: 1px;
             transition: opacity 0.4s ease;
+            white-space: nowrap;
         }
 
+        /* Reopen button - moved to bottom-left to avoid text */
+        .reopen-message-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: auto;
+            background: #e91e63cc;
+            backdrop-filter: blur(12px);
+            border: none;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1500;
+            font-family: inherit;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .reopen-message-btn:active { transform: scale(0.96); }
+
+        /* Message overlay - improved for mobile */
         .message-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.96);
             backdrop-filter: blur(16px);
             z-index: 2000;
             display: flex;
@@ -137,10 +179,12 @@
         .message-card {
             max-width: 90%;
             background: linear-gradient(135deg, #fff9f5, #ffeef4);
-            border-radius: 56px;
-            padding: 2rem 1.8rem;
+            border-radius: 48px;
+            padding: 1.8rem 1.5rem;
             box-shadow: 0 30px 45px rgba(0, 0, 0, 0.5), 0 0 0 3px #ffb7c5, 0 0 0 8px #e91e63;
             animation: messagePop 0.5s forwards;
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
         @keyframes messagePop {
@@ -149,15 +193,15 @@
         }
 
         .message-card p {
-            font-size: 1.35rem;
-            line-height: 1.5;
+            font-size: 1.2rem;
+            line-height: 1.45;
             color: #3e1a2c;
             font-weight: 600;
             margin-bottom: 1rem;
         }
 
         .message-card .big-text {
-            font-size: 1.7rem;
+            font-size: 1.4rem;
             font-weight: 800;
             color: #c2185b;
             margin: 1rem 0;
@@ -167,12 +211,12 @@
             background: #e91e63;
             border: none;
             color: white;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: bold;
-            padding: 12px 28px;
+            padding: 10px 24px;
             border-radius: 50px;
-            margin-top: 20px;
-            box-shadow: 0 6px 0 #880e3f;
+            margin-top: 16px;
+            box-shadow: 0 5px 0 #880e3f;
             cursor: pointer;
             transition: 0.08s linear;
             font-family: inherit;
@@ -183,36 +227,55 @@
             box-shadow: 0 2px 0 #880e3f;
         }
 
-        .reopen-message-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #e91e63cc;
-            backdrop-filter: blur(12px);
-            border: none;
-            color: white;
-            font-size: 0.9rem;
-            font-weight: bold;
-            padding: 10px 18px;
-            border-radius: 40px;
-            cursor: pointer;
-            z-index: 1500;
-            font-family: inherit;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            transition: all 0.2s;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
+        /* Mobile-specific adjustments */
+        @media (max-width: 600px) {
+            .birthday-text {
+                font-size: 1.6rem;
+                padding: 6px 16px;
+            }
+            .sub-line {
+                font-size: 1.2rem;
+            }
+            .birthday-text-wrapper {
+                margin-top: 8px;
+                margin-bottom: 4px;
+            }
+            #cakeCanvas {
+                width: 88vw;
+                max-width: 420px;
+            }
+            .slice-hint {
+                bottom: 65px;
+                font-size: 0.7rem;
+                padding: 6px 14px;
+                white-space: nowrap;
+            }
+            .reopen-message-btn {
+                bottom: 15px;
+                left: 15px;
+                font-size: 0.75rem;
+                padding: 6px 14px;
+            }
+            .message-card p {
+                font-size: 1rem;
+            }
+            .message-card .big-text {
+                font-size: 1.2rem;
+            }
         }
 
-        .reopen-message-btn:active { transform: scale(0.96); }
-
-        @media (max-width: 600px) {
-            .birthday-text { font-size: 1.8rem; margin-top: 12px; }
-            .sub-line { font-size: 1.3rem; }
-            .message-card p { font-size: 1.05rem; }
-            .message-card .big-text { font-size: 1.3rem; }
-            .slice-hint { font-size: 0.75rem; bottom: 15px; }
+        @media (max-width: 450px) {
+            .slice-hint {
+                bottom: 60px;
+                font-size: 0.65rem;
+                white-space: nowrap;
+            }
+            .birthday-text {
+                font-size: 1.4rem;
+            }
+            .sub-line {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
@@ -220,11 +283,13 @@
 
 <div class="birthday-container">
     <canvas id="cakeCanvas" width="600" height="600"></canvas>
-    <div class="birthday-text">
-        Happy Birthday My Love!💕<br>
-        <span class="sub-line">Happy Birthday My M🫶</span>
+    <div class="birthday-text-wrapper">
+        <div class="birthday-text">
+            Happy Birthday My Love!💕<br>
+            <span class="sub-line">Happy Birthday My M🫶</span>
+        </div>
     </div>
-    <div class="slice-hint" id="sliceHint">✨ Swipe your finger ACROSS the cake to cut it! ✨</div>
+    <div class="slice-hint" id="sliceHint">✨ Swipe across the cake to cut it! ✨</div>
     <button class="reopen-message-btn" id="reopenMsgBtn">💌 Read Message Again</button>
 </div>
 
@@ -648,7 +713,7 @@
             }
         }
         
-        // Touch & mouse handling with DELIBERATE SWIPE (prevents accidental cut)
+        // Touch & mouse handling
         function getCanvasCoords(e) {
             const rect = canvas.getBoundingClientRect();
             const scaleX = canvas.width / rect.width;
@@ -677,10 +742,8 @@
             e.preventDefault();
             let p = getCanvasCoords(e);
             swipePoints.push(p);
-            // Limit swipePoints length for performance
             if (swipePoints.length > 25) swipePoints.shift();
             
-            // Check intersection with cake for each segment
             let cutDetected = false;
             for (let i = 0; i < swipePoints.length - 1; i++) {
                 if (doesSwipeIntersectCake(swipePoints[i], swipePoints[i+1])) {
@@ -689,7 +752,6 @@
                 }
             }
             if (cutDetected) {
-                // Add slice effect at intersection area
                 let mid = swipePoints[Math.floor(swipePoints.length/2)];
                 if (mid) addSliceParticlesAt(mid.x, mid.y);
                 triggerCakeCut();
@@ -699,7 +761,6 @@
             }
             updateSliceParticles();
             drawCake();
-            // Draw temporary swipe trail
             if (swipePoints.length > 1) {
                 ctx.beginPath();
                 for(let i=0;i<swipePoints.length-1;i++) {
@@ -746,7 +807,7 @@
         updateFallingAnimation();
         drawCake();
         
-        // ========== 3. PERPETUAL BACKGROUND CONFETTI (GREEN REMAINS) ==========
+        // ========== 3. PERPETUAL BACKGROUND CONFETTI ==========
         const bgCanvas = document.createElement('canvas');
         bgCanvas.style.position = 'fixed';
         bgCanvas.style.top = '0';
