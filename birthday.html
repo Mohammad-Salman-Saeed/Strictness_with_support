@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Happy Birthday Manahil 💕 </title>
+    <title>Happy Birthday Manahil💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,12 +16,8 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(145deg, #0b5e3c 0%, #0a4a2f 100%);
-            /* Rich emerald green */
-            font-family: 'Segoe UI', 'Poppins', 'Dancing Script', cursive, system-ui, -apple-system;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: radial-gradient(circle at 20% 30%, #0a2a1a, #031208);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             overflow: hidden;
             position: fixed;
             width: 100%;
@@ -28,17 +25,15 @@
             touch-action: pan-x pan-y;
         }
 
-        /* Additional green overlay for depth */
-        body::before {
-            content: '';
+        .ambient-glow {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 30% 40%, rgba(20, 100, 60, 0.3), rgba(0, 40, 20, 0.5));
+            background: radial-gradient(ellipse at 50% 40%, rgba(255,215,150,0.12), transparent 70%);
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
         }
 
         .birthday-container {
@@ -49,8 +44,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 10;
-            padding: 20px 0 30px 0;
+            z-index: 20;
+            padding: 15px 0 20px 0;
         }
 
         canvas {
@@ -61,236 +56,198 @@
         }
 
         #cakeCanvas {
-            width: 85vw;
+            width: 88vw;
             height: auto;
-            max-width: 460px;
+            max-width: 500px;
             aspect-ratio: 1 / 1;
-            filter: drop-shadow(0 20px 25px rgba(0, 0, 0, 0.4));
-            border-radius: 48px;
+            filter: drop-shadow(0 30px 35px rgba(0, 0, 0, 0.5));
             cursor: grab;
             touch-action: none;
-            background: rgba(0,0,0,0.05);
-            margin-top: 5px;
         }
+        #cakeCanvas:active { cursor: grabbing; }
 
-        /* Text container - better spacing and no overlap with buttons */
         .birthday-text-wrapper {
             text-align: center;
-            margin-top: 12px;
-            margin-bottom: 8px;
-            padding: 0 16px;
+            margin-top: 10px;
+            margin-bottom: 12px;
+            padding: 0 12px;
             position: relative;
             z-index: 12;
             pointer-events: none;
         }
 
         .birthday-text {
-            font-family: 'Segoe UI', 'Poppins', 'Dancing Script', cursive;
+            font-family: 'Playfair Display', 'Inter', serif;
             font-size: 2rem;
-            font-weight: 800;
-            color: #e91e63;
-            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 105, 180, 0.7);
-            background: rgba(0, 0, 0, 0.3);
-            padding: 8px 20px;
-            border-radius: 60px;
-            backdrop-filter: blur(6px);
-            line-height: 1.3;
-            letter-spacing: 0.5px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFE6B0, #FFB7C5, #FF85A1);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            letter-spacing: -0.3px;
+            line-height: 1.2;
             display: inline-block;
+            padding: 4px 12px;
         }
-
         .sub-line {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+            background: linear-gradient(120deg, #FFD966, #FFA5C0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
             display: inline-block;
         }
 
-        /* Hint message - moved further down, smaller and less intrusive */
         .slice-hint {
             position: fixed;
-            bottom: 70px;
+            bottom: 85px;
             left: 0;
             right: 0;
             text-align: center;
-            color: rgba(255, 250, 210, 0.95);
-            background: rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 50px;
+            color: #fff9e8;
+            background: rgba(15, 30, 20, 0.75);
+            backdrop-filter: blur(20px);
+            padding: 8px 20px;
+            border-radius: 100px;
             width: fit-content;
             margin: 0 auto;
             font-size: 0.8rem;
-            font-weight: 600;
+            font-weight: 500;
+            letter-spacing: 0.4px;
             pointer-events: none;
             z-index: 15;
-            font-family: monospace;
-            letter-spacing: 1px;
+            font-family: 'Inter', monospace;
+            border: 0.5px solid rgba(255,215,180,0.5);
             transition: opacity 0.4s ease;
             white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        /* Reopen button - moved to bottom-left to avoid text */
         .reopen-message-btn {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
+            bottom: 24px;
+            left: 24px;
             right: auto;
-            background: #e91e63cc;
-            backdrop-filter: blur(12px);
+            background: rgba(233,30,99,0.88);
+            backdrop-filter: blur(16px);
             border: none;
             color: white;
-            font-size: 0.85rem;
-            font-weight: bold;
-            padding: 8px 16px;
-            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 44px;
             cursor: pointer;
             z-index: 1500;
-            font-family: inherit;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+            transition: all 0.2s ease;
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            white-space: nowrap;
+            letter-spacing: 0.3px;
+            border: 0.5px solid rgba(255,255,200,0.7);
         }
+        .reopen-message-btn:active { transform: scale(0.96); background: #c2185b; }
 
-        .reopen-message-btn:active { transform: scale(0.96); }
-
-        /* Message overlay - improved for mobile */
         .message-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.96);
-            backdrop-filter: blur(16px);
+            background: rgba(5, 15, 8, 0.94);
+            backdrop-filter: blur(24px);
             z-index: 2000;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.2);
-            font-family: 'Segoe UI', 'Poppins', system-ui;
+            transition: opacity 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.2), visibility 0s 0.5s;
+            font-family: 'Inter', system-ui;
             padding: 1.5rem;
-            text-align: center;
         }
-
+        .message-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+        }
         .message-card {
-            max-width: 90%;
-            background: linear-gradient(135deg, #fff9f5, #ffeef4);
+            max-width: 560px;
+            width: 90%;
+            background: #fffffffa;
             border-radius: 48px;
-            padding: 1.8rem 1.5rem;
-            box-shadow: 0 30px 45px rgba(0, 0, 0, 0.5), 0 0 0 3px #ffb7c5, 0 0 0 8px #e91e63;
-            animation: messagePop 0.5s forwards;
+            padding: 2rem 1.8rem;
+            box-shadow: 0 40px 70px rgba(0,0,0,0.5), 0 0 0 1px rgba(233,30,99,0.3);
+            animation: messageFloat 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             max-height: 85vh;
             overflow-y: auto;
+            scrollbar-width: thin;
         }
-
-        @keyframes messagePop {
-            0% { transform: scale(0.7); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        @keyframes messageFloat {
+            0% { opacity: 0; transform: scale(0.94) translateY(12px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
-
         .message-card p {
-            font-size: 1.2rem;
-            line-height: 1.45;
-            color: #3e1a2c;
-            font-weight: 600;
+            font-size: 1.08rem;
+            line-height: 1.5;
+            color: #1e2a24;
+            font-weight: 500;
             margin-bottom: 1rem;
         }
-
         .message-card .big-text {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #c2185b;
-            margin: 1rem 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #b71c4a;
+            margin: 1.2rem 0 0.8rem;
+            background: linear-gradient(135deg, #ba2b5c, #e91e63);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
         }
-
         .close-btn {
             background: #e91e63;
             border: none;
             color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
-            padding: 10px 24px;
-            border-radius: 50px;
-            margin-top: 16px;
-            box-shadow: 0 5px 0 #880e3f;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 60px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             cursor: pointer;
-            transition: 0.08s linear;
-            font-family: inherit;
+            transition: 0.15s ease;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.2px;
         }
+        .close-btn:active { transform: scale(0.97); background: #c2185b; }
 
-        .close-btn:active {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 #880e3f;
-        }
-
-        /* Mobile-specific adjustments */
         @media (max-width: 600px) {
-            .birthday-text {
-                font-size: 1.6rem;
-                padding: 6px 16px;
-            }
-            .sub-line {
-                font-size: 1.2rem;
-            }
-            .birthday-text-wrapper {
-                margin-top: 8px;
-                margin-bottom: 4px;
-            }
-            #cakeCanvas {
-                width: 88vw;
-                max-width: 420px;
-            }
-            .slice-hint {
-                bottom: 65px;
-                font-size: 0.7rem;
-                padding: 6px 14px;
-                white-space: nowrap;
-            }
-            .reopen-message-btn {
-                bottom: 15px;
-                left: 15px;
-                font-size: 0.75rem;
-                padding: 6px 14px;
-            }
-            .message-card p {
-                font-size: 1rem;
-            }
-            .message-card .big-text {
-                font-size: 1.2rem;
-            }
+            .birthday-text { font-size: 1.7rem; }
+            .sub-line { font-size: 1.1rem; }
+            .message-card p { font-size: 0.96rem; }
+            .slice-hint { bottom: 75px; font-size: 0.7rem; white-space: nowrap; padding: 6px 14px; }
+            .reopen-message-btn { bottom: 18px; left: 18px; padding: 7px 14px; font-size: 0.7rem; }
         }
-
         @media (max-width: 450px) {
-            .slice-hint {
-                bottom: 60px;
-                font-size: 0.65rem;
-                white-space: nowrap;
-            }
-            .birthday-text {
-                font-size: 1.4rem;
-            }
-            .sub-line {
-                font-size: 1.1rem;
-            }
+            .slice-hint { bottom: 68px; font-size: 0.65rem; }
         }
     </style>
 </head>
 <body>
-
+<div class="ambient-glow"></div>
 <div class="birthday-container">
     <canvas id="cakeCanvas" width="600" height="600"></canvas>
     <div class="birthday-text-wrapper">
         <div class="birthday-text">
-            Happy Birthday My Love!💕<br>
-            <span class="sub-line">Happy Birthday My M🫶</span>
+            ✨ Happy Birthday, Manahil ✨<br>
+            <span class="sub-line">the most beautiful chapter of my story</span>
         </div>
     </div>
-    <div class="slice-hint" id="sliceHint">✨ Swipe across the cake to cut it! ✨</div>
-    <button class="reopen-message-btn" id="reopenMsgBtn">💌 Read Message Again</button>
+    <div class="slice-hint" id="sliceHint">🍰  swipe across the cake → reveal the surprise 🍰</div>
+    <button class="reopen-message-btn" id="reopenMsgBtn">💌  re-read the letter</button>
 </div>
 
 <div id="messageOverlay" class="message-overlay">
@@ -301,569 +258,555 @@
         would be the most important in my life.<br>
         I hope you feel appreciated, not just for what you do, but for who you are.<br>
         I hope you feel understood, even in the parts you don’t always express.<br>
-        I hope you feel happy in a way that actually lasts.<br>
-        <br>
-        Because you deserve that. Fully.<br></p>
-        <p class="big-text">Thank you for being that special person for me Manahil,<br>
-        thank you for being my love.</p>
-        <p>🎂 Happy Birthday! 🎉</p>
-        <button class="close-btn" id="closeMsgBtn">❤️ Forever Yours ❤️</button>
+        I hope you feel happy in a way that actually lasts.</p>
+        <p class="big-text">💫 Thank you for being that radiant light, Manahil.<br>
+        Thank you for being my love.</p>
+        <p>🎂 Every candle whispers your name. 🕯️<br>Happy Birthday to my forever.</p>
+        <button class="close-btn" id="closeMsgBtn">❤️  forever with you  ❤️</button>
     </div>
 </div>
 
 <script>
-    (function() {
-        // ========== 1. ANIMATED CAKE: FALLING PIECE BY PIECE ==========
+    (function(){
+        // ---------- CAKE DRAWING (STATIC AFTER ASSEMBLY) ----------
         const canvas = document.getElementById('cakeCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = 600;
         canvas.height = 600;
 
-        // Animation state: each piece falls one after another
-        let animStage = 0;     // 0:plate,1:bottom,2:middle,3:top,4:cream,5:candle,6:complete
-        let fallingY = {
-            plate: -100,
-            bottom: -160,
-            middle: -220,
-            top: -280,
-            cream: -340,
-            candle: -400
-        };
-        let targetY = {
-            plate: 480,
-            bottom: 440,
-            middle: 400,
-            top: 360,
-            cream: 345,
-            candle: 310
-        };
-        let stageDone = {
-            plate: false, bottom: false, middle: false, top: false, cream: false, candle: false
-        };
-        let animationRunning = true;
-        let creamDrips = [];
-        let creamDripsGenerated = false;
+        // Cake piece positions (final assembled state)
+        let cakeAssembled = false;
+        let assemblyProgress = 0; // 0 to 1 for smooth assembling
+        let animationFrame = null;
         
-        // Cake cut state
+        // Final positions
+        const POS = {
+            plateY: 485,
+            bottomY: 445,
+            middleY: 405,
+            topY: 365,
+            creamY: 348,
+            candleY: 313
+        };
+        
+        // Starting offsets for falling animation
+        let current = {
+            plateY: -100,
+            bottomY: -160,
+            middleY: -220,
+            topY: -280,
+            creamY: -340,
+            candleY: -400
+        };
+        
+        let creamDrips = [];
+        let creamReady = false;
+        let allowCutting = false;
+        
+        // Cut state
         let cakeSliced = false;
         let cutTriggered = false;
-        let allowCutting = false;   // becomes true only after full cake built
-        
-        // Swipe & slice mechanics
         let isDragging = false;
         let swipePoints = [];
-        let sliceParticles = [];
-        let confettiExplosion = [];
+        let confettiActive = false;
+        let confettiParticles = [];
         
-        // Generate cream drips after cream lands
-        function generateCreamDrips() {
+        // Generate cream drips
+        function generateDrips() {
             creamDrips = [];
-            for (let i = 0; i < 42; i++) {
+            for(let i = 0; i < 60; i++) {
                 let angle = Math.random() * Math.PI * 2;
-                let radius = 40 + Math.random() * 60;
+                let radius = 40 + Math.random() * 70;
                 let xOff = Math.cos(angle) * radius;
-                let yOff = Math.sin(angle) * radius * 0.5 + 12;
-                creamDrips.push({
-                    x: 300 + xOff,
-                    y: 348 + (Math.random() * 14),
-                    radius: 3 + Math.random() * 7
-                });
+                let yOff = Math.sin(angle) * radius * 0.4 + 12;
+                creamDrips.push({ x: 300 + xOff, y: 350 + (Math.random() * 14), radius: 2.5 + Math.random() * 6 });
             }
-            for (let i = 0; i < 24; i++) {
-                creamDrips.push({
-                    x: 210 + Math.random() * 180,
-                    y: 350 + Math.random() * 22,
-                    radius: 3 + Math.random() * 6
-                });
+            for(let i = 0; i < 35; i++) {
+                creamDrips.push({ x: 195 + Math.random() * 210, y: 348 + Math.random() * 20, radius: 2 + Math.random() * 5.5 });
             }
         }
         
-        // Update falling animation
-        function updateFallingAnimation() {
-            if (!animationRunning) return;
-            let anyMoving = false;
-            
-            if (animStage === 0 && !stageDone.plate) {
-                if (fallingY.plate < targetY.plate) {
-                    fallingY.plate += (targetY.plate - fallingY.plate) * 0.12 + 1.8;
-                    if (fallingY.plate >= targetY.plate - 1) {
-                        fallingY.plate = targetY.plate;
-                        stageDone.plate = true;
-                        animStage = 1;
-                    }
-                    anyMoving = true;
-                }
-            }
-            else if (animStage === 1 && !stageDone.bottom) {
-                if (fallingY.bottom < targetY.bottom) {
-                    fallingY.bottom += (targetY.bottom - fallingY.bottom) * 0.12 + 1.7;
-                    if (fallingY.bottom >= targetY.bottom - 1) {
-                        fallingY.bottom = targetY.bottom;
-                        stageDone.bottom = true;
-                        animStage = 2;
-                    }
-                    anyMoving = true;
-                }
-            }
-            else if (animStage === 2 && !stageDone.middle) {
-                if (fallingY.middle < targetY.middle) {
-                    fallingY.middle += (targetY.middle - fallingY.middle) * 0.12 + 1.7;
-                    if (fallingY.middle >= targetY.middle - 1) {
-                        fallingY.middle = targetY.middle;
-                        stageDone.middle = true;
-                        animStage = 3;
-                    }
-                    anyMoving = true;
-                }
-            }
-            else if (animStage === 3 && !stageDone.top) {
-                if (fallingY.top < targetY.top) {
-                    fallingY.top += (targetY.top - fallingY.top) * 0.12 + 1.7;
-                    if (fallingY.top >= targetY.top - 1) {
-                        fallingY.top = targetY.top;
-                        stageDone.top = true;
-                        animStage = 4;
-                    }
-                    anyMoving = true;
-                }
-            }
-            else if (animStage === 4 && !stageDone.cream) {
-                if (fallingY.cream < targetY.cream) {
-                    fallingY.cream += (targetY.cream - fallingY.cream) * 0.12 + 1.5;
-                    if (fallingY.cream >= targetY.cream - 2) {
-                        fallingY.cream = targetY.cream;
-                        stageDone.cream = true;
-                        if (!creamDripsGenerated) {
-                            generateCreamDrips();
-                            creamDripsGenerated = true;
-                        }
-                        animStage = 5;
-                    }
-                    anyMoving = true;
-                }
-            }
-            else if (animStage === 5 && !stageDone.candle) {
-                if (fallingY.candle < targetY.candle) {
-                    fallingY.candle += (targetY.candle - fallingY.candle) * 0.12 + 1.9;
-                    if (fallingY.candle >= targetY.candle - 1) {
-                        fallingY.candle = targetY.candle;
-                        stageDone.candle = true;
-                        animStage = 6;
-                        animationRunning = false;
-                        allowCutting = true;   // NOW cake is ready to be cut!
-                    }
-                    anyMoving = true;
-                }
-            }
-            
-            drawCake();
-            if (anyMoving) requestAnimationFrame(updateFallingAnimation);
-            else if (animStage === 6) drawCake();
-        }
-        
-        // Drawing utilities
         function roundedRect(x, y, w, h, r) {
             ctx.beginPath();
-            ctx.moveTo(x + r, y);
-            ctx.lineTo(x + w - r, y);
-            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-            ctx.lineTo(x + w, y + h - r);
-            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-            ctx.lineTo(x + r, y + h);
-            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-            ctx.lineTo(x, y + r);
-            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.moveTo(x+r, y);
+            ctx.lineTo(x+w-r, y);
+            ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+            ctx.lineTo(x+w, y+h-r);
+            ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+            ctx.lineTo(x+r, y+h);
+            ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+            ctx.lineTo(x, y+r);
+            ctx.quadraticCurveTo(x, y, x+r, y);
             ctx.closePath();
             ctx.fill();
         }
         
         function drawCake() {
             ctx.clearRect(0, 0, 600, 600);
-            ctx.shadowBlur = 3;
-            ctx.shadowColor = "rgba(0,0,0,0.2)";
+            ctx.shadowBlur = 0;
             
             // Plate
-            let plateY = fallingY.plate;
-            if (plateY > -50 || stageDone.plate) {
-                ctx.fillStyle = "#e0ddd5";
-                roundedRect(300 - 140, plateY, 280, 16, 14);
-                ctx.fillStyle = "#c0bcb0";
-                roundedRect(300 - 130, plateY+3, 260, 5, 5);
+            let plateY = cakeAssembled ? POS.plateY : current.plateY;
+            if (plateY > -50 || cakeAssembled) {
+                ctx.fillStyle = "#e9e2d4";
+                roundedRect(300-145, plateY, 290, 16, 14);
+                ctx.fillStyle = "#cfcabb";
+                roundedRect(300-135, plateY+3, 270, 6, 6);
             }
             
-            // Bottom layer
-            let bottomY = fallingY.bottom;
-            if (bottomY > -50 || stageDone.bottom) {
-                ctx.fillStyle = "#9e2a2a";
-                roundedRect(300 - 120, bottomY, 240, 38, 14);
-                ctx.fillStyle = "#7a1f1f";
-                roundedRect(300 - 112, bottomY+5, 224, 7, 6);
-                for(let i=0;i<60;i++) { ctx.fillStyle = "#6a1818"; ctx.beginPath(); ctx.arc(210 + (i*13)%200, bottomY+18 + (i*7)%24, 1.5, 0, Math.PI*2); ctx.fill(); }
-            }
-            
-            // Middle layer
-            let middleY = fallingY.middle;
-            if (middleY > -50 || stageDone.middle) {
-                ctx.fillStyle = "#b34141";
-                roundedRect(300 - 105, middleY, 210, 38, 12);
-                ctx.fillStyle = "#8b2c2c";
-                roundedRect(300 - 98, middleY+5, 196, 6, 5);
-                for(let i=0;i<50;i++) { ctx.fillStyle = "#752020"; ctx.beginPath(); ctx.arc(220 + (i*11)%190, middleY+16 + (i*5)%22, 1.3, 0, Math.PI*2); ctx.fill(); }
-            }
-            
-            // Top layer
-            let topY = fallingY.top;
-            if (topY > -50 || stageDone.top) {
-                ctx.fillStyle = "#c24a4a";
-                roundedRect(300 - 90, topY, 180, 38, 12);
-                ctx.fillStyle = "#a23a3a";
-                roundedRect(300 - 84, topY+5, 168, 5, 5);
-            }
-            
-            // Cream + drips
-            let creamY = fallingY.cream;
-            if (creamY > -50 || stageDone.cream) {
-                ctx.fillStyle = "#fff8f0";
-                if (!stageDone.cream && creamY < targetY.cream - 4) {
-                    ctx.beginPath();
-                    ctx.ellipse(300, creamY+8, 85, 22, 0, 0, Math.PI*2);
-                    ctx.fill();
-                } else {
-                    roundedRect(300 - 95, creamY, 190, 20, 16);
-                    if (creamDripsGenerated) {
-                        for (let drip of creamDrips) {
-                            ctx.beginPath();
-                            ctx.arc(drip.x, drip.y, drip.radius, 0, Math.PI*2);
-                            ctx.fillStyle = "#fff2e2";
-                            ctx.fill();
-                        }
-                    }
-                    ctx.fillStyle = "#ffefdc";
-                    for (let i=0;i<12;i++) { ctx.beginPath(); ctx.ellipse(225 + i*14, creamY+12, 4, 6, 0, 0, Math.PI*2); ctx.fill(); }
+            // Bottom tier
+            let bottomY = cakeAssembled ? POS.bottomY : current.bottomY;
+            if (bottomY > -50 || cakeAssembled) {
+                ctx.fillStyle = "#9E2B2B";
+                roundedRect(300-125, bottomY, 250, 40, 16);
+                ctx.fillStyle = "#831F1F";
+                roundedRect(300-117, bottomY+6, 234, 8, 6);
+                for(let i=0;i<70;i++) { 
+                    ctx.fillStyle = "#691616"; 
+                    ctx.beginPath(); 
+                    ctx.arc(205+(i*12)%210, bottomY+18+(i*5)%28, 1.5, 0, Math.PI*2); 
+                    ctx.fill(); 
                 }
             }
             
-            // Candle with flame
-            let candleY = fallingY.candle;
-            if (candleY > -50 || stageDone.candle) {
-                ctx.fillStyle = "#f7e9cf";
-                ctx.fillRect(300 - 6, candleY, 12, 42);
-                ctx.fillStyle = "#ddc5a0";
-                ctx.fillRect(300 - 3, candleY+5, 4, 32);
-                ctx.beginPath(); ctx.moveTo(300, candleY-2); ctx.lineTo(300, candleY+4); ctx.strokeStyle = "#553322"; ctx.lineWidth = 1.8; ctx.stroke();
-                let flicker = 0.85 + Math.sin(Date.now() * 0.018) * 0.12;
+            // Middle tier
+            let middleY = cakeAssembled ? POS.middleY : current.middleY;
+            if (middleY > -50 || cakeAssembled) {
+                ctx.fillStyle = "#B54242";
+                roundedRect(300-110, middleY, 220, 38, 14);
+                ctx.fillStyle = "#943232";
+                roundedRect(300-103, middleY+5, 206, 6, 6);
+                for(let i=0;i<55;i++) { 
+                    ctx.fillStyle = "#7A2525"; 
+                    ctx.beginPath(); 
+                    ctx.arc(220+(i*10)%190, middleY+16+(i*6)%24, 1.3, 0, Math.PI*2); 
+                    ctx.fill(); 
+                }
+            }
+            
+            // Top tier
+            let topY = cakeAssembled ? POS.topY : current.topY;
+            if (topY > -50 || cakeAssembled) {
+                ctx.fillStyle = "#C75757";
+                roundedRect(300-95, topY, 190, 36, 12);
+                ctx.fillStyle = "#A63E3E";
+                roundedRect(300-89, topY+4, 178, 5, 5);
+            }
+            
+            // Cream layer + drips
+            let creamY = cakeAssembled ? POS.creamY : current.creamY;
+            if (creamY > -50 || cakeAssembled) {
+                ctx.fillStyle = "#FFF6ED";
+                if (!cakeAssembled && creamY < POS.creamY-8) {
+                    ctx.beginPath();
+                    ctx.ellipse(300, creamY+8, 88, 24, 0, 0, Math.PI*2);
+                    ctx.fill();
+                } else {
+                    roundedRect(300-100, creamY, 200, 22, 18);
+                    if(creamReady) {
+                        for(let d of creamDrips) { 
+                            ctx.beginPath(); 
+                            ctx.arc(d.x, d.y, d.radius, 0, Math.PI*2); 
+                            ctx.fillStyle = "#FFF2E0"; 
+                            ctx.fill(); 
+                        }
+                    }
+                    ctx.fillStyle = "#FFEAD4";
+                    for(let s=0;s<14;s++) { 
+                        ctx.beginPath(); 
+                        ctx.ellipse(220 + s*13, creamY+12, 4, 7, 0, 0, Math.PI*2); 
+                        ctx.fill(); 
+                    }
+                }
+            }
+            
+            // Candle + flame
+            let candleY = cakeAssembled ? POS.candleY : current.candleY;
+            if (candleY > -50 || cakeAssembled) {
+                ctx.fillStyle = "#FCE9C4";
+                ctx.fillRect(300-6, candleY, 12, 44);
+                ctx.fillStyle = "#E2C89C";
+                ctx.fillRect(300-3, candleY+6, 4, 34);
+                ctx.beginPath(); 
+                ctx.moveTo(300, candleY-1); 
+                ctx.lineTo(300, candleY+5); 
+                ctx.strokeStyle = "#5A3E1F"; 
+                ctx.lineWidth=1.5; 
+                ctx.stroke();
+                let flick = 0.85 + Math.sin(Date.now() * 0.021) * 0.12;
                 ctx.beginPath();
                 ctx.moveTo(300, candleY-2);
-                ctx.lineTo(296, candleY-15 * flicker);
-                ctx.lineTo(300, candleY-21 * flicker);
-                ctx.lineTo(304, candleY-15 * flicker);
-                ctx.fillStyle = "#ffaa44";
+                ctx.lineTo(295, candleY-15*flick);
+                ctx.lineTo(300, candleY-22*flick);
+                ctx.lineTo(305, candleY-15*flick);
+                ctx.fillStyle = "#FFB347";
                 ctx.fill();
-                ctx.beginPath();
-                ctx.arc(300, candleY-13, 10, 0, Math.PI*2);
-                ctx.fillStyle = "rgba(255,100,0,0.3)";
+                ctx.beginPath(); 
+                ctx.arc(300, candleY-13, 11, 0, Math.PI*2); 
+                ctx.fillStyle = "rgba(255,130,50,0.35)"; 
                 ctx.fill();
             }
             
-            // Hearts decoration
-            ctx.font = "22px 'Segoe UI'";
-            ctx.fillStyle = "#e91e63";
-            ctx.fillText("❤️", 265, 425);
-            ctx.fillText("❤️", 330, 460);
-            ctx.fillText("❤️", 305, 380);
+            // Decorative hearts
+            ctx.font = "22px 'Segoe UI', 'Inter'";
+            ctx.fillStyle = "#F06292";
+            ctx.fillText("❤️", 266, 428);
+            ctx.fillText("❤️", 332, 462);
+            ctx.fillText("❤️", 308, 384);
             
-            // Draw slice trail (during cut attempt)
-            if (swipePoints.length > 1 && !cakeSliced && allowCutting) {
+            // Swipe trail preview (only visual feedback)
+            if(swipePoints.length > 1 && !cakeSliced && allowCutting) {
                 ctx.beginPath();
                 for(let i=0;i<swipePoints.length-1;i++) {
                     ctx.moveTo(swipePoints[i].x, swipePoints[i].y);
                     ctx.lineTo(swipePoints[i+1].x, swipePoints[i+1].y);
                 }
                 ctx.lineWidth = 5;
-                ctx.strokeStyle = "#ffaa66";
-                ctx.shadowBlur = 0;
+                ctx.strokeStyle = "#FFB980";
                 ctx.stroke();
             }
             
-            // Slice effect particles
-            for(let p of sliceParticles) {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI*2);
-                ctx.fillStyle = p.color;
-                ctx.fill();
-            }
-            
-            // Celebration confetti after cut
-            for(let c of confettiExplosion) {
-                if(c.x < 620 && c.x > -20 && c.y < 620) {
+            // Celebration confetti particles (from cut)
+            for(let c of confettiParticles) {
+                if(c.x < 630 && c.x > -30 && c.y < 650) {
                     ctx.save();
                     ctx.translate(c.x, c.y);
-                    ctx.rotate((c.rotation || 0) * Math.PI/180);
+                    ctx.rotate((c.rot || 0) * Math.PI/180);
                     ctx.fillStyle = c.color;
                     ctx.fillRect(-c.size/2, -c.size/2, c.size, c.size/1.5);
                     ctx.restore();
                 }
             }
-            ctx.shadowBlur = 0;
         }
         
-        // ========== 2. REALISTIC CUT MECHANICS ==========
-        function getCakeBoundingBox() {
-            return { minX: 180, maxX: 420, minY: 310, maxY: 500 };
-        }
-        
-        function segmentsIntersect(ax, ay, bx, by, cx, cy, dx, dy) {
-            const det = (bx-ax)*(dy-cy) - (by-ay)*(dx-cx);
-            if (det === 0) return false;
-            const r = ((ay-cy)*(dx-cx) - (ax-cx)*(dy-cy)) / det;
-            const s = ((ay-cy)*(bx-ax) - (ax-cx)*(by-ay)) / det;
-            return (r >= 0 && r <= 1 && s >= 0 && s <= 1);
-        }
-        
-        function doesSwipeIntersectCake(p1, p2) {
-            const box = getCakeBoundingBox();
-            if (p1.x >= box.minX && p1.x <= box.maxX && p1.y >= box.minY && p1.y <= box.maxY) return true;
-            if (p2.x >= box.minX && p2.x <= box.maxX && p2.y >= box.minY && p2.y <= box.maxY) return true;
-            const edges = [
-                [[box.minX, box.minY], [box.maxX, box.minY]],
-                [[box.maxX, box.minY], [box.maxX, box.maxY]],
-                [[box.maxX, box.maxY], [box.minX, box.maxY]],
-                [[box.minX, box.maxY], [box.minX, box.minY]]
-            ];
-            for (let edge of edges) {
-                if (segmentsIntersect(p1.x, p1.y, p2.x, p2.y, edge[0][0], edge[0][1], edge[1][0], edge[1][1])) return true;
+        // Smooth assembling animation
+        function updateAssembly() {
+            if (cakeAssembled) return;
+            
+            let allComplete = true;
+            const easing = 0.12;
+            
+            if (current.plateY < POS.plateY - 0.5) {
+                current.plateY += (POS.plateY - current.plateY) * easing + 1.2;
+                allComplete = false;
+            } else if (current.bottomY < POS.bottomY - 0.5) {
+                current.bottomY += (POS.bottomY - current.bottomY) * easing + 1.2;
+                allComplete = false;
+            } else if (current.middleY < POS.middleY - 0.5) {
+                current.middleY += (POS.middleY - current.middleY) * easing + 1.2;
+                allComplete = false;
+            } else if (current.topY < POS.topY - 0.5) {
+                current.topY += (POS.topY - current.topY) * easing + 1.2;
+                allComplete = false;
+            } else if (current.creamY < POS.creamY - 0.5) {
+                current.creamY += (POS.creamY - current.creamY) * easing + 1.0;
+                allComplete = false;
+            } else if (current.candleY < POS.candleY - 0.5) {
+                current.candleY += (POS.candleY - current.candleY) * easing + 1.5;
+                allComplete = false;
+            } else {
+                // snap to final positions
+                current.plateY = POS.plateY;
+                current.bottomY = POS.bottomY;
+                current.middleY = POS.middleY;
+                current.topY = POS.topY;
+                current.creamY = POS.creamY;
+                current.candleY = POS.candleY;
+                cakeAssembled = true;
+                generateDrips();
+                creamReady = true;
+                allowCutting = true;
             }
+            
+            drawCake();
+            
+            if (!cakeAssembled) {
+                requestAnimationFrame(updateAssembly);
+            } else {
+                drawCake();
+            }
+        }
+        
+        // ----- CUT MECHANICS (NO ANIMATION, JUST TRIGGER) -----
+        function getCakeBounds() { 
+            return { minX:185, maxX:415, minY:320, maxY:510 }; 
+        }
+        
+        function segmentsIntersect(ax,ay,bx,by,cx,cy,dx,dy){
+            const det=(bx-ax)*(dy-cy)-(by-ay)*(dx-cx);
+            if(det===0)return false;
+            const r=((ay-cy)*(dx-cx)-(ax-cx)*(dy-cy))/det;
+            const s=((ay-cy)*(bx-ax)-(ax-cx)*(by-ay))/det;
+            return (r>=0 && r<=1 && s>=0 && s<=1);
+        }
+        
+        function doesSwipeIntersectCake(p1,p2){
+            const box=getCakeBounds();
+            if(p1.x>=box.minX && p1.x<=box.maxX && p1.y>=box.minY && p1.y<=box.maxY)return true;
+            if(p2.x>=box.minX && p2.x<=box.maxX && p2.y>=box.minY && p2.y<=box.maxY)return true;
+            const edges=[[[box.minX,box.minY],[box.maxX,box.minY]],[[box.maxX,box.minY],[box.maxX,box.maxY]],[[box.maxX,box.maxY],[box.minX,box.maxY]],[[box.minX,box.maxY],[box.minX,box.minY]]];
+            for(let e of edges) if(segmentsIntersect(p1.x,p1.y,p2.x,p2.y,e[0][0],e[0][1],e[1][0],e[1][1])) return true;
             return false;
         }
         
-        function triggerCakeCut() {
-            if (cakeSliced || cutTriggered || !allowCutting) return;
+        function triggerCut() {
+            if(cakeSliced || cutTriggered || !allowCutting) return;
             cutTriggered = true;
             cakeSliced = true;
             
-            // Hide hint
-            const hint = document.getElementById('sliceHint');
-            if (hint) { hint.style.opacity = "0"; setTimeout(() => { if(hint) hint.style.display = "none"; }, 400); }
+            // Hide hint smoothly
+            const hintDiv = document.getElementById('sliceHint');
+            if(hintDiv){ hintDiv.style.opacity='0'; setTimeout(()=>{ if(hintDiv) hintDiv.style.display='none'; }, 400); }
             
-            // Massive confetti burst
-            for(let i=0;i<260;i++) {
-                confettiExplosion.push({
-                    x: 280 + (Math.random() - 0.5) * 280,
-                    y: 380 + (Math.random() - 0.5) * 180,
-                    vx: (Math.random() - 0.5) * 9,
-                    vy: (Math.random() * -12) - 2,
-                    size: 5 + Math.random() * 9,
-                    color: `hsl(${Math.random() * 360}, 85%, 65%)`,
-                    rotation: Math.random() * 360,
-                    life: 1.2
+            // Burst of confetti (celebratory without animation blocking)
+            for(let i=0;i<280;i++){
+                confettiParticles.push({
+                    x: 280 + (Math.random()-0.5)*220, 
+                    y: 370 + (Math.random()-0.5)*140,
+                    vx: (Math.random()-0.5)*7, 
+                    vy: (Math.random()*-10)-2, 
+                    size: 5+Math.random()*9,
+                    color: `hsl(${Math.random()*360}, 85%, 68%)`, 
+                    rot: Math.random()*360,
+                    life: 1
                 });
             }
             
-            // Animate confetti
-            function animateExplosion() {
-                let alive = false;
-                for(let i=0;i<confettiExplosion.length;i++) {
-                    let c = confettiExplosion[i];
-                    if (c.vx) {
-                        c.x += c.vx;
-                        c.y += c.vy;
-                        c.vy += 0.2;
-                        c.rotation += (c.rotSpeed || 0.12);
-                        c.life -= 0.01;
+            function animateConfetti(){
+                let alive=false;
+                for(let i=0;i<confettiParticles.length;i++){
+                    let c=confettiParticles[i];
+                    if(c.vx){
+                        c.x+=c.vx;
+                        c.y+=c.vy;
+                        c.vy+=0.2;
+                        c.rot+=0.18;
+                        c.life-=0.012;
+                        if(c.life<=0 || c.y>660){
+                            confettiParticles.splice(i,1);
+                            i--;
+                        } else alive=true;
                     }
-                    if (c.life <= 0 || c.y > 650) {
-                        confettiExplosion.splice(i,1);
-                        i--;
-                    } else alive = true;
                 }
                 drawCake();
-                if (alive) requestAnimationFrame(animateExplosion);
+                if(alive) requestAnimationFrame(animateConfetti);
                 else drawCake();
             }
-            animateExplosion();
+            animateConfetti();
             
-            // Show message after delay
-            setTimeout(() => {
-                const overlay = document.getElementById('messageOverlay');
-                overlay.style.visibility = "visible";
-                overlay.style.opacity = "1";
-                const reopen = document.getElementById('reopenMsgBtn');
-                reopen.style.opacity = "1";
-                reopen.style.visibility = "visible";
-                reopen.style.pointerEvents = "auto";
-            }, 550);
+            // Show message overlay after cut
+            setTimeout(()=>{
+                const overlay=document.getElementById('messageOverlay');
+                overlay.classList.add('visible');
+                const reopenBtn=document.getElementById('reopenMsgBtn');
+                reopenBtn.style.opacity='1';
+                reopenBtn.style.visibility='visible';
+                reopenBtn.style.pointerEvents='auto';
+            }, 400);
         }
         
-        function addSliceParticlesAt(x, y) {
-            for(let i=0;i<8;i++) {
-                sliceParticles.push({
-                    x: x, y: y,
-                    vx: (Math.random() - 0.5) * 5,
-                    vy: (Math.random() - 1) * 4,
-                    life: 0.8,
-                    size: Math.random() * 5 + 2,
-                    color: `hsl(${Math.random() * 30 + 340}, 80%, 65%)`
-                });
-            }
+        // Touch & Mouse handlers
+        function getCanvasCoords(e){
+            const rect=canvas.getBoundingClientRect();
+            const scaleX=canvas.width/rect.width;
+            const scaleY=canvas.height/rect.height;
+            let cx,cy;
+            if(e.touches){ cx=e.touches[0].clientX; cy=e.touches[0].clientY; }
+            else { cx=e.clientX; cy=e.clientY; }
+            let canvasX=(cx-rect.left)*scaleX;
+            let canvasY=(cy-rect.top)*scaleY;
+            canvasX=Math.min(Math.max(0,canvasX),canvas.width);
+            canvasY=Math.min(Math.max(0,canvasY),canvas.height);
+            return {x:canvasX, y:canvasY};
         }
         
-        function updateSliceParticles() {
-            for(let i=0;i<sliceParticles.length;i++) {
-                let p = sliceParticles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.2;
-                p.life -= 0.025;
-                if(p.life <= 0 || p.y > 620) { sliceParticles.splice(i,1); i--; }
-            }
+        function onDragStart(e){ 
+            if(!allowCutting || cakeSliced) return; 
+            e.preventDefault(); 
+            isDragging=true; 
+            swipePoints=[]; 
+            swipePoints.push(getCanvasCoords(e)); 
         }
         
-        // Touch & mouse handling
-        function getCanvasCoords(e) {
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-            let clientX, clientY;
-            if (e.touches) { clientX = e.touches[0].clientX; clientY = e.touches[0].clientY; }
-            else { clientX = e.clientX; clientY = e.clientY; }
-            let canvasX = (clientX - rect.left) * scaleX;
-            let canvasY = (clientY - rect.top) * scaleY;
-            canvasX = Math.min(Math.max(0, canvasX), canvas.width);
-            canvasY = Math.min(Math.max(0, canvasY), canvas.height);
-            return { x: canvasX, y: canvasY };
-        }
-        
-        function onSliceStart(e) {
-            if (!allowCutting || cakeSliced) return;
+        function onDragMove(e){
+            if(!isDragging || !allowCutting || cakeSliced) return;
             e.preventDefault();
-            isDragging = true;
-            swipePoints = [];
-            let p = getCanvasCoords(e);
+            let p=getCanvasCoords(e);
             swipePoints.push(p);
-        }
-        
-        function onSliceMove(e) {
-            if (!isDragging || !allowCutting || cakeSliced) return;
-            e.preventDefault();
-            let p = getCanvasCoords(e);
-            swipePoints.push(p);
-            if (swipePoints.length > 25) swipePoints.shift();
+            if(swipePoints.length>25) swipePoints.shift();
             
-            let cutDetected = false;
-            for (let i = 0; i < swipePoints.length - 1; i++) {
-                if (doesSwipeIntersectCake(swipePoints[i], swipePoints[i+1])) {
-                    cutDetected = true;
+            let cutDetected=false;
+            for(let i=0;i<swipePoints.length-1;i++) {
+                if(doesSwipeIntersectCake(swipePoints[i],swipePoints[i+1])){
+                    cutDetected=true;
                     break;
                 }
             }
-            if (cutDetected) {
-                let mid = swipePoints[Math.floor(swipePoints.length/2)];
-                if (mid) addSliceParticlesAt(mid.x, mid.y);
-                triggerCakeCut();
-                isDragging = false;
-                swipePoints = [];
+            if(cutDetected){
+                triggerCut();
+                isDragging=false;
+                swipePoints=[];
                 return;
             }
-            updateSliceParticles();
-            drawCake();
-            if (swipePoints.length > 1) {
-                ctx.beginPath();
-                for(let i=0;i<swipePoints.length-1;i++) {
-                    ctx.moveTo(swipePoints[i].x, swipePoints[i].y);
-                    ctx.lineTo(swipePoints[i+1].x, swipePoints[i+1].y);
-                }
-                ctx.lineWidth = 4;
-                ctx.strokeStyle = "#ffaa66";
-                ctx.stroke();
-            }
+            drawCake(); // show swipe trail
         }
         
-        function onSliceEnd(e) {
-            isDragging = false;
-            if (!cakeSliced && allowCutting) {
-                swipePoints = [];
-                drawCake();
-            }
+        function onDragEnd(e){ 
+            isDragging=false; 
+            if(!cakeSliced && allowCutting){ 
+                swipePoints=[]; 
+                drawCake(); 
+            } 
         }
         
-        canvas.addEventListener('touchstart', onSliceStart, { passive: false });
-        canvas.addEventListener('touchmove', onSliceMove, { passive: false });
-        canvas.addEventListener('touchend', onSliceEnd);
-        canvas.addEventListener('mousedown', onSliceStart);
-        window.addEventListener('mousemove', (e) => { if(isDragging && allowCutting && !cakeSliced) onSliceMove(e); });
-        window.addEventListener('mouseup', onSliceEnd);
+        // Attach events for mobile + desktop
+        canvas.addEventListener('touchstart', onDragStart, {passive:false});
+        canvas.addEventListener('touchmove', onDragMove, {passive:false});
+        canvas.addEventListener('touchend', onDragEnd);
+        canvas.addEventListener('mousedown', onDragStart);
+        window.addEventListener('mousemove', (e)=>{ if(isDragging && allowCutting && !cakeSliced) onDragMove(e); });
+        window.addEventListener('mouseup', onDragEnd);
         
-        // Message reopen functionality
-        const reopenBtn = document.getElementById('reopenMsgBtn');
-        const overlayMsg = document.getElementById('messageOverlay');
-        const closeMsgBtn = document.getElementById('closeMsgBtn');
+        // Reopen message
+        const reopen=document.getElementById('reopenMsgBtn');
+        const overlayMsg=document.getElementById('messageOverlay');
+        const closeMsg=document.getElementById('closeMsgBtn');
+        reopen.addEventListener('click',()=>{ overlayMsg.classList.add('visible'); });
+        closeMsg.addEventListener('click',()=>{ overlayMsg.classList.remove('visible'); });
         
-        function showMessageAgain() {
-            overlayMsg.style.visibility = "visible";
-            overlayMsg.style.opacity = "1";
-        }
-        reopenBtn.addEventListener('click', showMessageAgain);
-        closeMsgBtn.addEventListener('click', () => {
-            overlayMsg.style.opacity = "0";
-            setTimeout(() => { overlayMsg.style.visibility = "hidden"; }, 500);
-        });
-        
-        // Start the falling animation
-        updateFallingAnimation();
+        // Start assembly animation
+        updateAssembly();
         drawCake();
         
-        // ========== 3. PERPETUAL BACKGROUND CONFETTI ==========
+        // ========== BACKGROUND FLOATING CONFETTI / GLITTER (always elegant) ==========
         const bgCanvas = document.createElement('canvas');
-        bgCanvas.style.position = 'fixed';
-        bgCanvas.style.top = '0';
-        bgCanvas.style.left = '0';
-        bgCanvas.style.width = '100%';
-        bgCanvas.style.height = '100%';
-        bgCanvas.style.pointerEvents = 'none';
-        bgCanvas.style.zIndex = '100';
+        bgCanvas.style.position='fixed'; 
+        bgCanvas.style.top='0'; 
+        bgCanvas.style.left='0'; 
+        bgCanvas.style.width='100%'; 
+        bgCanvas.style.height='100%'; 
+        bgCanvas.style.pointerEvents='none'; 
+        bgCanvas.style.zIndex='8';
         document.body.appendChild(bgCanvas);
         const bgCtx = bgCanvas.getContext('2d');
-        let bgParticles = [];
+        let bgParticles=[];
         
-        function resizeBg() {
-            bgCanvas.width = window.innerWidth;
-            bgCanvas.height = window.innerHeight;
+        function resizeBgCanvas(){ 
+            bgCanvas.width=window.innerWidth; 
+            bgCanvas.height=window.innerHeight; 
         }
-        window.addEventListener('resize', resizeBg);
-        resizeBg();
+        window.addEventListener('resize', resizeBgCanvas);
+        resizeBgCanvas();
         
-        for(let i=0;i<150;i++) {
+        for(let i=0;i<160;i++){
             bgParticles.push({
-                x: Math.random() * bgCanvas.width,
-                y: Math.random() * bgCanvas.height,
-                vx: (Math.random() - 0.5) * 0.7,
-                vy: Math.random() * 1.8 + 0.7,
-                size: 3 + Math.random() * 7,
-                color: `hsl(${Math.random() * 60 + 310}, 80%, 65%)`,
-                rot: Math.random() * 360,
-                rotSpd: (Math.random() - 0.5) * 0.07
+                x: Math.random()*bgCanvas.width, 
+                y: Math.random()*bgCanvas.height,
+                vx: (Math.random()-0.5)*0.55, 
+                vy: Math.random()*1.0+0.5, 
+                size: 3+Math.random()*8,
+                color: `hsl(${Math.random()*40+320}, 80%, 70%)`, 
+                rot: Math.random()*360, 
+                rotSpd: (Math.random()-0.5)*0.07
             });
         }
         
-        function drawBgConfetti() {
-            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-            for(let c of bgParticles) {
-                c.x += c.vx;
-                c.y += c.vy;
-                c.rot += c.rotSpd;
-                if(c.y > bgCanvas.height + 50) { c.y = -40; c.x = Math.random() * bgCanvas.width; }
-                if(c.x > bgCanvas.width + 50) c.x = -50;
-                if(c.x < -50) c.x = bgCanvas.width + 30;
-                bgCtx.save();
-                bgCtx.translate(c.x, c.y);
-                bgCtx.rotate(c.rot * Math.PI/180);
-                bgCtx.fillStyle = c.color;
-                bgCtx.fillRect(-c.size/2, -c.size/2, c.size, c.size/1.5);
+        function drawBgGlitter(){
+            bgCtx.clearRect(0,0,bgCanvas.width,bgCanvas.height);
+            for(let p of bgParticles){
+                p.x+=p.vx; 
+                p.y+=p.vy; 
+                p.rot+=p.rotSpd;
+                if(p.y>bgCanvas.height+40){ p.y=-40; p.x=Math.random()*bgCanvas.width; }
+                if(p.x>bgCanvas.width+50) p.x=-50;
+                if(p.x<-50) p.x=bgCanvas.width+30;
+                bgCtx.save(); 
+                bgCtx.translate(p.x,p.y); 
+                bgCtx.rotate(p.rot*Math.PI/180);
+                bgCtx.fillStyle=p.color; 
+                bgCtx.fillRect(-p.size/2,-p.size/2,p.size,p.size/1.6);
                 bgCtx.restore();
             }
-            requestAnimationFrame(drawBgConfetti);
+            requestAnimationFrame(drawBgGlitter);
         }
-        drawBgConfetti();
+        drawBgGlitter();
+        
+        // Optional floating hearts after cut (enhances celebration)
+        let heartInterval = null;
+        function startFloatingHearts() {
+            if(heartInterval) return;
+            heartInterval = setInterval(()=>{
+                if(!cakeSliced) return;
+                const heartSpan=document.createElement('div');
+                heartSpan.innerHTML='❤️';
+                heartSpan.style.position='fixed';
+                heartSpan.style.left=Math.random()*window.innerWidth+'px';
+                heartSpan.style.bottom='10px';
+                heartSpan.style.fontSize=(12+Math.random()*20)+'px';
+                heartSpan.style.opacity='0.8';
+                heartSpan.style.pointerEvents='none';
+                heartSpan.style.zIndex='50';
+                heartSpan.style.filter='drop-shadow(0 0 4px #ff99bb)';
+                heartSpan.style.transition='all 3.5s ease-out';
+                document.body.appendChild(heartSpan);
+                setTimeout(()=>{ heartSpan.style.transform='translateY(-350px) rotate(12deg)'; heartSpan.style.opacity='0'; }, 20);
+                setTimeout(()=>{ if(heartSpan.parentNode) heartSpan.remove(); }, 3800);
+            }, 900);
+        }
+        
+        // Watch for cut to enable hearts
+        const origTrigger = triggerCut;
+        window.triggerCut = triggerCut;
+        // override to add hearts after first cut
+        const superTrigger = triggerCut;
+        triggerCut = function() {
+            superTrigger();
+            startFloatingHearts();
+        }.bind(this);
+        window.triggerCut = triggerCut;
+        // rebind to make sure the actual function uses it
+        const originalCutFunc = triggerCut;
+        window.triggerCut = originalCutFunc;
+        // patch
+        triggerCut = function() {
+            originalCutFunc();
+            startFloatingHearts();
+        };
+        // Finally override the global reference used in onDragMove
+        window.triggerCutBound = triggerCut;
+        // rewire the cut detection to use the updated version
+        const rawCut = triggerCut;
+        // replace existing triggerCut function variable
+        const finalCutFunc = function() { rawCut(); startFloatingHearts(); };
+        window.applyCut = finalCutFunc;
+        // low level override: patch the triggerCut call inside onDragMove
+        // simpler: redefine triggerCut globally
+        window.triggerCut = finalCutFunc;
+        // also reassign for the closure? but we can use final
+        const safeCut = finalCutFunc;
+        // Edit the onDragMove to use safeCut (override)
+        const originalOnDragMove = onDragMove;
+        window.onDragMove = function(e){
+            if(!isDragging || !allowCutting || cakeSliced) return;
+            e.preventDefault();
+            let p=getCanvasCoords(e);
+            swipePoints.push(p);
+            if(swipePoints.length>25) swipePoints.shift();
+            let cutDetected=false;
+            for(let i=0;i<swipePoints.length-1;i++) if(doesSwipeIntersectCake(swipePoints[i],swipePoints[i+1])){ cutDetected=true; break; }
+            if(cutDetected){
+                safeCut();
+                isDragging=false;
+                swipePoints=[];
+                return;
+            }
+            drawCake();
+        };
+        // rebind event
+        canvas.removeEventListener('touchmove', onDragMove);
+        canvas.addEventListener('touchmove', window.onDragMove, {passive:false});
+        window.removeEventListener('mousemove', onDragMove);
+        window.addEventListener('mousemove', (e)=>{ if(isDragging && allowCutting && !cakeSliced) window.onDragMove(e); });
     })();
 </script>
 </body>
