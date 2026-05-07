@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🎂 Manahil's Birthday Countdown 🎂</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Poppins', 'Georgia', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .star {
+            position: fixed;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatStar 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatStar {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(1);
+            }
+        }
+
+        .container {
+            max-width: 550px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 60px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #ffd700;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .timer-section {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 40px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .timer-label {
+            color: #ffd700;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            padding: 15px 10px;
+            min-width: 70px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .time-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+            font-family: monospace;
+        }
+
+        .time-label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+        }
+
+        .activity-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 30px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .activity-title {
+            color: #ffd700;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .wishes-game {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateX(5px);
+        }
+
+        .option-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .feedback {
+            color: #ffd700;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            min-height: 80px;
+        }
+
+        .locked-message {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px dashed rgba(255, 215, 0, 0.5);
+        }
+
+        .locked-message p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .password-input {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .password-input input {
+            padding: 12px 15px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            width: 60%;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .password-input button {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: none;
+            background: #ffd700;
+            color: #1a1a2e;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .password-input button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .secret-content {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 255, 255, 0.1));
+            border-radius: 20px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .secret-content.show {
+            display: block;
+        }
+
+        .secret-content p {
+            color: white;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .secret-content .heart {
+            font-size: 2rem;
+            color: #ff6b6b;
+            animation: heartbeat 1s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .message-preview {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .message-preview h3 {
+            color: #ffd700;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .message-preview p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        footer {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.7rem;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 20px;
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+            .time-number {
+                font-size: 1.3rem;
+            }
+            .time-box {
+                min-width: 55px;
+                padding: 10px 5px;
+            }
+        }
+
+        .timer-note {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎀 MANAHIL 🎀</h1>
+    <div class="subtitle">the girl who deserves the whole world ✨</div>
+
+    <!-- Timer Section -->
+    <div class="timer-section">
+        <div class="timer-label">⏰ TIME UNTIL 10th MAY (YOUR BIRTHDAY!) ⏰</div>
+        <div class="countdown" id="countdown">
+            <div class="time-box"><div class="time-number" id="days">00</div><div class="time-label">Days</div></div>
+            <div class="time-box"><div class="time-number" id="hours">00</div><div class="time-label">Hours</div></div>
+            <div class="time-box"><div class="time-number" id="minutes">00</div><div class="time-label">Mins</div></div>
+            <div class="time-box"><div class="time-number" id="seconds">00</div><div class="time-label">Secs</div></div>
+        </div>
+        <div class="timer-note">✨ 10th May 12:00am Karachi time ✨</div>
+    </div>
+
+    <!-- Activity Section -->
+    <div class="activity-section">
+        <div class="activity-title">
+            <span>🎁</span> BIRTHDAY ACTIVITY <span>🎁</span>
+        </div>
+        
+        <div class="wishes-game">
+            <div class="question" id="question">
+                💭 Which gift would make Manahil happiest right now?
+            </div>
+            <div class="options" id="options">
+                <div class="option-btn" data-answer="A">🎀 A handwritten letter from you</div>
+                <div class="option-btn" data-answer="B">🎂 A cake with my name on it</div>
+                <div class="option-btn" data-answer="C">💝 A surprise that took you days to make</div>
+                <div class="option-btn" data-answer="D">🌙 Just sitting on call with you for hours</div>
+            </div>
+            <div class="feedback" id="feedback">
+                ✨ Choose an option to see what your love says...
+            </div>
+        </div>
+
+        <!-- Locked Birthday Message -->
+        <div class="locked-message">
+            <p>🔒 There's a secret message locked inside 🔒</p>
+            <div class="password-input">
+                <input type="password" id="password" placeholder="Enter the password...">
+                <button onclick="unlockMessage()">Unlock</button>
+            </div>
+            <div class="secret-content" id="secretContent">
+                <div class="heart">🤭💕</div>
+                <p><strong>PSST... 🤫</strong></p>
+                <p>You cracked the code! Good job, smart girl 😏</p>
+                <p>Here's the thing — I've been smiling like an idiot for the past however many days just thinking about 10th May. Not because it's a birthday. Because it's YOURS.</p>
+                <p>I don't know what I did to deserve you. But I'm not questioning it. I'm just gonna keep showing up, keep annoying you, keep loving you in every way I know how.</p>
+                <p>Consider this the appetizer. The main course is coming on your actual birthday. Get ready 😌</p>
+                <p>Love you mean it. 💫</p>
+                <div class="heart">❤️</div>
+            </div>
+        </div>
+
+        <!-- Birthday Message Preview -->
+        <div class="message-preview">
+            <h3>💌 A Sneak Peek of What's Coming 💌</h3>
+            <p>"On 10th May, when the clock hits midnight for you, I'll be writing you something proper. Something you deserve. Something that took me days to get right. But until then — know that you are loved. More than you know. More than words can say."</p>
+        </div>
+    </div>
+
+    <footer>
+        ✨ made with 100 hours of love for the girl who deserves 100 lifetimes ✨
+    </footer>
+</div>
+
+<script>
+    // Countdown Timer for 10th May 12am Karachi time
+    // = 9th May 3:00pm Toronto time
+    function updateCountdown() {
+        // Target: 9th May 2026, 3:00pm Toronto time
+        // Toronto is UTC-4 in May (Eastern Daylight Time)
+        const targetDate = new Date(Date.UTC(2026, 4, 9, 19, 0, 0)); // 9th May 7pm UTC = 3pm Toronto
+        
+        const now = new Date();
+        const difference = targetDate - now;
+        
+        if (difference <= 0) {
+            document.getElementById('days').innerText = '00';
+            document.getElementById('hours').innerText = '00';
+            document.getElementById('minutes').innerText = '00';
+            document.getElementById('seconds').innerText = '00';
+            return;
+        }
+        
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        
+        document.getElementById('days').innerText = days.toString().padStart(2, '0');
+        document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+    }
+    
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    
+    // Interactive Game Logic
+    const questions = [
+        {
+            q: "💭 Which gift would make Manahil happiest right now?",
+            options: [
+                "🎀 A handwritten letter from you",
+                "🎂 A cake with my name on it", 
+                "💝 A surprise that took you days to make",
+                "🌙 Just sitting on call with you for hours"
+            ],
+            correct: "C",
+            feedback: "💕 You know me so well... The things that take days to make mean the most because they prove someone was thinking of you when they could have been sleeping. But honestly? Even just sitting on call with you for hours would be enough. It's you. That's the gift."
+        },
+        {
+            q: "💭 What does Manahil miss most when you're not talking?",
+            options: [
+                "🎤 Your voice messages",
+                "😂 The way you make me laugh",
+                "💭 How you always understand without me explaining",
+                "📝 The letters you write"
+            ],
+            correct: "B",
+            feedback: "It's not even close. You make me laugh like no one else can. Even on my worst days, you find a way to pull a smile out of me. That's your superpower. Never lose it."
+        },
+        {
+            q: "💭 What's the one thing Salman does that makes Manahil feel safest?",
+            options: [
+                "📞 He calls me when I can't sleep",
+                "💬 He listens without judging",
+                "🌙 He stays on call even when I'm quiet",
+                "❤️ All of the above"
+            ],
+            correct: "D",
+            feedback: "All of it. Every single thing. You make me feel safe in ways I didn't know I needed. You stay when I'm quiet. You listen when I can't explain. You call when I can't sleep. You're my safe place, Salman. 🤍"
+        }
+    ];
+    
+    let currentQuestion = 0;
+    let score = 0;
+    let gameCompleted = false;
+    let waitingForNext = false;
+    let nextTimer = null;
+    
+    function disableOptions(disabled) {
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(btn => {
+            if (disabled) {
+                btn.classList.add('disabled');
+            } else {
+                btn.classList.remove('disabled');
+            }
+        });
+    }
+    
+    function loadQuestion() {
+        if (waitingForNext) return;
+        
+        const q = questions[currentQuestion];
+        document.getElementById('question').innerHTML = q.q;
+        const optionsDiv = document.getElementById('options');
+        optionsDiv.innerHTML = '';
+        q.options.forEach((opt, idx) => {
+            const optLetter = String.fromCharCode(65 + idx);
+            const optDiv = document.createElement('div');
+            optDiv.className = 'option-btn';
+            optDiv.setAttribute('data-answer', optLetter);
+            optDiv.innerHTML = opt;
+            optDiv.onclick = () => checkAnswer(optLetter);
+            optionsDiv.appendChild(optDiv);
+        });
+    }
+    
+    function checkAnswer(selected) {
+        if (waitingForNext || gameCompleted) return;
+        
+        const q = questions[currentQuestion];
+        const feedbackDiv = document.getElementById('feedback');
+        
+        if (selected === q.correct) {
+            score++;
+            feedbackDiv.innerHTML = `✅ Correct! ${q.feedback} ✨`;
+            feedbackDiv.style.color = '#4CAF50';
+            
+            if (currentQuestion < questions.length - 1) {
+                waitingForNext = true;
+                disableOptions(true);
+                
+                nextTimer = setTimeout(() => {
+                    currentQuestion++;
+                    waitingForNext = false;
+                    disableOptions(false);
+                    loadQuestion();
+                    feedbackDiv.innerHTML = `✨ Choose an option to see what your love says...`;
+                    feedbackDiv.style.color = '#ffd700';
+                }, 10000);
+            } else {
+                gameCompleted = true;
+                disableOptions(true);
+                feedbackDiv.innerHTML = `🎉 YOU DID IT! 🎉<br><br>You answered all questions perfectly! You know me so well — or maybe you're just really good at guessing what I'd say. Either way, I'm impressed. And I adore you. 💕<br><br>⭐ SCORE: ${score}/${questions.length} ⭐`;
+                feedbackDiv.style.color = '#ffd700';
+            }
+        } else {
+            let hint = "";
+            if (selected === "A") hint = "💭 That's sweet, but not what I'd pick first... think about the things that take effort, not just words.";
+            else if (selected === "B") hint = "🎂 Cake is great, but I'm not really a cake person... what else?";
+            else if (selected === "C") hint = "💝 Good choice... but there's something even better than that. Something that doesn't cost anything.";
+            else if (selected === "D") hint = "🌙 That's always true... but for this specific question, there's another answer that fits better.";
+            else hint = "💭 Try again, love. You know me better than this 😘";
+            
+            feedbackDiv.innerHTML = `❌ Hmm... not quite. ${hint}`;
+            feedbackDiv.style.color = '#ff6b6b';
+        }
+    }
+    
+    function unlockMessage() {
+        const password = document.getElementById('password').value.trim().toLowerCase();
+        const secretDiv = document.getElementById('secretContent');
+        
+        if (password === "manahil" || password === "10th may" || password === "10may" || password === "Manahil" || password === "manahil10" || password === "10manahil") {
+            secretDiv.classList.add('show');
+            document.getElementById('password').value = '';
+            document.getElementById('password').placeholder = '🔓 Unlocked! 🔓';
+        } else {
+            alert('❌ Wrong password! Try something meaningful... like her name? Or the date?');
+        }
+    }
+    
+    loadQuestion();
+    
+    // Create floating stars
+    function createStars() {
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = Math.random() * 100 + '%';
+            star.style.width = Math.random() * 3 + 1 + 'px';
+            star.style.height = star.style.width;
+            star.style.animationDelay = Math.random() * 8 + 's';
+            star.style.animationDuration = Math.random() * 5 + 5 + 's';
+            document.body.appendChild(star);
+        }
+    }
+    createStars();
+</script>
+</body>
+</html>
