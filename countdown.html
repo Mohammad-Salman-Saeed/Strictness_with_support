@@ -502,45 +502,45 @@
     }
     
     function checkAnswer(selected) {
-        if (waitingForNext || gameCompleted) return;
+    if (waitingForNext || gameCompleted) return;
+    
+    const q = questions[currentQuestion];
+    const feedbackDiv = document.getElementById('feedback');
+    
+    if (selected === q.correct) {
+        score++;
+        feedbackDiv.innerHTML = `✅ Correct! ${q.feedback} ✨`;
+        feedbackDiv.style.color = '#4CAF50';
         
-        const q = questions[currentQuestion];
-        const feedbackDiv = document.getElementById('feedback');
-        
-        if (selected === q.correct) {
-            score++;
-            feedbackDiv.innerHTML = `✅ Correct! ${q.feedback} ✨`;
-            feedbackDiv.style.color = '#4CAF50';
+        if (currentQuestion < questions.length - 1) {
+            waitingForNext = true;
+            disableOptions(true);
             
-            if (currentQuestion < questions.length - 1) {
-                waitingForNext = true;
-                disableOptions(true);
-                
-                nextTimer = setTimeout(() => {
-                    currentQuestion++;
-                    waitingForNext = false;
-                    disableOptions(false);
-                    loadQuestion();
-                    feedbackDiv.innerHTML = `✨ Choose an option to see what your love says...`;
-                    feedbackDiv.style.color = '#ffd700';
-                }, 10000);
-            } else {
-                gameCompleted = true;
-                disableOptions(true);
-                feedbackDiv.innerHTML = `🎉 YOU DID IT! 🎉<br><br>You answered all questions perfectly! You know me so well — or maybe you're just really good at guessing what I'd say. Either way, I'm impressed. And I adore you. 💕<br><br>⭐ SCORE: ${score}/${questions.length} ⭐`;
+            nextTimer = setTimeout(() => {
+                currentQuestion++;
+                waitingForNext = false;
+                disableOptions(false);
+                loadQuestion();
+                feedbackDiv.innerHTML = `✨ Choose an option to see what your love says...`;
                 feedbackDiv.style.color = '#ffd700';
-            }
+            }, 10000);
         } else {
-            let hint = "";
-            if (selected === "A") hint = "💭 That's sweet, but not what I'd pick first... think about the things that take effort, not just words.";
-            else if (selected === "B") hint = "🎂 Cake is great, but now right now... what else?";
-            else if (selected === "C") hint = "💝 Good choice... but there's something even better than that. Something that doesn't cost anything.";
-            else if (selected === "D") hint = "🌙 That's always true... but for this specific question, there's another answer that fits better.";
-            else hint = "💭 Try again, love. You know me better than this 😘";
-            
-            feedbackDiv.innerHTML = `❌ Hmm... not quite. ${hint}`;
-            feedbackDiv.style.color = '#ff6b6b';
+            gameCompleted = true;
+            disableOptions(true);
+            feedbackDiv.innerHTML = `🎉 YOU DID IT! 🎉<br><br>You answered all questions perfectly! You know me so well — or maybe you're just really good at guessing what I'd say. Either way, I'm impressed. And I adore you. 💕<br><br>⭐ SCORE: ${score}/${questions.length} ⭐`;
+            feedbackDiv.style.color = '#ffd700';
         }
+    } else {
+        let hint = "";
+        if (selected === "A") hint = "💭 That's sweet, but not what I'd pick first... think about the things that take effort, not just words.";
+        else if (selected === "B") hint = "🎂 Cake is great, but not right now... what else?";
+        else if (selected === "C") hint = "💝 Good choice... but there's something even better than that. Something that doesn't cost anything.";
+        else if (selected === "D") hint = "🌙 That's always true... but for this specific question, there's another answer that fits better.";
+        else hint = "💭 Try again, love. You know me better than this 😘";
+        
+        feedbackDiv.innerHTML = `❌ Hmm... not quite. ${hint}`;
+        feedbackDiv.style.color = '#ff6b6b';
+    }
     }
     
     function unlockMessage() {
