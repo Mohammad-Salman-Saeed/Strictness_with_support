@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Our Day</title>
+    <style>
+        /* ---------- RESET & BASE ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background: #0d0d0d;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            color: #f5e6d3;
+            overflow-x: hidden;
+        }
+
+        /* ---------- HEART ANIMATION OVERLAY ---------- */
+        #heartOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0d0d0d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+            transition: opacity 1.2s ease;
+        }
+
+        #heartOverlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #heartCanvas {
+            display: block;
+            width: 100%;
+            max-width: 550px;
+            height: auto;
+            aspect-ratio: 1/1;
+            background: transparent;
+        }
+
+        .heart-sub {
+            color: rgba(212, 175, 55, 0.3);
+            font-size: 0.8rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            font-family: 'Arial', sans-serif;
+            animation: pulseText 2s infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.25; }
+            50% { opacity: 0.8; }
+        }
+
+        /* ---------- MAIN CONTENT ---------- */
+        #mainContent {
+            opacity: 0;
+            transition: opacity 1.5s ease;
+            padding: 40px 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        #mainContent.visible {
+            opacity: 1;
+        }
+
+        .container {
+            width: 100%;
+            background: rgba(255, 255, 240, 0.04);
+            backdrop-filter: blur(6px);
+            border-radius: 60px;
+            padding: 50px 35px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .gold {
+            color: #d4af37;
+        }
+
+        .date-badge {
+            text-align: center;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(212, 175, 55, 0.4);
+            margin-bottom: 10px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            text-align: center;
+            color: #d4af37;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .subhead {
+            text-align: center;
+            font-size: 1rem;
+            color: rgba(255, 255, 240, 0.4);
+            font-style: italic;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.08);
+            padding-bottom: 30px;
+        }
+
+        .story-block {
+            margin-bottom: 40px;
+            padding: 0 5px;
+        }
+
+        .story-block p {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: rgba(255, 255, 240, 0.85);
+            margin-bottom: 20px;
+        }
+
+        .story-block p .highlight {
+            color: #d4af37;
+        }
+
+        .memory {
+            background: rgba(255, 255, 240, 0.03);
+            border-left: 3px solid rgba(212, 175, 55, 0.25);
+            padding: 20px 22px;
+            margin-bottom: 18px;
+            border-radius: 0 16px 16px 0;
+            transition: 0.3s;
+        }
+
+        .memory:hover {
+            background: rgba(255, 255, 240, 0.06);
+            border-left-color: #d4af37;
+        }
+
+        .memory-date {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #d4af37;
+            font-family: 'Arial', sans-serif;
+            margin-bottom: 6px;
+        }
+
+        .memory-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 240, 0.85);
+        }
+
+        .memory-text .highlight {
+            color: #d4af37;
+        }
+
+        .memory-text .italic {
+            font-style: italic;
+            color: rgba(255, 255, 240, 0.6);
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: rgba(212, 175, 55, 0.15);
+            margin: 35px auto;
+        }
+
+        .final-message {
+            background: rgba(212, 175, 55, 0.05);
+            border-radius: 30px;
+            padding: 35px 28px;
+            margin-top: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .final-message p {
+            font-size: 1.05rem;
+            line-height: 2.2;
+            color: rgba(255, 255, 240, 0.9);
+            text-align: center;
+        }
+
+        .final-message .big {
+            font-size: 1.4rem;
+            color: #d4af37;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .signoff {
+            text-align: center;
+            margin-top: 35px;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 240, 0.35);
+            letter-spacing: 2px;
+            font-style: italic;
+        }
+
+        .heart-line {
+            text-align: center;
+            font-size: 1.4rem;
+            color: #d4af37;
+            margin: 20px 0 10px;
+            letter-spacing: 8px;
+            opacity: 0.4;
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1.2s ease forwards;
+        }
+        .fade-in-d1 { animation-delay: 0.2s; }
+        .fade-in-d2 { animation-delay: 0.4s; }
+        .fade-in-d3 { animation-delay: 0.6s; }
+        .fade-in-d4 { animation-delay: 0.8s; }
+        .fade-in-d5 { animation-delay: 1.0s; }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .glow {
+            text-shadow: 0 0 40px rgba(212, 175, 55, 0.08);
+        }
+
+        /* ---------- MOBILE ---------- */
+        @media (max-width: 600px) {
+            #mainContent {
+                padding: 20px 12px;
+            }
+            .container {
+                padding: 30px 18px;
+                border-radius: 40px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .subhead {
+                font-size: 0.85rem;
+                margin-bottom: 30px;
+                padding-bottom: 20px;
+            }
+            .story-block p {
+                font-size: 0.95rem;
+                line-height: 1.8;
+            }
+            .memory {
+                padding: 16px 16px;
+                margin-bottom: 14px;
+            }
+            .memory-text {
+                font-size: 0.9rem;
+                line-height: 1.7;
+            }
+            .final-message {
+                padding: 24px 18px;
+            }
+            .final-message p {
+                font-size: 0.95rem;
+                line-height: 2;
+            }
+            .final-message .big {
+                font-size: 1.1rem;
+            }
+            .signoff {
+                font-size: 0.95rem;
+            }
+            .heart-sub {
+                font-size: 0.65rem;
+                letter-spacing: 4px;
+            }
+            #heartCanvas {
+                max-width: 340px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 22px 14px;
+                border-radius: 30px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .memory {
+                padding: 12px 14px;
+            }
+            .memory-text {
+                font-size: 0.85rem;
+            }
+            .final-message p {
+                font-size: 0.88rem;
+            }
+            #heartCanvas {
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== HEART OVERLAY ========== -->
+<div id="heartOverlay">
+    <canvas id="heartCanvas" width="550" height="550"></canvas>
+    <div class="heart-sub">— building something for you —</div>
+</div>
+
+<!-- ========== MAIN CONTENT ========== -->
+<div id="mainContent">
+    <div class="container">
+
+        <div class="date-badge">— 14 August —</div>
+        <h1 class="glow fade-in">🇵🇰 &nbsp; Our Day &nbsp; 🇵🇰</h1>
+        <div class="subhead fade-in fade-in-d1">Independence Day for a nation. Reunion Day for us.</div>
+
+        <!-- INTRO -->
+        <div class="story-block fade-in fade-in-d1">
+            <p>
+                14 August. To the world, it's the birth of a nation. But to us — it means so much more.
+                <br/><br/>
+                It's the day we found our way back to each other. The day the silence broke, the distance shrank, and two people who never really stopped thinking about each other finally got another chance.
+                <br/><br/>
+                And what a year it's been.
+            </p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- BEFORE -->
+        <div class="story-block fade-in fade-in-d2">
+            <p style="font-size:0.8rem; color:rgba(255,255,240,0.3); text-transform:uppercase; letter-spacing:2px; margin-bottom:12px;">Before We Found Our Way Back</p>
+            <p>
+                There was 8th June. The heartbreak. The separation. Two months and a bit of silence that felt like years — like the world had gone quiet and I was the only one still listening for your voice.
+                <br/><br/>
+                And then, just two days after I came back to Canada — 30th August — the first cut from you: <span class="gold" style="font-style:italic;">"Waise koi faida nahi tumharay honay na honay ka."</span>
+                <br/><br/>
+                It stung. It stung more than I wanted to admit. But it also woke something up in me. Because even through the pain, even through the sharpness of those words — I knew. I wasn't done fighting for you. Not even close.
+            </p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- THE MEMORIES -->
+        <div class="story-block fade-in fade-in-d2">
+            <p style="font-size:0.8rem; color:rgba(255,255,240,0.3); text-transform:uppercase; letter-spacing:2px; margin-bottom:20px;">The Moments That Built Us</p>
+
+            <div class="memory">
+                <div class="memory-date">15 November</div>
+                <div class="memory-text">The first time you called me <span class="highlight">"Mister handsome Salman..."</span> I acted cool about it — like it was nothing. But inside? I was gone. Completely. That one little compliment, that one playful moment, stayed with me longer than you probably ever imagined.</div>
+            </div>
+
+            <div class="memory">
+                <div class="memory-date">16 December</div>
+                <div class="memory-text">The first time you said you missed me — even if it was only <span class="italic">"a little bit."</span> You downplayed it. You always do. But I held onto that little bit like it was everything. Because to me — it was. It was proof that I existed in your heart, even when you tried to hide it.</div>
+            </div>
+
+            <div class="memory">
+                <div class="memory-date">27 January</div>
+                <div class="memory-text"><span class="highlight">Flynn Rider.</span> Our first nickname. You gave me a name that made me feel like I was yours — like I belonged to someone in a way I never had before. Even before you knew you were mine, you gave me that. And I never let it go.</div>
+            </div>
+
+            <div class="memory">
+                <div class="memory-date">5 February</div>
+                <div class="memory-text">You said you love a version of me — and that I should love that version too. I didn't know how much I needed to hear that until you said it. Because I spent so long not loving myself. And you — you told me I should. That changed something in me.</div>
+            </div>
+
+            <div class="memory">
+                <div class="memory-date">6 February</div>
+                <div class="memory-text">You placed me at the <span class="highlight">top spot</span> — above Asif Chacha, above your siblings, above Bushra. I still don't know how I got there. I still don't fully believe I deserve it. But I'll spend forever trying to stay there. Because being your number one? That's all I've ever wanted.</div>
+            </div>
+
+            <div class="memory">
+                <div class="memory-date">8 February</div>
+                <div class="memory-text"><span class="highlight">The confession.</span> One of the most important dates of my entire life. After years of it being one-sided — after years of waiting, hoping, wondering — it finally became <span class="highlight">two-sided</span>. You finally said yes. To me. To us. To everything I'd been too scared to hope for.</div>
+            </div>
+
+            <div class="memory">
+                <div class="memory-date">28 February</div>
+                <div class="memory-text">The first time you called me <span class="highlight">"love."</span> Not Flynn Rider. Not Salman. <span class="italic">Love.</span> That one word — simple, ordinary, used by millions of people every day — felt like the most extraordinary thing I'd ever heard. Because it came from you. And it meant everything.</div>
+            </div>
+
+            <div class="memory">
+                <div class="memory-date">March — April</div>
+                <div class="memory-text">The love letters. Every single day. 46 of them in total. Not because you asked. Not because I wanted something in return. But because you deserved to know that someone was cheering for you — even when you couldn't cheer for yourself. Even on the days you felt like giving up. I wrote. Because you were worth it.</div>
+            </div>
+
+            <div class="memory">
+                <div class="memory-date">25 April</div>
+                <div class="memory-text">You gave me the most emotional, massive, loving birthday wish I've ever received. And somewhere in it — tucked between all the beauty — you wrote:<br/>
+                <span class="highlight" style="font-style:italic;">"Even if maire pass 1000 lives ho — I WILL find U and WILL marry u and be YOUR wifeee 😁"</span><br/>
+                I still don't know how to recover from that. I don't think I ever will. And honestly? I don't want to.</div>
+            </div>
+
+            <div class="memory">
+                <div class="memory-date">8 May</div>
+                <div class="memory-text">The jhumkay. The pearl destinies I gave you. I remember thinking, as I picked them out, that they were always meant for you. Every pearl. Every destiny. Every single one. They weren't just earrings. They were a promise — that I would always choose you. That I would always give you the best of me.</div>
+            </div>
+
+            <div class="memory">
+                <div class="memory-date">10 May</div>
+                <div class="memory-text">Your birthday. Our first one together as a couple. The birthday wish. The piano video. The food deliveries. The gifts. The edits. The entire month of May — glorified for your birth. And you deserved every second of it. Every ounce of celebration. Every bit of love. Because you are worth celebrating. Always.</div>
+            </div>
+
+            <div class="memory">
+                <div class="memory-date">19 May</div>
+                <div class="memory-text">I gave you my <span class="highlight">husband application</span> — and we officially got <span class="highlight">digitally married</span>. Paperwork? No. Feelings? Yes. All of them. It wasn't a legal document. It was a heart document. And it was signed with everything I had.</div>
+            </div>
+
+            <div class="memory">
+                <div class="memory-date">13 June</div>
+                <div class="memory-text">Our very first concert together. Ali Zafar. I heard the songs differently that night — because you were there. Even through a screen. Even across oceans. You were there. And that made every note mean something it never had before.</div>
+            </div>
+
+            <div class="memory">
+                <div class="memory-date">15 June</div>
+                <div class="memory-text">We relived our first day of being in contact. Video edits. Spending the whole day together. Two years since the first contact. One year since the reunion. And still — it felt like the first time. Like we were meeting all over again. Like I was falling for you all over again. I was. I still am. Every single day.</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- FINAL MESSAGE -->
+        <div class="final-message fade-in fade-in-d4">
+            <p>
+                I know our last year hasn't been perfect.<br/>
+                There have been crazy ups and downs.<br/>
+                We've fought. We've argued. We've laughed. We've cried.<br/><br/>
+                But we did it all <span class="highlight">together</span>.<br/><br/>
+                Everything — every fight, every tear, every moment of doubt —<br/>
+                we did it together, Manahil.<br/>
+                And we didn't leave each other.<br/>
+                Instead, we made all of it <span class="highlight">make us stronger</span>.<br/><br/>
+                That's what makes us different. That's what makes us <span class="highlight">us</span>.<br/>
+                More special than any other couple.<br/><br/>
+                I'm not perfect. I'm not the best partner.<br/>
+                But I am yours.<br/>
+                Completely. Unconditionally. Forever.<br/><br/>
+                <span class="big">You are oxygen to me.</span><br/><br/>
+                I would trade my whole life away —<br/>
+                just to get you in return.<br/>
+                And I would do it a million times over.<br/>
+                Without a second thought.<br/><br/>
+                <span class="big" style="font-size:1.8rem;">I❤️You Manahil.</span><br/><br/>
+                And NOTHING — <span class="highlight">nothing</span> — will ever change that.<br/><br/>
+                <span class="big">I❤️You forever.</span>
+            </p>
+        </div>
+
+        <div class="heart-line">✦ ✦ ✦</div>
+        <div class="signoff">— Yours, always —</div>
+
+    </div>
+</div>
+
+<script>
+    // ===========================================
+    // RAINBOW HEART ANIMATION (Python turtle style)
+    // ===========================================
+    (function() {
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+        const W = 550, H = 550;
+        canvas.width = W;
+        canvas.height = H;
+
+        // Heart math: x = 16 sin³(t), y = 13cos(t) - 5cos(2t) - 2cos(3t) - cos(4t)
+        function heartX(t, scale) {
+            return scale * 16 * Math.pow(Math.sin(t), 3);
+        }
+        function heartY(t, scale) {
+            return scale * (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+        }
+
+        const scale = 7.0;
+        const centerX = W/2;
+        const centerY = H/2 + 15;
+
+        // Rainbow colors matching Python turtle
+        const colors = ['#ff0000', '#0000ff', '#00ff00', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#ff69b4'];
+
+        // Total points = 120 (matching Python code)
+        const totalPoints = 120;
+        let currentPoint = 0;
+        let heartPoints = [];
+
+        // Pre-calculate all points with random colors
+        for (let i = 0; i < totalPoints; i++) {
+            const t = (i / totalPoints) * 2 * Math.PI;
+            const x = centerX + heartX(t, scale);
+            const y = centerY - heartY(t, scale);
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            heartPoints.push({x, y, color});
+        }
+
+        let animationId = null;
+        let startTime = null;
+        const drawDuration = 4000; // 4 seconds to draw all points
+        const holdDuration = 8000; // 8 seconds to hold after full heart
+
+        // Sparkle effect: small dots around the heart
+        function drawSparkles(progress) {
+            if (progress < 0.3) return;
+            const count = Math.floor(progress * 30);
+            for (let i = 0; i < count; i++) {
+                const angle = Math.random() * 2 * Math.PI;
+                const dist = 80 + Math.random() * 120;
+                const x = centerX + Math.cos(angle) * dist;
+                const y = centerY + Math.sin(angle) * dist - 40;
+                const size = 1 + Math.random() * 3;
+                const alpha = 0.2 + Math.random() * 0.4;
+                ctx.fillStyle = `rgba(212, 175, 55, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function drawHeart(progress) {
+            ctx.clearRect(0, 0, W, H);
+
+            // Draw dark background with subtle glow
+            const bgGrad = ctx.createRadialGradient(centerX, centerY-40, 10, centerX, centerY-40, 250);
+            bgGrad.addColorStop(0, 'rgba(212, 175, 55, 0.03)');
+            bgGrad.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, W, H);
+
+            const count = Math.floor(progress * totalPoints);
+            if (count === 0) return;
+
+            // Draw the heart points with rainbow colors (like Python turtle)
+            for (let i = 0; i < count; i++) {
+                const p = heartPoints[i];
+                ctx.fillStyle = p.color;
+                ctx.shadowColor = p.color;
+                ctx.shadowBlur = 8;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+
+            // Draw the heart outline connecting the points (like Python turtle's forward/backward)
+            if (count > 1) {
+                ctx.beginPath();
+                ctx.moveTo(heartPoints[0].x, heartPoints[0].y);
+                for (let i = 1; i < count; i++) {
+                    ctx.lineTo(heartPoints[i].x, heartPoints[i].y);
+                }
+                ctx.closePath();
+                ctx.strokeStyle = 'rgba(212, 175, 55, 0.08)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+
+            // Sparkles
+            drawSparkles(progress);
+
+            // Glow ring around the heart when almost complete
+            if (progress > 0.7) {
+                const ringAlpha = (progress - 0.7) * 0.3;
+                const ringGrad = ctx.createRadialGradient(centerX, centerY-40, 20, centerX, centerY-40, 160);
+                ringGrad.addColorStop(0, `rgba(212, 175, 55, 0)`);
+                ringGrad.addColorStop(0.5, `rgba(212, 175, 55, ${ringAlpha * 0.1})`);
+                ringGrad.addColorStop(1, `rgba(212, 175, 55, 0)`);
+                ctx.fillStyle = ringGrad;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY-40, 160, 0, Math.PI * 2);
+                ctx.fill();
+
+                // A small sparkle at the top
+                if (progress > 0.9) {
+                    const sparkleAlpha = (progress - 0.9) * 2;
+                    const spGrad = ctx.createRadialGradient(centerX, centerY-150, 2, centerX, centerY-150, 30);
+                    spGrad.addColorStop(0, `rgba(255, 215, 0, ${sparkleAlpha * 0.6})`);
+                    spGrad.addColorStop(1, 'rgba(255, 215, 0, 0)');
+                    ctx.fillStyle = spGrad;
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY-150, 30, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = `rgba(255, 215, 0, ${sparkleAlpha * 0.8})`;
+                    ctx.shadowColor = '#ffd700';
+                    ctx.shadowBlur = 20;
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY-150, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            }
+        }
+
+        function animate(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+            const progress = Math.min(elapsed / drawDuration, 1);
+            drawHeart(progress);
+
+            if (progress < 1) {
+                animationId = requestAnimationFrame(animate);
+            } else {
+                // Heart fully drawn — wait 8 seconds then fade out
+                setTimeout(() => {
+                    const overlay = document.getElementById('heartOverlay');
+                    overlay.classList.add('hidden');
+                    document.getElementById('mainContent').classList.add('visible');
+                }, holdDuration);
+            }
+        }
+
+        // Start the animation
+        animationId = requestAnimationFrame(animate);
+
+        // Fallback: show content after 14 seconds if something goes wrong
+        setTimeout(() => {
+            if (!document.getElementById('mainContent').classList.contains('visible')) {
+                document.getElementById('heartOverlay').classList.add('hidden');
+                document.getElementById('mainContent').classList.add('visible');
+            }
+        }, 14000);
+
+        // Cleanup
+        window.addEventListener('beforeunload', function() {
+            if (animationId) cancelAnimationFrame(animationId);
+        });
+    })();
+</script>
+
+</body>
+</html>
