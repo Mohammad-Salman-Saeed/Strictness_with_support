@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>For Manahil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background: #1a120b;
+            font-family: 'Courier New', 'Courier', monospace;
+            color: #f5e6d3;
+            overflow-x: hidden;
+        }
+
+        /* ---------- DESK ---------- */
+        .desk {
+            position: relative;
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse at 50% 100%, rgba(80, 50, 20, 0.5) 0%, transparent 70%),
+                radial-gradient(ellipse at 20% 80%, rgba(60, 35, 15, 0.4) 0%, transparent 60%),
+                linear-gradient(180deg, #1a120b 0%, #2a1e12 40%, #1a120b 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            overflow: hidden;
+        }
+
+        .desk::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 2px,
+                rgba(255, 215, 150, 0.015) 2px,
+                rgba(255, 215, 150, 0.015) 4px
+            );
+            pointer-events: none;
+        }
+
+        /* ---------- DESK LAMP GLOW ---------- */
+        .lamp-glow {
+            position: fixed;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(
+                circle,
+                rgba(255, 200, 100, 0) 0%,
+                rgba(255, 180, 80, 0) 30%,
+                transparent 70%
+            );
+            pointer-events: none;
+            z-index: 0;
+            transition: background 1.8s ease;
+        }
+
+        .lamp-glow.on {
+            background: radial-gradient(
+                circle,
+                rgba(255, 200, 100, 0.12) 0%,
+                rgba(255, 180, 80, 0.05) 30%,
+                transparent 70%
+            );
+        }
+
+        /* Flicker keyframes for when lamp turns on */
+        @keyframes lampFlicker {
+            0%   { opacity: 0; }
+            10%  { opacity: 0.9; }
+            14%  { opacity: 0.2; }
+            18%  { opacity: 1; }
+            22%  { opacity: 0.3; }
+            28%  { opacity: 0.85; }
+            40%  { opacity: 0.4; }
+            55%  { opacity: 1; }
+            70%  { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .lamp-glow.flickering {
+            animation: lampFlicker 2.2s ease forwards;
+        }
+
+        /* ---------- INTRO SCREEN ---------- */
+        #introScreen {
+            position: fixed;
+            inset: 0;
+            background: #1a120b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 30px;
+            text-align: center;
+            transition: opacity 1.2s ease;
+            overflow-y: auto;
+        }
+
+        #introScreen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .intro-title {
+            font-size: 1.4rem;
+            color: #d4af37;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .intro-text {
+            font-size: 0.95rem;
+            color: rgba(245, 230, 211, 0.6);
+            line-height: 2;
+            max-width: 400px;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .start-btn {
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            color: #d4af37;
+            padding: 16px 40px;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border-radius: 2px;
+            animation: pulseBtn 2.5s infinite;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .start-btn:hover,
+        .start-btn:active {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: #d4af37;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+
+        @keyframes pulseBtn {
+            0%, 100% { box-shadow: 0 0 0 rgba(212, 175, 55, 0); }
+            50% { box-shadow: 0 0 25px rgba(212, 175, 55, 0.15); }
+        }
+
+        /* ---------- TYPEWRITER ---------- */
+        #typewriterScene {
+            width: 100%;
+            max-width: 800px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        #typewriterScene.visible {
+            display: flex;
+        }
+
+        .paper-wrapper {
+            width: 100%;
+            max-width: 620px;
+            position: relative;
+            margin-bottom: 0;
+        }
+
+        .paper {
+            background: linear-gradient(135deg, #f8f4e8 0%, #f0ead6 50%, #e8e0c8 100%);
+            border-radius: 4px 4px 0 0;
+            padding: 45px 40px 50px;
+            min-height: 520px;
+            max-height: 520px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.6),
+                inset 0 0 80px rgba(180, 160, 120, 0.1);
+            position: relative;
+        }
+
+        /* Paper ruled lines */
+        .paper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 31px,
+                rgba(180, 160, 120, 0.08) 31px,
+                rgba(180, 160, 120, 0.08) 32px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Red margin line */
+        .paper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 55px;
+            width: 1px;
+            height: 100%;
+            background: rgba(200, 80, 80, 0.15);
+            z-index: 1;
+        }
+
+        /* ---------- COFFEE STAIN ---------- */
+        .coffee-stain {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 2s ease;
+            background:
+                radial-gradient(circle at 40% 40%,
+                    rgba(139, 90, 43, 0.15) 0%,
+                    rgba(139, 90, 43, 0.12) 40%,
+                    rgba(139, 90, 43, 0.08) 60%,
+                    rgba(139, 90, 43, 0.02) 80%,
+                    transparent 100%
+                );
+            filter: blur(1px);
+            transform: rotate(-15deg);
+        }
+
+        /* The ring of the cup */
+        .coffee-stain::after {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border-radius: 50%;
+            border: 3px solid rgba(139, 90, 43, 0.12);
+            filter: blur(0.6px);
+            transform: rotate(5deg);
+        }
+
+        /* Little splatter dots */
+        .coffee-stain::before {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: -8%;
+            width: 14px;
+            height: 11px;
+            border-radius: 50%;
+            background: rgba(139, 90, 43, 0.1);
+            box-shadow:
+                18px 92px 0 -1px rgba(139, 90, 43, 0.08),
+                95px 8px 0 -2px rgba(139, 90, 43, 0.09),
+                108px 100px 0 -3px rgba(139, 90, 43, 0.07);
+            filter: blur(1px);
+        }
+
+        .coffee-stain.show-early {
+            opacity: 0.35;
+        }
+
+        .coffee-stain.show-mid {
+            opacity: 0.65;
+        }
+
+        .coffee-stain.show-full {
+            opacity: 0.85;
+        }
+
+        /* Custom scrollbar for the paper (desktop only) */
+        .paper::-webkit-scrollbar {
+            width: 6px;
+        }
+        .paper::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .paper::-webkit-scrollbar-thumb {
+            background: rgba(180, 160, 120, 0.3);
+            border-radius: 3px;
+        }
+
+        .paper-top-edge {
+            width: 100%;
+            max-width: 620px;
+            height: 12px;
+            background: linear-gradient(180deg, #d8d0b8, #f0ead6);
+            border-radius: 4px 4px 0 0;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: -2px;
+            position: relative;
+            z-index: 3;
+        }
+
+        #typedText {
+            font-family: 'Courier New', 'Courier', monospace;
+            font-size: 1rem;
+            line-height: 2;
+            color: #2a1e12;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            position: relative;
+            z-index: 2;
+            min-height: 400px;
+            padding-left: 30px;
+            -webkit-user-select: none;
+            user-select: none;
+            transition: color 2.5s ease;
+        }
+
+        /* Ink stages */
+        #typedText.ink-stage-1 {
+            color: #3a2416;
+        }
+        #typedText.ink-stage-2 {
+            color: #5a3a1a;
+        }
+        #typedText.ink-stage-3 {
+            color: #7a5a1a;
+        }
+        #typedText.ink-stage-4 {
+            color: #a07a20;
+        }
+        #typedText.ink-stage-5 {
+            color: #b8860b;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 9px;
+            height: 1.1em;
+            background: #2a1e12;
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .typewriter-body {
+            width: 100%;
+            max-width: 680px;
+            height: 180px;
+            background: linear-gradient(180deg, #3a2a1a 0%, #2a1e12 40%, #1a120b 100%);
+            border-radius: 12px 12px 20px 20px;
+            position: relative;
+            box-shadow:
+                0 -8px 25px rgba(0, 0, 0, 0.5),
+                inset 0 2px 3px rgba(255, 200, 100, 0.1),
+                inset 0 -3px 8px rgba(0, 0, 0, 0.5);
+            margin-top: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 18px;
+            overflow: hidden;
+        }
+
+        .keys-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0 15px;
+        }
+
+        .key {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #5a4a3a, #2a1e12 70%);
+            box-shadow:
+                0 2px 3px rgba(0, 0, 0, 0.6),
+                inset 0 1px 1px rgba(255, 200, 100, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.45rem;
+            color: rgba(245, 230, 211, 0.4);
+            font-family: 'Courier New', monospace;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        .key.pressed {
+            transform: translateY(2px);
+            box-shadow:
+                0 0 2px rgba(0, 0, 0, 0.6),
+                inset 0 2px 3px rgba(0, 0, 0, 0.4);
+            background: radial-gradient(circle at 35% 30%, #4a3a2a, #1a120b 70%);
+        }
+
+        .carriage-return {
+            position: absolute;
+            top: 5px;
+            width: 90%;
+            height: 6px;
+            background: linear-gradient(180deg, #4a3a2a, #2a1e12);
+            border-radius: 3px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .paper-guide {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            height: 3px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 2px;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+        }
+
+        .spool {
+            position: absolute;
+            top: 25px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 40% 35%, #5a4a3a, #1a120b 70%);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .spool.left { left: 40px; }
+        .spool.right { right: 40px; }
+
+        .spool::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #1a120b;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .tap-hint {
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: rgba(245, 230, 211, 0.3);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            animation: hintPulse 2.5s infinite;
+            position: relative;
+            z-index: 3;
+        }
+
+        @keyframes hintPulse {
+            0%, 100% { opacity: 0.25; }
+            50% { opacity: 0.6; }
+        }
+
+        .completion {
+            display: none;
+            margin-top: 30px;
+            text-align: center;
+            position: relative;
+            z-index: 3;
+            padding-bottom: 30px;
+        }
+
+        .completion.visible {
+            display: block;
+            animation: fadeInUp 1.5s ease;
+        }
+
+        .completion p {
+            font-size: 0.95rem;
+            color: rgba(245, 230, 211, 0.5);
+            line-height: 2;
+            font-style: italic;
+            max-width: 480px;
+            margin: 0 auto 15px;
+        }
+
+        .completion .signature {
+            color: #d4af37;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-top: 20px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ---------- MOBILE ---------- */
+        @media (max-width: 650px) {
+            .desk {
+                padding: 20px 10px 40px;
+                justify-content: flex-start;
+                padding-top: 30px;
+                min-height: 100vh;
+            }
+
+            .paper-top-edge {
+                height: 10px;
+            }
+
+            .paper {
+                padding: 26px 18px 30px 24px;
+                min-height: 460px;
+                max-height: 460px;
+            }
+
+            #typedText {
+                font-size: 0.85rem;
+                line-height: 1.9;
+                padding-left: 10px;
+                min-height: 400px;
+            }
+
+            .paper::after {
+                left: 30px;
+            }
+
+            .coffee-stain {
+                width: 95px;
+                height: 95px;
+                bottom: 20px;
+                right: 15px;
+            }
+
+            .typewriter-body {
+                height: 130px;
+                padding-top: 10px;
+                border-radius: 10px 10px 16px 16px;
+            }
+
+            .keys-row {
+                gap: 3.5px;
+                padding: 0 6px;
+            }
+
+            .key {
+                width: 19px;
+                height: 19px;
+                font-size: 0.32rem;
+            }
+
+            .spool {
+                width: 28px;
+                height: 28px;
+                top: 16px;
+            }
+
+            .spool.left { left: 20px; }
+            .spool.right { right: 20px; }
+
+            .intro-title {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+
+            .intro-text {
+                font-size: 0.85rem;
+                padding: 0 10px;
+                margin-bottom: 30px;
+            }
+
+            .start-btn {
+                padding: 14px 32px;
+                font-size: 0.85rem;
+            }
+
+            .tap-hint {
+                font-size: 0.6rem;
+                margin-top: 16px;
+                letter-spacing: 2px;
+            }
+
+            .completion {
+                padding: 0 10px 30px;
+                margin-top: 25px;
+            }
+
+            .completion p {
+                font-size: 0.82rem;
+                line-height: 1.9;
+            }
+
+            .completion .signature {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .paper {
+                padding: 22px 14px 26px 20px;
+                min-height: 420px;
+                max-height: 420px;
+            }
+
+            #typedText {
+                font-size: 0.78rem;
+                line-height: 1.8;
+                min-height: 360px;
+            }
+
+            .paper::after {
+                left: 26px;
+            }
+
+            .coffee-stain {
+                width: 75px;
+                height: 75px;
+                bottom: 15px;
+                right: 10px;
+            }
+
+            .typewriter-body {
+                height: 115px;
+            }
+
+            .key {
+                width: 16px;
+                height: 16px;
+                font-size: 0.28rem;
+            }
+
+            .keys-row {
+                gap: 3px;
+                padding: 0 4px;
+            }
+
+            .spool.left { left: 16px; }
+            .spool.right { right: 16px; }
+
+            .intro-title {
+                font-size: 0.9rem;
+            }
+
+            .intro-text {
+                font-size: 0.78rem;
+            }
+
+            .start-btn {
+                padding: 12px 26px;
+                font-size: 0.78rem;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+<div class="lamp-glow" id="lampGlow"></div>
+
+<!-- ========== INTRO SCREEN ========== -->
+<div id="introScreen">
+    <div class="intro-title">For Manahil</div>
+    <div class="intro-text">
+        There's something I've been meaning to tell you.<br/>
+        It's been sitting here, waiting.<br/><br/>
+        Tap the keys to let it out.
+    </div>
+    <button class="start-btn" onclick="startTyping()">Begin</button>
+</div>
+
+<!-- ========== TYPEWRITER SCENE ========== -->
+<div id="typewriterScene">
+
+    <div class="paper-top-edge"></div>
+
+    <div class="paper-wrapper">
+        <div class="paper">
+            <div class="coffee-stain" id="coffeeStain"></div>
+            <div id="typedText"><span class="cursor"></span></div>
+        </div>
+    </div>
+
+    <div class="typewriter-body">
+        <div class="carriage-return"></div>
+        <div class="paper-guide"></div>
+        <div class="spool left"></div>
+        <div class="spool right"></div>
+        <div class="keys-row" id="keysRow"></div>
+    </div>
+
+    <div class="tap-hint" id="tapHint">tap to type</div>
+
+    <div class="completion" id="completion">
+        <p>
+            Some things don't need to be rushed.<br/>
+            They just need to be said.<br/><br/>
+            And I wanted to say this slowly.<br/>
+            One letter at a time.<br/>
+            So you'd feel every word.
+        </p>
+        <div class="signature">— always yours —</div>
+    </div>
+
+</div>
+
+<script>
+    // ============================================
+    // THE MESSAGE — exactly as you wrote it
+    // ============================================
+    const message = `Manahil meri jaan,
+
+I'm not going to start with the same old "I miss you", you already know that.
+
+I am going to start with something quieter, more subtle, more deep.
+
+I used to think love was loud. Big gestures. Long detailed speeches. The kind you see in movies and get impressed over and wonder if it's real.
+
+But now that it has been this much time since we are together, I have realised that it's not.
+
+Real love is hearing the sound of your sleepy voice at 3am when you're too tired to even filter your words or think before speaking. It's the way you type slower when you're sleepy, and faster with 10 more letters when you're excited. It's the way you console me when I have doubts about the future.
+
+It's the way you say "Jaaaaaaann" or "Jaanooooo" like you mean it from the bottom of your heart.
+
+I don't need the world to know about us. I don't need grand declarations or video edits or massive gifts(Although some would be appreciated hehe🤭🤭). I just need you. That's it.
+
+But what scares me the most sometimes, is how do I keep you? How do I stay worth the effort it takes to love someone across oceans in the other side of the world, in a completely different time zone? How do I still stay just as important to you when I don't even get to meet you for more than a year or two? What if I lose importance in your eyes? What if you find someone else? What if someone else gives you more love and more value than me? What if this...What if that...
+
+The answer is... i don't know. But I will still fight for you, every single day. For as long as it's needed to get you. For as long as you'll let me.
+
+You are not just a phase in my life. You are not just a chapter. You are the whole book. You always have been Manahil. Since the years I only started to just talk, to this day when you are the only person I talk to.
+
+I❤️U so much more than you even realise Manahil. I❤️U.`;
+    // ============================================
+
+    let charIndex = 0;
+    let typingStarted = false;
+    const typedTextEl = document.getElementById('typedText');
+    const keysRow = document.getElementById('keysRow');
+    const tapHint = document.getElementById('tapHint');
+    const completion = document.getElementById('completion');
+    const coffeeStain = document.getElementById('coffeeStain');
+    const lampGlow = document.getElementById('lampGlow');
+
+    // Track which upgrade stages have already fired
+    let stainStage = 0;   // 0 = none, 1 = early, 2 = mid, 3 = full
+    let inkStage = 0;     // 0 = default, 1..5 = progressively warmer
+
+    const keyLabels = ['Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M'];
+    keyLabels.forEach(label => {
+        const key = document.createElement('div');
+        key.className = 'key';
+        key.textContent = label;
+        keysRow.appendChild(key);
+    });
+    const keys = document.querySelectorAll('.key');
+
+    // ============================================
+    // UPGRADE CHECKS
+    // ============================================
+    function updateUpgrades(progress) {
+        // progress: 0 -> 1 based on how far through the message we are
+
+        // --- Coffee stain ---
+        if (progress > 0.08 && stainStage === 0) {
+            stainStage = 1;
+            coffeeStain.classList.add('show-early');
+        }
+        if (progress > 0.5 && stainStage === 1) {
+            stainStage = 2;
+            coffeeStain.classList.remove('show-early');
+            coffeeStain.classList.add('show-mid');
+        }
+        if (progress > 0.85 && stainStage === 2) {
+            stainStage = 3;
+            coffeeStain.classList.remove('show-mid');
+            coffeeStain.classList.add('show-full');
+        }
+
+        // --- Ink color ---
+        if (progress > 0.15 && inkStage === 0) {
+            inkStage = 1;
+            typedTextEl.classList.add('ink-stage-1');
+        }
+        if (progress > 0.35 && inkStage === 1) {
+            inkStage = 2;
+            typedTextEl.classList.remove('ink-stage-1');
+            typedTextEl.classList.add('ink-stage-2');
+        }
+        if (progress > 0.55 && inkStage === 2) {
+            inkStage = 3;
+            typedTextEl.classList.remove('ink-stage-2');
+            typedTextEl.classList.add('ink-stage-3');
+        }
+        if (progress > 0.75 && inkStage === 3) {
+            inkStage = 4;
+            typedTextEl.classList.remove('ink-stage-3');
+            typedTextEl.classList.add('ink-stage-4');
+        }
+        if (progress > 0.92 && inkStage === 4) {
+            inkStage = 5;
+            typedTextEl.classList.remove('ink-stage-4');
+            typedTextEl.classList.add('ink-stage-5');
+        }
+    }
+
+    // ============================================
+    // START
+    // ============================================
+    function startTyping() {
+        if (typingStarted) return;
+        typingStarted = true;
+
+        // --- Desk lamp flicker on ---
+        lampGlow.classList.add('flickering');
+        setTimeout(() => {
+            lampGlow.classList.remove('flickering');
+            lampGlow.classList.add('on');
+        }, 2200);
+
+        document.getElementById('introScreen').classList.add('hidden');
+        setTimeout(() => {
+            document.getElementById('typewriterScene').classList.add('visible');
+            setTimeout(() => {
+                typeNextChar();
+            }, 600);
+        }, 500);
+    }
+
+    function typeNextChar() {
+        if (charIndex >= message.length) {
+            tapHint.style.display = 'none';
+            completion.classList.add('visible');
+            return;
+        }
+
+        const char = message[charIndex];
+        const cursor = typedTextEl.querySelector('.cursor');
+
+        if (char === '\n') {
+            cursor.insertAdjacentHTML('beforebegin', '<br/>');
+        } else {
+            const span = document.createElement('span');
+            span.textContent = char;
+            cursor.insertAdjacentHTML('beforebegin', span.outerHTML);
+        }
+
+        pressRandomKey();
+        charIndex++;
+
+        // Update upgrades (coffee stain + ink color)
+        updateUpgrades(charIndex / message.length);
+
+        const paper = document.querySelector('.paper');
+        paper.scrollTop = paper.scrollHeight;
+
+        let delay = 55 + Math.random() * 45;
+        if (char === '.' || char === '!' || char === '?') delay = 320;
+        if (char === ',') delay = 180;
+        if (char === '\n') delay = 400;
+        if (char === ' ') delay = 70 + Math.random() * 30;
+
+        setTimeout(typeNextChar, delay);
+    }
+
+    function pressRandomKey() {
+        const randomKey = keys[Math.floor(Math.random() * keys.length)];
+        randomKey.classList.add('pressed');
+        setTimeout(() => {
+            randomKey.classList.remove('pressed');
+        }, 80);
+    }
+
+    document.addEventListener('click', function(e) {
+        if (!typingStarted) return;
+        if (charIndex >= message.length) return;
+        pressRandomKey();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (!typingStarted) return;
+        if (charIndex >= message.length) return;
+        pressRandomKey();
+    });
+</script>
+
+</body>
+</html>
