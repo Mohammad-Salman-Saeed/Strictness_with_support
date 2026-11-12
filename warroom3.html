@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Operation: 29 Days · Mission Control</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;600&display=swap');
+
+        :root {
+            --bg-dark: #090514; 
+            --primary: #b026ff; 
+            --accent: #00f0ff;  
+            --danger: #ff2a55;  
+            --glass: rgba(25, 15, 40, 0.6);
+            --glass-border: rgba(176, 38, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: radial-gradient(circle at 50% 0%, rgba(176, 38, 255, 0.15) 0%, transparent 60%);
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .dashboard {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 900px;
+            padding: 20px 15px 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .header {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .sys-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            text-shadow: 0 0 15px rgba(176, 38, 255, 0.6);
+        }
+
+        .sub-title {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            animation: starFlicker 4s infinite alternate;
+        }
+
+        @keyframes starFlicker {
+            0%, 100% { opacity: 0.85; text-shadow: 0 0 10px rgba(0, 240, 255, 0.3); }
+            50% { opacity: 1; text-shadow: 0 0 20px rgba(0, 240, 255, 0.8), 0 0 30px rgba(0, 240, 255, 0.4); }
+        }
+
+        .time-block {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 10px 5px;
+            min-width: 65px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .time-num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--accent);
+        }
+
+        .time-label {
+            font-size: 0.55rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .panel {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .panel-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--primary);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-shadow: 0 0 10px rgba(176, 38, 255, 0.3);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        @media (min-width: 600px) {
+            .grid-container { grid-template-columns: repeat(7, 1fr); gap: 10px; }
+        }
+
+        .day-node {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Orbitron', sans-serif;
+            color: rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 4px; /* Added room for the logged hours */
+        }
+
+        .day-node:active {
+            transform: scale(0.95);
+        }
+
+        .day-node.unlocked {
+            background: rgba(0, 240, 255, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.1), 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+
+        .day-node.failed {
+            background: rgba(255, 42, 85, 0.1);
+            border-color: var(--danger);
+            color: var(--danger);
+            box-shadow: inset 0 0 10px rgba(255, 42, 85, 0.1);
+        }
+
+        .day-num {
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .day-date {
+            font-size: 0.5rem;
+            text-transform: uppercase;
+            margin-top: 2px;
+            color: rgba(255,255,255,0.4);
+            line-height: 1;
+        }
+
+        .day-req {
+            font-size: 0.55rem;
+            margin-top: 3px;
+            color: var(--primary);
+            opacity: 0.9;
+            line-height: 1;
+        }
+
+        /* New class for the logged hours */
+        .day-logged {
+            font-size: 0.55rem;
+            margin-top: 2px;
+            color: #ffffff;
+            font-weight: 700;
+            opacity: 0.9;
+            line-height: 1;
+        }
+
+        .status-icon {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            font-size: 0.7rem;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 2, 10, 0.9);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            padding: 15px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: #110b1a;
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 30px rgba(176, 38, 255, 0.1);
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+            z-index: 10;
+        }
+        
+        .modal-close:hover { color: #fff; }
+
+        .input-group {
+            margin: 20px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .input-group input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            color: var(--accent);
+            font-size: 1.4rem;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(176, 38, 255, 0.2);
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 15px;
+            border-radius: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            width: 100%;
+            font-weight: 700;
+        }
+
+        .btn:hover, .btn:active {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px rgba(176, 38, 255, 0.5);
+        }
+
+        .message-box {
+            text-align: left;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 10px;
+            overflow-y: auto;
+            padding-right: 5px;
+            white-space: pre-wrap;
+            font-family: 'Space Grotesk', sans-serif;
+            flex-grow: 1;
+        }
+
+        .message-box::-webkit-scrollbar { width: 4px; }
+        .message-box::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+
+        .failure-text {
+            color: var(--danger);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            text-align: center;
+            margin: 15px 0;
+            text-shadow: 0 0 15px rgba(255, 42, 85, 0.4);
+            line-height: 1.4;
+            font-weight: 900;
+        }
+
+        .success-text {
+            color: var(--accent);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+            font-weight: 700;
+        }
+
+        #panicBtn {
+            background: rgba(255, 42, 85, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            padding: 15px;
+            border-radius: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            animation: pulseRed 2s infinite;
+            display: none; 
+            font-weight: 700;
+        }
+
+        @keyframes pulseRed {
+            0% { box-shadow: 0 0 0 rgba(255, 42, 85, 0.4); }
+            70% { box-shadow: 0 0 20px rgba(255, 42, 85, 0.6); }
+            100% { box-shadow: 0 0 0 rgba(255, 42, 85, 0); }
+        }
+
+        #panicBtn:active {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        /* --- Reset Button --- */
+        #resetBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(20, 10, 30, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.5);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            z-index: 50;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        #resetBtn:hover, #resetBtn:active {
+            color: #fff;
+            border-color: var(--danger);
+            background: rgba(255, 42, 85, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="dashboard">
+        <div class="header">
+            <div class="sys-title">Operation: 29 Days</div>
+            <div class="sub-title">Target: Dec 11, 2026 · 09:00 AM</div>
+            
+            <div class="countdown-container" id="countdown">
+                <div class="time-block"><div class="time-num" id="days">00</div><div class="time-label">Days</div></div>
+                <div class="time-block"><div class="time-num" id="hours">00</div><div class="time-label">Hrs</div></div>
+                <div class="time-block"><div class="time-num" id="minutes">00</div><div class="time-label">Min</div></div>
+                <div class="time-block"><div class="time-num" id="seconds">00</div><div class="time-label">Sec</div></div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">📅 DAILY CHECK-IN</div>
+            <p style="font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-bottom: 12px; line-height: 1.3;">
+                Tap a day to log your hours. Requirements: <strong style="color: var(--accent);">6.5 hrs (Mon-Fri)</strong>, <strong style="color: var(--accent);">8 hrs (Sat-Sun)</strong>.
+            </p>
+            <div class="grid-container" id="gridContainer"></div>
+        </div>
+    </div>
+
+    <!-- Reset Button -->
+    <button id="resetBtn" onclick="resetData()">🔄 Reset Logs</button>
+
+    <!-- Check-in Modal -->
+    <div class="modal-overlay" id="checkinModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('checkinModal')">×</button>
+            <div class="panel-title" id="modalDayTitle">LOG DAY 1</div>
+            <div class="input-group">
+                <label id="modalReqLabel">Requirement: 6.5 Hours</label>
+                <input type="number" id="hoursInput" placeholder="0" min="0" max="24" step="0.5">
+            </div>
+            <button class="btn" onclick="submitHours()">Submit Hours</button>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div class="modal-overlay" id="messageModal">
+        <div class="modal-content" style="height: 80vh; max-height: 600px;">
+            <button class="modal-close" onclick="closeModal('messageModal')">×</button>
+            <div class="panel-title" id="msgDayTitle">DAY 1 LOG</div>
+            <div id="msgContent" style="display: flex; flex-direction: column; flex-grow: 1; overflow: hidden;"></div>
+            <button id="panicBtn" onclick="showPanic()">🚨 OPEN EMERGENCY PROTOCOL 🚨</button>
+        </div>
+    </div>
+
+    <!-- Panic Modal -->
+    <div class="modal-overlay" id="panicModal">
+        <div class="modal-content" style="border-color: var(--danger);">
+            <button class="modal-close" onclick="closeModal('panicModal')">×</button>
+            <div class="panel-title" style="color: var(--danger); text-shadow: 0 0 10px rgba(255,42,85,0.5); justify-content: center;">🚨 EMERGENCY PROTOCOL</div>
+            <div class="message-box" style="color: #fff; text-align: center; font-weight: 600; font-size: 1rem;">
+                Listen to me carefully.<br><br>
+                You are not failing because you are incapable. You are failing because you are letting the laziness win. I know you are tired. I know it feels like too much. But the clock is ticking.<br><br>
+                Stop looking at how far you have to go. Look at the books in front of you. Open one page. Read one paragraph. Do it for me. Do it for us. But most importantly, do it for you.<br><br>
+                I didn't build this to watch you give up. Get back to work. NOW.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const TARGET_DATE = new Date("December 11, 2026 09:00:00 GMT+0500").getTime(); 
+
+        const dailyMessages = {
+            1: "First day of this website, it's been a while since I've done this god I feel rusty lol, but let's try, for you and your grade. From today, I am back, and from today, your serious strict studies have begun. I will not let you fail this exam, even though you are trying really hard to fail. For this first day, since you have only just begun actually studying, so you're not getting any extra love or motivation because today was just a test to see if you actually will study. So well done for today, but let's see how long you can keep this going this time...",
+            2: "Write Day 2 message here...",
+            3: "Write Day 3 message here...",
+            4: "Write Day 4 message here...",
+            5: "Write Day 5 message here...",
+            6: "Write Day 6 message here...",
+            7: "Write Day 7 message here...",
+            8: "Write Day 8 message here...",
+            9: "Write Day 9 message here...",
+            10: "Write Day 10 message here...",
+            11: "Write Day 11 message here...",
+            12: "Write Day 12 message here...",
+            13: "Write Day 13 message here...",
+            14: "Write Day 14 message here...",
+            15: "Write Day 15 message here...",
+            16: "Write Day 16 message here...",
+            17: "Write Day 17 message here...",
+            18: "Write Day 18 message here...",
+            19: "Write Day 19 message here...",
+            20: "Write Day 20 message here...",
+            21: "Write Day 21 message here...",
+            22: "Write Day 22 message here...",
+            23: "Write Day 23 message here...",
+            24: "Write Day 24 message here...",
+            25: "Write Day 25 message here...",
+            26: "Write Day 26 message here...",
+            27: "Write Day 27 message here...",
+            28: "Write Day 28 message here...",
+            29: "Write Day 29 message here... FINAL DAY!"
+        };
+
+        const dayData = {};
+        let startDate = new Date("November 13, 2026 00:00:00 GMT+0500");
+
+        for (let i = 1; i <= 29; i++) {
+            let currentDate = new Date(startDate);
+            currentDate.setDate(startDate.getDate() + (i - 1));
+            let dayOfWeek = currentDate.getDay(); 
+            let isWeekend = (dayOfWeek === 0 || dayOfWeek === 6); 
+            
+            dayData[i] = {
+                dateString: currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                reqHours: isWeekend ? 8 : 6.5, 
+                isWeekend: isWeekend
+            };
+        }
+
+        let userData = JSON.parse(localStorage.getItem('warRoomV4')) || {};
+        let currentSelectedDay = null;
+
+        function saveData() {
+            localStorage.setItem('warRoomV4', JSON.stringify(userData));
+        }
+
+        const gridContainer = document.getElementById('gridContainer');
+
+        function buildGrid() {
+            gridContainer.innerHTML = '';
+            for (let i = 1; i <= 29; i++) {
+                const data = dayData[i];
+                const node = document.createElement('div');
+                node.className = 'day-node';
+                
+                if (userData[i]) {
+                    if (userData[i].status === 'passed') node.classList.add('unlocked');
+                    if (userData[i].status === 'failed') node.classList.add('failed');
+                }
+
+                // Added the 'day-logged' div right below the requirement
+                node.innerHTML = `
+                    <div class="day-num">${i}</div>
+                    <div class="day-date">${data.dateString}</div>
+                    <div class="day-req">${data.reqHours}h</div>
+                    ${userData[i] ? `<div class="day-logged">(${userData[i].hours}h)</div>` : ''}
+                    <div class="status-icon">
+                        ${userData[i] ? (userData[i].status === 'passed' ? '✓' : '✕') : ''}
+                    </div>
+                `;
+                
+                node.onclick = () => openCheckin(i);
+                gridContainer.appendChild(node);
+            }
+        }
+
+        function openCheckin(day) {
+            currentSelectedDay = day;
+            const data = dayData[day];
+            
+            document.getElementById('modalDayTitle').innerText = `DAY ${day} (${data.dateString})`;
+            document.getElementById('modalReqLabel').innerHTML = `Requirement: <strong style="color:var(--accent)">${data.reqHours} Hours</strong> ${data.isWeekend ? '(Weekend)' : '(Weekday)'}`;
+            
+            document.getElementById('hoursInput').value = '';
+
+            document.getElementById('checkinModal').classList.add('active');
+        }
+
+        function submitHours() {
+            const hours = parseFloat(document.getElementById('hoursInput').value);
+            const req = dayData[currentSelectedDay].reqHours;
+            
+            if (isNaN(hours) || hours < 0 || hours > 24) {
+                alert("Please enter a valid number of hours.");
+                return;
+            }
+
+            userData[currentSelectedDay] = {
+                hours: hours,
+                status: hours >= req ? 'passed' : 'failed'
+            };
+            saveData();
+            
+            buildGrid(); 
+            closeModal('checkinModal');
+            showMessage(currentSelectedDay);
+        }
+
+        function showMessage(day) {
+            const data = userData[day];
+            const reqHours = dayData[day].reqHours;
+            const msgContent = document.getElementById('msgContent');
+            const panicBtn = document.getElementById('panicBtn');
+            document.getElementById('msgDayTitle').innerText = `DAY ${day} REPORT`;
+
+            if (data.status === 'passed') {
+                msgContent.innerHTML = `
+                    <div class="success-text">✓ MISSION ACCOMPLISHED</div>
+                    <div class="message-box" style="border-left: 3px solid var(--accent); padding-left: 10px;">
+                        ${dailyMessages[day]}
+                    </div>
+                `;
+                panicBtn.style.display = 'none';
+            } else {
+                msgContent.innerHTML = `
+                    <div class="failure-text">FAILURE.<br>NO LETTER TODAY.<br>TRY AGAIN TOMORROW</div>
+                    <p style="text-align:center; color: #aaa; font-size: 0.9rem;">
+                        You logged ${data.hours} hours. The requirement was ${reqHours} hours.
+                    </p>
+                `;
+                panicBtn.style.display = 'block'; 
+            }
+
+            document.getElementById('messageModal').classList.add('active');
+        }
+
+        function showPanic() {
+            closeModal('messageModal');
+            document.getElementById('panicModal').classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function resetData() {
+            if (confirm("Are you sure you want to reset all check-ins? This will remove all ticks and crosses permanently.")) {
+                userData = {}; 
+                localStorage.removeItem('warRoomV4'); 
+                buildGrid(); 
+            }
+        }
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = TARGET_DATE - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = "<div style='color: var(--danger); font-family: Orbitron; font-size: 1.2rem;'>MISSION TIME REACHED</div>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * -0.4 - 0.1; 
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.color = Math.random() > 0.5 ? '#00f0ff' : '#b026ff'; 
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.y < 0) {
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
+                }
+                if (this.x < 0 || this.x > canvas.width) {
+                    this.speedX *= -1;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = window.innerWidth < 600 ? 40 : 80;
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.onload = () => {
+            buildGrid();
+            initParticles();
+            animateParticles();
+        };
+
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+</body>
+</html>
