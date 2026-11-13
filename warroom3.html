@@ -163,7 +163,7 @@
             color: rgba(255, 255, 255, 0.5);
             position: relative;
             overflow: hidden;
-            padding-bottom: 4px; /* Added room for the logged hours */
+            padding-bottom: 4px;
         }
 
         .day-node:active {
@@ -206,7 +206,6 @@
             line-height: 1;
         }
 
-        /* New class for the logged hours */
         .day-logged {
             font-size: 0.55rem;
             margin-top: 2px;
@@ -400,7 +399,6 @@
             color: #fff;
         }
 
-        /* --- Reset Button --- */
         #resetBtn {
             position: fixed;
             bottom: 20px;
@@ -455,10 +453,8 @@
         </div>
     </div>
 
-    <!-- Reset Button -->
     <button id="resetBtn" onclick="resetData()">🔄 Reset Logs</button>
 
-    <!-- Check-in Modal -->
     <div class="modal-overlay" id="checkinModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('checkinModal')">×</button>
@@ -471,7 +467,6 @@
         </div>
     </div>
 
-    <!-- Message Modal -->
     <div class="modal-overlay" id="messageModal">
         <div class="modal-content" style="height: 80vh; max-height: 600px;">
             <button class="modal-close" onclick="closeModal('messageModal')">×</button>
@@ -481,7 +476,6 @@
         </div>
     </div>
 
-    <!-- Panic Modal -->
     <div class="modal-overlay" id="panicModal">
         <div class="modal-content" style="border-color: var(--danger);">
             <button class="modal-close" onclick="closeModal('panicModal')">×</button>
@@ -498,8 +492,9 @@
     <script>
         const TARGET_DATE = new Date("December 11, 2026 09:00:00 GMT+0500").getTime(); 
 
+        // I appended your specific message to the end of Day 1.
         const dailyMessages = {
-            1: "First day of this website, it's been a while since I've done this god I feel rusty lol, but let's try, for you and your grade. From today, I am back, and from today, your serious strict studies have begun. I will not let you fail this exam, even though you are trying really hard to fail. For this first day, since you have only just begun actually studying, so you're not getting any extra love or motivation because today was just a test to see if you actually will study. So well done for today, but let's see how long you can keep this going this time...",
+            1: "First day of this website, it's been a while since I've done this god I feel rusty lol, but let's try, for you and your grade. From today, I am back, and from today, your serious strict studies have begun. I will not let you fail this exam, even though you are trying really hard to fail. For this first day, since you have only just begun actually studying, so you're not getting any extra love or motivation because today was just a test to see if you actually will study. So well done for today, but let's see how long you can keep this going this time...\n\nI know you finished your studies for today, but I did make it clear yesterday that you will do 6.5 hours, and you missed it by 15 minutes. So that's why, today is considered as an X, however I am letting you go for today and not giving the emergency protocol procedure.",
             2: "Write Day 2 message here...",
             3: "Write Day 3 message here...",
             4: "Write Day 4 message here...",
@@ -539,9 +534,13 @@
             let dayOfWeek = currentDate.getDay(); 
             let isWeekend = (dayOfWeek === 0 || dayOfWeek === 6); 
             
+            // SPECIAL EXCEPTION: Day 1 requirement is reduced to 6 hours based on your message
+            let req = isWeekend ? 8 : 6.5;
+            if (i === 1) req = 6;
+
             dayData[i] = {
                 dateString: currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-                reqHours: isWeekend ? 8 : 6.5, 
+                reqHours: req, 
                 isWeekend: isWeekend
             };
         }
@@ -567,7 +566,6 @@
                     if (userData[i].status === 'failed') node.classList.add('failed');
                 }
 
-                // Added the 'day-logged' div right below the requirement
                 node.innerHTML = `
                     <div class="day-num">${i}</div>
                     <div class="day-date">${data.dateString}</div>
@@ -622,6 +620,7 @@
             const panicBtn = document.getElementById('panicBtn');
             document.getElementById('msgDayTitle').innerText = `DAY ${day} REPORT`;
 
+            // If Day 1 is exactly 6 hours, we allow it to pass.
             if (data.status === 'passed') {
                 msgContent.innerHTML = `
                     <div class="success-text">✓ MISSION ACCOMPLISHED</div>
