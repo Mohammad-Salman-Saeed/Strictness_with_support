@@ -494,7 +494,7 @@
 
         const dailyMessages = {
             1: "First day of this website, it's been a while since I've done this god I feel rusty lol, but let's try, for you and your grade. From today, I am back, and from today, your serious strict studies have begun. I will not let you fail this exam, even though you are trying really hard to fail. For this first day, since you have only just begun actually studying, so you're not getting any extra love or motivation because today was just a test to see if you actually will study. So well done for today, but let's see how long you can keep this going this time...\n\nI know you finished your studies for today, but I did make it clear yesterday that you will do 6.5 hours, and you missed it by 15 minutes. So that's why, today is considered as a 50-50 hit or miss, however I am letting you go for today and not giving the emergency protocol procedure, AND I have reduced the requirement to 6 hours, JUST for today. You are welcome.",
-            2: "Write Day 2 message here...",
+            2: "another GOOD day of studies, DONEEE!! So very proud of you jaanu for doing 7 hours today even though there is not much difference between today and yesterday still you did more, so so so very proud of you love🥰🫶🏻, and well, today, he doesn't get to write it, it's ME. So, i'm going to slowly start building these messages and for today i just want to let you know how much I ♥️ you and I see how much you're working hard and studying hard, i know for sure you will pass this exam no matter what anyone else says I know damn well you will do it, there is no way MANAHIL ABID will fail an exam. You're my genius baby💖. The last day of mine has not been that up to the mark so i don't really have as much to say about myself, but these messages and this whole website in itself is about you and you only, so i want to let you know that you're amazing, you're doing amazing, and in this exam you will do amazing🥹✨ Once again, I ♥️ you sooooo soooooooooooo much my Manahil, and WELL FUCKING DONE for today😁",
             3: "Write Day 3 message here...",
             4: "Write Day 4 message here...",
             5: "Write Day 5 message here...",
@@ -525,7 +525,6 @@
         };
 
         const dayData = {};
-        // FIXED: Start date is now exactly November 13, 2026
         let startDate = new Date("November 13, 2026 00:00:00"); 
 
         for (let i = 1; i <= 29; i++) {
@@ -534,11 +533,11 @@
             let dayOfWeek = currentDate.getDay(); // 0 = Sun, 6 = Sat
             let isWeekend = (dayOfWeek === 0 || dayOfWeek === 6); 
             
-            // Default rules: 8 on Sat/Sun, 6.5 on Mon-Fri
             let req = isWeekend ? 8 : 6.5;
             
-            // Special exception ONLY for Day 1 (reduced to 6 hours)
-            if (i === 1) req = 6;
+            // Special Exceptions
+            if (i === 1) req = 6;   // Day 1 reduced to 6
+            if (i === 2) req = 7;   // Day 2 reduced to 7
 
             dayData[i] = {
                 dateString: currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
